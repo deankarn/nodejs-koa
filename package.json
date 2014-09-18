@@ -1,0 +1,16 @@
+{
+  "name": "nodejs-koa",
+  "main": "server.js",
+  "private": "true",
+  "dependencies" : {
+    "koa" : "latest",
+    "koa-session-store" : "latest",
+    "mongoose" : "latest",
+    "koa-session-mongoose" : "latest",
+    "koa-jade" : "latest", 
+    "bcrypt-nodejs" : "latest" ,
+    "globalize" : "latest"
+  },
+    "devDependencies" : {
+  }
+}

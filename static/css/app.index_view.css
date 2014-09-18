@@ -1,0 +1,61 @@
+#menu-ct
+{
+	/*position:fixed;
+	top:0;
+	left:0;*/
+	/*float:left;*/
+	/*height:100%;*/
+	/*display:table-cell;*/
+	height:100%;
+	margin:0;
+	width:160px;
+	background:#000;
+	color:#fff;
+	opacity:.3;
+}
+
+#menu-ct > ul
+{
+	list-style:none;
+	margin:0;
+	padding:25px;
+}
+
+#menu-ct > ul > li
+{
+	cursor:pointer;
+	text-align:center;
+}
+
+#menu-ct > ul a
+{
+	display:inline-block;
+	width:100%;
+	height:100%;
+	padding:20px 0;
+	color:#fff;
+	text-decoration:none;
+}
+
+#menu-ct a .icon
+{
+	font-size:2em;
+	margin:0;
+}
+
+#menu-ct a:hover .icon,
+#menu-ct a:hover
+{
+	transform:scale(1.5);
+	transition: all 0.2s ease-out 0s;
+}
+
+#partial-ct
+{
+	position:absolute;
+	top:0;
+	left:160px;
+	right:0;
+	height:100%;
+	/*margin-left:160px;*/
+}

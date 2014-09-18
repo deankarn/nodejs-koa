@@ -1,0 +1,38 @@
+extends /layouts/_layout
+
+//block additional-css
+	//!= css('app.login_view')
+
+block content
+	form#login-form.block.centered.ui.form.raised.segment(action='/login', method='post')
+		input(type='hidden', name='_csrf', value=token)
+		h1.ui.center.aligned.header #{title}
+		image#avatar.block.centered.circular.ui.image(src='/static/images/avatar.jpg', align='middle')
+		div.field
+			input#utc-offset(type='hidden', name='utc-offset')
+		div.field
+			label= email
+			div.ui.left.labeled.icon.input
+				input(type='text', name='email', palceholder='Email')
+				i.user.icon
+				div.ui.corner.label
+					i.icon.asterisk
+		div.field
+			label= password
+			div.ui.left.labeled.icon.input
+				input(type='password', name='password', paceholder='Password')
+				i.lock.icon
+				div.ui.corner.label
+					i.icon.asterisk
+		div.fluid.ui.blue.submit.button= title
+		div.ui.clearing.divider
+		table.ui.table
+			tbody
+				tr
+					td
+						a.ui.basic.button(href='/password-recovery') #{forgot}
+					td
+						a.ui.basic.button(href='/language') #{language}
+
+//block additional-js
+	//!= js('app.login_view')

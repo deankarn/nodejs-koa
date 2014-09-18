@@ -1,0 +1,22 @@
+extends /layouts/_layout
+
+block additional-css
+	!= css('app.language_view')
+
+block content
+	form#lang-form.block.centered.ui.center.aligned.form.raised.segment(action='/language', method='post')
+		input(type='hidden', name='_csrf', value=token)
+		h1.ui.center.aligned.header #{selectLangMsg}
+		div.field
+			//label= selectLangMsg
+			select#select-lang(size=10)
+				each lang in languages
+					if lang.value == localeString
+						option(value=lang.value,selected='selected') #{lang.text}
+					else
+						option(value=lang.value) #{lang.text}
+			
+		div#submit-lang.fluid.ui.blue.submit.button= setLangMsg
+
+block additional-js
+	!= js('app.language_view')
