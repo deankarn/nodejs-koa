@@ -1,9 +1,14 @@
-var koa = require('koa');
-var session = require('koa-session-store');
-var mongoose = require('mongoose');
-var mongooseStore = require('koa-session-mongoose');
-var jade = require('koa-jade');
+var koa = require('koa'),
+    koaBody = require('koa-better-body'),
+    csrf = require('koa-csrf'),
+    session = require('koa-session-store'),
+    mongoose = require('mongoose'),
+    mongooseStore = require('koa-session-mongoose'),
+    jade = require('koa-jade'),
+    fs            = require('fs');
 
+var env = process.env.NODE_ENV || 'development';
+var production = env == 'production' ? true : false;
 var app = koa();
 var port          = process.env.PORT || 3000;
 var configDB      = require(__dirname + '/app/config/database.js');
@@ -14,31 +19,12 @@ var mongooseConnection = mongoose.createConnection(configDB.url, { server: { poo
 app.proxy = true;
 app.keys = ['iSwearByMyPrettyFloralBonnetIwillendyou'];  // needed for cookie-signing
 
+csrf(app);
+
 app.on('error', function(err){
   console.log(err);
   // log.error('server error', err);
 });
-
-// app.use(session({
-//     secret: 'iSwearByMyPrettyFloralBonnetIwillendyou!',
-//     proxy: true,
-//     //rolling: true,
-//     unset: 'destroy',
-//     saveUninitialized: true,
-//     resave: true,
-//     cookie: {
-//       httpOnly: false,
-//       secure: false, // needs set to true when https
-//       //maxAge: null // use with single page app websockets, that I'm going to test
-//       maxAge: 60 * 60 * 1000 // use with http requests, or the way I'm going to
-//     },
-//     store: new MongoStore({
-//       collection: 'sessions', // table/collection name for sessions default is sessions
-//       auto_reconnect: true,
-//       url: configDB.url + '/sessions',
-//       clear_interval: 60 * 60 * 1000 // disabled, gets cleaned up 
-//     })
-//   }));
 
 app.use(session({
   store: mongooseStore.create({
@@ -49,23 +35,12 @@ app.use(session({
   })
 }));
 
-// app.locals.basedir = __dirname + '/views';
-
-// app.use(function *(next) {
-//   this.locals = {
-//   	basedir: __dirname + '/views'
-//     // session: this.session,
-//     // title: 'app'
-//   };
-
-//   yield next;
-// });
-
 app.use(jade.middleware({
   viewPath: __dirname + '/views',
-  debug: false,
-  pretty: false,
-  compileDebug: false,
+  debug: !production,
+  pretty: !production,
+  compileDebug: !production,
+  noCache: !production, // should be set true|false based on development vs production mode.
   basedir: __dirname + '/views'
   // locals: {basedir: __dirname + '/views'},
   // helperPath: [
@@ -75,9 +50,7 @@ app.use(jade.middleware({
   // ]
 }));
 
-
 // x-response-time
-
 app.use(function *(next){
   var start = new Date;
   yield next;
@@ -86,7 +59,6 @@ app.use(function *(next){
 });
 
 // logger
-
 app.use(function *(next){
   var start = new Date;
   yield next;
@@ -94,17 +66,28 @@ app.use(function *(next){
   console.log('%s %s - %sms', this.method, this.url, ms);
 });
 
-// response
+// body parser to be before the routes
+app.use(koaBody({
+    multipart: true,
+    // formLimit: 15,
+    formidable: {
+      multiples: true
+      // uploadDir: __dirname + '/uploads'
+    }
+  }))
 
+// response
 app.use(function *(){
+  if (this.request.method !== 'GET' || this.request.path !== '/') return yield next;
   //this.body = 'Hello World';
-  yield this.render('main/login', { 
+  yield this.render('main/login', {
+                csrf: this.csrf,
                 title: "Login", 
                 email: "Email", 
                 password: "Password", 
                 forgot: "Forgot Password", 
                 language: "Select Language",
-            }, true)
+            });
 });
 
 app.listen(port);

@@ -5,7 +5,7 @@ extends /layouts/_layout
 
 block content
 	form#login-form.block.centered.ui.form.raised.segment(action='/login', method='post')
-		input(type='hidden', name='_csrf', value=token)
+		input(type='hidden', name='_csrf', value=csrf)
 		h1.ui.center.aligned.header #{title}
 		image#avatar.block.centered.circular.ui.image(src='/static/images/avatar.jpg', align='middle')
 		div.field
