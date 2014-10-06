@@ -4,4 +4,4 @@ DIR="$(cd "$(dirname "$0")" && pwd)"
 
 echo "Script Running From $DIR"
 
-NODE_ENV=production nodemon -w $DIR/../../ --harmony $DIR/../../server.js --ignore $DIR/../../cldr -e js,css,jade,json,html
+NODE_ENV=production nodemon -w $DIR/../../ --harmony $DIR/../../server.js --ignore $DIR/../../cldr -e js,jade,json,html,less

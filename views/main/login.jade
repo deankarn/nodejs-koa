@@ -1,6 +1,7 @@
 extends /layouts/_layout
 
-//block additional-css
+block additional-css
+	link(rel='stylesheet', href='/static/bundled/login.css')
 	//!= css('app.login_view')
 
 block content
@@ -34,5 +35,6 @@ block content
 					td
 						a.ui.basic.button(href='/language') #{language}
 
-//block additional-js
+block additional-js
+	script(src='/static/js/require.js', data-main='/static/bundled/login')
 	//!= js('app.login_view')
