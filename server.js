@@ -27,6 +27,8 @@ var lessc = new(less.Parser)({
 // implement some file watching to compile less and copy modified js files to the bundled dir
 // also add in coffee compiling and watching of files.
 
+
+
 fs.readdir(__dirname + '/app/less', function (err, files){
   files.forEach(function (fn) {
     if(!/\.less$/.test(fn)) return;
@@ -58,6 +60,19 @@ fs.readdir(__dirname + '/app/less', function (err, files){
         //   console.log(data);
         });
   });
+});
+
+fs.watch(__dirname + '/app/less', function (event, filename) {
+  console.log('event is: ' + event);
+  // event change||rename - this was fired on add
+
+
+  // have to add an if file exits as well
+  if (filename) {
+    console.log('filename provided: ' + filename);
+  } else {
+    console.log('filename not provided');
+  }
 });
 
 fs.readdir(__dirname + '/static/js', function (err, files){
@@ -210,14 +225,39 @@ app.use(function *root(next){
 
   //yield isLoggedIn(this, next);
   //this.body = 'Hello World';
-  yield this.render('main/login', {
-                csrf: this.csrf,
-                title: "Login",
-                email: "Email",
-                password: "Password",
-                forgot: "Forgot Password",
-                language: "Select Language",
-            });
+  // yield this.render('main/login', {
+  //               csrf: this.csrf,
+  //               title: "Login",
+  //               email: "Email",
+  //               password: "Password",
+  //               forgot: "Forgot Password",
+  //               language: "Select Language",
+  //           });
+
+    yield this.render('main/test', {
+                  csrf: this.csrf,
+                  title: "Test Partial Content",
+              });
+});
+
+app.use(function *partial(next){
+  if (this.request.method !== 'GET' || this.request.path !== '/partials/test') return yield next;
+
+  //yield isLoggedIn(this, next);
+  //this.body = 'Hello World';
+  // yield this.render('main/login', {
+  //               csrf: this.csrf,
+  //               title: "Login",
+  //               email: "Email",
+  //               password: "Password",
+  //               forgot: "Forgot Password",
+  //               language: "Select Language",
+  //           });
+
+    yield this.render('partials/test', {
+                  csrf: this.csrf,
+                  title: "Test Partial Content",
+              });
 });
 
 app.listen(port);
