@@ -68,10 +68,9 @@ define(function (require) {
 
     var self = {
         setDebug: setDebug,
+        initialize: initialize,
         loadPartialView: loadPartialView,
     };
-
-    initialize();
 
     return self;
 });

@@ -6,12 +6,7 @@ var koa = require('koa'),
     mongooseStore = require('koa-session-mongoose'),
     passport = require('koa-passport'),
     jade = require('koa-jade'),
-    fs = require('fs'),
-    // less = require('less'),
-    requirejs = require('requirejs');
-// less = require('koa-lessie'),
-// static    = require('koa-static');
-// requirejs = require('requirejs');
+    fs = require('fs');
 
 var env = process.env.NODE_ENV || 'development';
 var production = env == 'production' ? true : false;
@@ -21,79 +16,20 @@ var configDB = require(__dirname + '/app/config/database.js');
 var lessCompiler = require(__dirname + '/app/config/less-compiler.js')(
 {
     basedir: __dirname + '/app/less',
-    bundledPath: __dirname + '/static/bundled',
+    bundledDir: __dirname + '/static/bundled',
     // paths:[__dirname + '/app/less'], // defaults to basedir if not specified
     files: ['style.less'],
     recompileOnChange: !production,
     compress: !production
 });
 
-fs.readdir(__dirname + '/static/js', function(err, files)
+var requirejsCompiler = require(__dirname + '/app/config/requirejs-compiler.js')(
 {
-    files.forEach(function(fn)
-    {
-        if (!/\.js$/.test(fn)) return;
-
-        if (production)
-        {
-            fs.readFile(__dirname + '/static/js/' + fn, 'utf8', function(err, data)
-            {
-
-                if (err)
-                {
-                    return console.log(err);
-                }
-
-                var dataString = data.toString();
-
-                name = fn.substr(0, fn.lastIndexOf("."));
-                // console.log(dataString);
-                var config = {
-                    baseUrl: __dirname + '/static/js',
-                    name: name,
-                    out: __dirname + '/static/bundled/' + fn
-                };
-
-                requirejs.optimize(config, function(buildResponse)
-                {
-                    //buildResponse is just a text output of the modules
-                    //included. Load the built file for the contents.
-                    //Use config.out to get the optimized file contents.
-                    // var contents = fs.readFileSync(config.out, 'utf8');
-
-                    console.log('Optimized:' + __dirname + '/static/bundled/' + fn);
-
-                }, function(err)
-                {
-                    //optimization err callback
-                });
-            });
-        }
-        else
-        {
-            fs.createReadStream(__dirname + '/static/js/' + fn).pipe(fs.createWriteStream(__dirname + '/static/bundled/' + fn));
-            console.log('Copied:' + __dirname + '/static/bundled/' + fn);
-        }
-    });
+    basedir: __dirname + '/static/js',
+    bundledDir: __dirname + '/static/bundled',
+    compileExcludeModules: ['main'],
+    recompileOnChange: !production
 });
-
-
-// requirejs.config({
-//     //Pass the top-level main.js/index.js require
-//     //function to requirejs so that node modules
-//     //are loaded relative to the top-level JS file.
-//     nodeRequire: require
-// });
-
-// app.use(lessie({
-//   src: __dirname + '/app/less',
-//   dest: __dirname + '/static/bundled',
-//   once: production,
-//   compress: production,
-//   // prefix: 'stylesheets'
-// }));
-//
-// app.use(static(__dirname + '/static/bundled'));
 
 // mongoose.connect(configDB.url); // connect to our database
 var db = mongoose.createConnection(configDB.url,

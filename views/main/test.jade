@@ -17,5 +17,6 @@ block content
 
 
 block additional-js
-	script(src='/static/js/require.js', data-main='/static/bundled/test')
+	script(type="text/javascript") require(['test'], function(tp){ tp.initialize(); });
+	//script(src='/static/js/require.js', data-main='/static/bundled/test')
 	//!= js('app.test_view')
