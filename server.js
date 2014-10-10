@@ -7,7 +7,7 @@ var koa = require('koa'),
     passport = require('koa-passport'),
     jade = require('koa-jade'),
     fs = require('fs'),
-    less = require('less'),
+    // less = require('less'),
     requirejs = require('requirejs');
 // less = require('koa-lessie'),
 // static    = require('koa-static');
@@ -18,70 +18,15 @@ var production = env == 'production' ? true : false;
 var app = koa();
 var port = process.env.PORT || 3000;
 var configDB = require(__dirname + '/app/config/database.js');
-// var lessc = new(less.Parser);
-var lessc = new(less.Parser)(
+var lessCompiler = require(__dirname + '/app/config/less-compiler.js')(
 {
-    paths: [__dirname + '/app/less'], // Specify search paths for @import directives
-    filename: 'style.less' // Specify a filename, for better error messages
+    basedir: __dirname + '/app/less',
+    bundledPath: __dirname + '/static/bundled',
+    // paths:[__dirname + '/app/less'], // defaults to basedir if not specified
+    files: ['style.less'],
+    recompileOnChange: !production,
+    compress: !production
 });
-
-// implement some file watching to compile less and copy modified js files to the bundled dir
-// also add in coffee compiling and watching of files.
-
-var lessCompile = function()
-{
-    fs.readFile(__dirname + '/app/less/style.less', 'utf8', function(err, data)
-    {
-        if (err)
-        {
-            return console.log(err);
-        }
-
-        var dataString = data.toString();
-
-        // console.log(dataString);
-
-        lessc.parse(dataString, function(e, tree)
-        {
-
-            var res = tree.toCSS(
-            {
-                // Minify CSS output
-                compress: production
-            });
-
-            // name = fn.substr(0, fn.lastIndexOf(".")) + ".css";
-            //   console.log(res);
-            fs.writeFile(__dirname + '/static/bundled/style.css', res, function(err)
-            {
-                if (err) throw err;
-                console.log('Recompiled style.css to:' + __dirname + '/static/bundled/style.css');
-            });
-        });
-        //   console.log(data);
-    });
-};
-
-if (!production)
-{
-    fs.watch(__dirname + '/app/less', function(event, filename)
-    {
-        // event change||rename - this was fired on add
-
-        if (filename)
-        {
-            console.log(filename + ' event: ' + event);
-        }
-        else
-        {
-            console.log('.less file changed: ' + event);
-        }
-
-        lessCompile();
-    });
-}
-
-lessCompile();
 
 fs.readdir(__dirname + '/static/js', function(err, files)
 {
