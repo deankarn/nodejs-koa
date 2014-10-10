@@ -7,7 +7,7 @@ module.exports = function(options)
     {};
 
     var basedir = options.basedir || __dirname;
-    var bundledPath = options.bundledPath || basedir;
+    var bundledDir = options.bundledDir || basedir;
     var paths = options.paths || [basedir]; // @import base search path(s)
     var files = options.files || ['style.less']; // files to compile/recompile when watching
     var recompileOnChange = options.recompileOnChange || false;
@@ -49,7 +49,7 @@ module.exports = function(options)
                         compress: compress // Minify CSS output
                     });
 
-                    var output = bundledPath + '/' + file;
+                    var output = bundledDir + '/' + file;
 
                     fs.writeFile(output, res, function(err)
                     {
