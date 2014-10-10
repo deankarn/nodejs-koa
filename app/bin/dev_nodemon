@@ -5,5 +5,5 @@ DIR="$(cd "$(dirname "$0")" && pwd)"
 
 echo "Script Running From $DIR"
 
-NODE_ENV=development nodemon -w $DIR/../../ --harmony $DIR/../../server.js --ignore $DIR/../../cldr --ignore $DIR/../../static/bundled -e js,jade,json,html,less
+NODE_ENV=development nodemon -w $DIR/../../ --harmony $DIR/../../server.js --ignore $DIR/../../cldr --ignore $DIR/../../static/bundled -e js,jade,json,html
 #NODE_ENV=development nodemon -w $DIR/../../*.js -w $DIR/../../app/ -w $DIR/../../view/ -w $DIR/../../static/ -e js,css,jade,json,html $DIR/../../server.js
