@@ -2,10 +2,10 @@ module.exports = function(app, passport)
 {
     app.get('/', function* root(next)
     {
-        yield this.render('main/test',
+        yield this.render('main/login',
         {
             csrf: this.csrf,
-            title: "Test Partial Content",
+            title: "Login",
         });
     });
 

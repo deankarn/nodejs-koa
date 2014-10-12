@@ -22,7 +22,7 @@ define ["main", "common.datetime"], (main, dt) ->
             }
         }
 
-        $('.ui.form').form(rules, {
+        $('form.ui.form').form(rules, {
             inline : true,
             on : 'submit'
           } )
