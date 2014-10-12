@@ -1,4 +1,5 @@
 var koa = require('koa'),
+    router = require('koa-router'),
     koaBody = require('koa-better-body'),
     csrf = require('koa-csrf'),
     session = require('koa-session-store'),
@@ -57,7 +58,9 @@ app.keys = ['iSwearByMyPrettyFloralBonnetIwillendyou']; // needed for cookie-sig
 //     // if logged in yield next...otherwise return redirect.
 // };
 
+
 csrf(app);
+
 
 app.on('error', function(err)
 {
@@ -97,6 +100,8 @@ app.use(jade.middleware(
         // ]
 }));
 
+
+
 // x-response-time
 app.use(function*(next)
 {
@@ -127,53 +132,15 @@ app.use(koaBody(
     }
 }));
 
+app.use(router(app));
 
-// response
-app.use(function* root(next)
-{
-    if (this.request.method !== 'GET' || this.request.path !== '/') return yield next;
-
-    //yield isLoggedIn(this, next);
-    //this.body = 'Hello World';
-    // yield this.render('main/login', {
-    //               csrf: this.csrf,
-    //               title: "Login",
-    //               email: "Email",
-    //               password: "Password",
-    //               forgot: "Forgot Password",
-    //               language: "Select Language",
-    //           });
-
-    yield this.render('main/test',
-    {
-        csrf: this.csrf,
-        title: "Test Partial Content",
-    });
+fs.readdir(__dirname + '/app/routes', function (err, files){
+  files.forEach(function (fn) {
+    if(!/\.js$/.test(fn)) return;
+      require(__dirname + '/app/routes/' + fn)(app, passport);
+  });
 });
 
-// not look into getting jade working with koa-router
-
-app.use(function* partial(next)
-{
-    if (this.request.method !== 'GET' || this.request.path !== '/partials/test') return yield next;
-
-    //yield isLoggedIn(this, next);
-    //this.body = 'Hello World';
-    // yield this.render('main/login', {
-    //               csrf: this.csrf,
-    //               title: "Login",
-    //               email: "Email",
-    //               password: "Password",
-    //               forgot: "Forgot Password",
-    //               language: "Select Language",
-    //           });
-
-    yield this.render('partials/test',
-    {
-        csrf: this.csrf,
-        title: "Test Partial Content",
-    }, !production);
-});
 
 app.listen(port);
 console.log('running on port ' + port);

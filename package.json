@@ -13,12 +13,12 @@
     "koa-passport" : "latest",
     "passport-local" : "latest",
     "koa-jade" : "latest",
-    "bcrypt-nodejs" : "latest" ,
-    "globalize" : "latest",
+    "bcrypt-nodejs" : "latest",
     "jade" : "latest",
     "requirejs" : "latest",
     "less" : "latest",
-    "coffee-script" : "latest"
+    "coffee-script" : "latest",
+    "koa-router" : "latest"
   },
     "devDependencies" : {
   }
