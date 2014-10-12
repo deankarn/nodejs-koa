@@ -151,6 +151,8 @@ app.use(function* root(next)
     });
 });
 
+// not look into getting jade working with koa-router
+
 app.use(function* partial(next)
 {
     if (this.request.method !== 'GET' || this.request.path !== '/partials/test') return yield next;
@@ -170,7 +172,7 @@ app.use(function* partial(next)
     {
         csrf: this.csrf,
         title: "Test Partial Content",
-    });
+    }, !production);
 });
 
 app.listen(port);

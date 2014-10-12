@@ -12,14 +12,13 @@
     "koa-session-mongoose" : "latest",
     "koa-passport" : "latest",
     "passport-local" : "latest",
-    "connect-assets" : "latest",
     "koa-jade" : "latest",
     "bcrypt-nodejs" : "latest" ,
     "globalize" : "latest",
     "jade" : "latest",
     "requirejs" : "latest",
     "less" : "latest",
-    "koa-static" : "latest"
+    "coffee-script" : "latest"
   },
     "devDependencies" : {
   }
