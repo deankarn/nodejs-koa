@@ -15,8 +15,9 @@ rm -rf $DIR/../../node_modules/*
 
 echo "Download & Extracting CLDR Data.."
 cd $DIR/../../cldr/
-#wget http://www.unicode.org/Public/cldr/latest/json_full.zip
-wget http://www.unicode.org/Public/cldr/26/json_full-alpha.zip
+
+wget http://www.unicode.org/Public/cldr/26/json-full.zip
+#wget http://www.unicode.org/Public/cldr/26/json_full-alpha.zip
 unzip json_full.zip
 rm json_full.zip
 cd -

@@ -1,4 +1,6 @@
-var koa = require('koa'),
+var
+    Globalize = require('globalize'),
+    koa = require('koa'),
     router = require('koa-router'),
     koaBody = require('koa-better-body'),
     csrf = require('koa-csrf'),
@@ -31,6 +33,39 @@ var requirejsCompiler = require(__dirname + '/app/config/requirejs-compiler.js')
     compileExcludeModules: ['main'],
     recompileOnChange: !production
 });
+
+// Before we can use Globalize, we need to feed it on the appropriate I18n content (Unicode CLDR). Read Requirements on Getting Started on the root's README.md for more information.
+//Globalize.load(require( __dirname + '/cldr/main/en-CA/ca-gregorian.json'));
+//Globalize.load(require( __dirname + '/cldr/main/en-CA/numbers.json'));
+Globalize.load(require( __dirname + '/cldr/main/en-GB/ca-gregorian.json'));
+Globalize.load(require( __dirname + '/cldr/main/en-GB/numbers.json'));
+Globalize.load(require( __dirname + '/cldr/main/en-US/ca-gregorian.json'));
+Globalize.load(require( __dirname + '/cldr/main/en-US/numbers.json'));
+Globalize.load(require( __dirname + '/cldr/main/fr-CA/ca-gregorian.json'));
+Globalize.load(require( __dirname + '/cldr/main/fr-CA/numbers.json'));
+Globalize.load(require( __dirname + '/cldr/main/fr-FR/ca-gregorian.json'));
+Globalize.load(require( __dirname + '/cldr/main/fr-FR/numbers.json'));
+Globalize.load(require( __dirname + '/cldr/main/zh-Hans-CN/ca-gregorian.json'));
+Globalize.load(require( __dirname + '/cldr/main/zh-Hans-CN/numbers.json'));
+//Globalize.load(require( __dirname + '/cldr/main/en/ca-gregorian.json'));
+//Globalize.load(require( __dirname + '/cldr/main/en/numbers.json'));
+Globalize.load(require( __dirname + '/cldr/supplemental/likelySubtags.json'));
+Globalize.load(require( __dirname + '/cldr/supplemental/timeData.json'));
+Globalize.load(require( __dirname + '/cldr/supplemental/weekData.json'));
+
+// Load all translations in the /app/translations/ directory
+
+fs.readdir(__dirname + '/app/translations', function (err, files){
+  files.forEach(function (fn) {
+    if(!/\.json$/.test(fn)) return;
+      Globalize.loadTranslations(require( __dirname + '/app/translations/' + fn));
+  });
+});
+
+// Set "en" as our default locale.
+Globalize.locale( 'en-GB' );
+//
+// var localeMidgard = require(__dirname + '/app/middleware/locale.js')(Globalize);
 
 // mongoose.connect(configDB.url); // connect to our database
 var db = mongoose.createConnection(configDB.url,
@@ -81,8 +116,8 @@ app.use(session(
     })
 }));
 
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(jade.middleware(
 {
@@ -134,11 +169,13 @@ app.use(koaBody(
 
 app.use(router(app));
 
-fs.readdir(__dirname + '/app/routes', function (err, files){
-  files.forEach(function (fn) {
-    if(!/\.js$/.test(fn)) return;
-      require(__dirname + '/app/routes/' + fn)(app, passport);
-  });
+fs.readdir(__dirname + '/app/routes', function(err, files)
+{
+    files.forEach(function(fn)
+    {
+        if (!/\.js$/.test(fn)) return;
+        require(__dirname + '/app/routes/' + fn)(app, passport);
+    });
 });
 
 

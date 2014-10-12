@@ -1,0 +1,10 @@
+#!/bin/bash
+
+DIR="$(cd "$(dirname "$0")" && pwd)"
+
+echo "Script Running From $DIR"
+
+coffee -o $DIR/../../static/js -c $DIR/../../app/coffee &
+
+NODE_ENV=production supervisor -w $DIR/../../ --ignore $DIR/../../cldr,$DIR/../../static/js,$DIR/../../static/bundled -e js,jade,json,html --harmony $DIR/../../server.js
+#NODE_ENV=production nodemon -w $DIR/../../ --harmony $DIR/../../server.js --ignore $DIR/../../cldr -e js,jade,json,html,less

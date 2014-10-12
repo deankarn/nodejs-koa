@@ -49,7 +49,8 @@ module.exports = function(options)
                         compress: compress // Minify CSS output
                     });
 
-                    var output = bundledDir + '/' + file;
+                    var name = file.substr(0, file.lastIndexOf("."));
+                    var output = bundledDir + '/' + name + '.css';
 
                     fs.writeFile(output, res, function(err)
                     {
