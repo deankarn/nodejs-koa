@@ -37,33 +37,35 @@ var requirejsCompiler = require(__dirname + '/app/config/requirejs-compiler.js')
 // Before we can use Globalize, we need to feed it on the appropriate I18n content (Unicode CLDR). Read Requirements on Getting Started on the root's README.md for more information.
 //Globalize.load(require( __dirname + '/cldr/main/en-CA/ca-gregorian.json'));
 //Globalize.load(require( __dirname + '/cldr/main/en-CA/numbers.json'));
-Globalize.load(require( __dirname + '/cldr/main/en-GB/ca-gregorian.json'));
-Globalize.load(require( __dirname + '/cldr/main/en-GB/numbers.json'));
-Globalize.load(require( __dirname + '/cldr/main/en-US/ca-gregorian.json'));
-Globalize.load(require( __dirname + '/cldr/main/en-US/numbers.json'));
-Globalize.load(require( __dirname + '/cldr/main/fr-CA/ca-gregorian.json'));
-Globalize.load(require( __dirname + '/cldr/main/fr-CA/numbers.json'));
-Globalize.load(require( __dirname + '/cldr/main/fr-FR/ca-gregorian.json'));
-Globalize.load(require( __dirname + '/cldr/main/fr-FR/numbers.json'));
-Globalize.load(require( __dirname + '/cldr/main/zh-Hans-CN/ca-gregorian.json'));
-Globalize.load(require( __dirname + '/cldr/main/zh-Hans-CN/numbers.json'));
+Globalize.load(require(__dirname + '/cldr/main/en-GB/ca-gregorian.json'));
+Globalize.load(require(__dirname + '/cldr/main/en-GB/numbers.json'));
+Globalize.load(require(__dirname + '/cldr/main/en-US/ca-gregorian.json'));
+Globalize.load(require(__dirname + '/cldr/main/en-US/numbers.json'));
+Globalize.load(require(__dirname + '/cldr/main/fr-CA/ca-gregorian.json'));
+Globalize.load(require(__dirname + '/cldr/main/fr-CA/numbers.json'));
+Globalize.load(require(__dirname + '/cldr/main/fr-FR/ca-gregorian.json'));
+Globalize.load(require(__dirname + '/cldr/main/fr-FR/numbers.json'));
+Globalize.load(require(__dirname + '/cldr/main/zh-Hans-CN/ca-gregorian.json'));
+Globalize.load(require(__dirname + '/cldr/main/zh-Hans-CN/numbers.json'));
 //Globalize.load(require( __dirname + '/cldr/main/en/ca-gregorian.json'));
 //Globalize.load(require( __dirname + '/cldr/main/en/numbers.json'));
-Globalize.load(require( __dirname + '/cldr/supplemental/likelySubtags.json'));
-Globalize.load(require( __dirname + '/cldr/supplemental/timeData.json'));
-Globalize.load(require( __dirname + '/cldr/supplemental/weekData.json'));
+Globalize.load(require(__dirname + '/cldr/supplemental/likelySubtags.json'));
+Globalize.load(require(__dirname + '/cldr/supplemental/timeData.json'));
+Globalize.load(require(__dirname + '/cldr/supplemental/weekData.json'));
 
 // Load all translations in the /app/translations/ directory
 
-fs.readdir(__dirname + '/app/translations', function (err, files){
-  files.forEach(function (fn) {
-    if(!/\.json$/.test(fn)) return;
-      Globalize.loadTranslations(require( __dirname + '/app/translations/' + fn));
-  });
+fs.readdir(__dirname + '/app/translations', function(err, files)
+{
+    files.forEach(function(fn)
+    {
+        if (!/\.json$/.test(fn)) return;
+        Globalize.loadTranslations(require(__dirname + '/app/translations/' + fn));
+    });
 });
 
 // Set "en" as our default locale.
-Globalize.locale( 'en-GB' );
+Globalize.locale('en-GB');
 //
 // var localeMidgard = require(__dirname + '/app/middleware/locale.js')(Globalize);
 
@@ -103,7 +105,71 @@ app.on('error', function(err)
     // log.error('server error', err);
 });
 
-require(__dirname + '/app/config/passport')(mongoose, passport); // pass passport for configuration
+app.use(function*(next)
+{
+    var start = new Date;
+    yield next;
+    var ms = new Date - start;
+    this.set('X-Response-Time', ms + 'ms');
+});
+
+// logger
+app.use(function*(next)
+{
+    var start = new Date;
+    yield next;
+    var ms = new Date - start;
+    console.log('%s %s - %sms', this.method, this.url, ms);
+});
+
+// body parser to be before the routes
+app.use(koaBody(
+{
+    multipart: true,
+    // formLimit: 15,
+    formidable:
+    {
+        multiples: true
+            // uploadDir: __dirname + '/uploads'
+    }
+}));
+
+app.use(function*(next)
+{
+    // if there are fields from better-body-parser but not files aka json or url form encoded
+    if(this.request.body.fields && !this.request.body.files){
+        var body = this.request.body.fields;
+        this.request.body = body;
+    }
+
+    // if(this.request.body.fields || this.request.body.files){
+    //
+    //     var body = {};
+    //
+    //     if(this.request.body.fields)
+    //     {
+    //         var fields = this.request.body.fields;
+    //         body = fields;
+    //     }
+    //
+    //     if(this.request.body.files)
+    //     {
+    //         var fields = this.request.body.fields;
+    //         body.fields = fields;
+    //     }
+    //
+    //     this.request.body = body;
+    // }
+
+    yield next;
+});
+// var bodyParser = require('koa-bodyparser');
+// app.use(bodyParser());
+// app.use(koaBody());
+
+// require(__dirname + '/app/config/passport')(mongoose, passport); // pass passport for configuration
+
+require(__dirname + '/app/config/passport');
 
 app.use(session(
 {
@@ -138,45 +204,43 @@ app.use(jade.middleware(
 
 
 // x-response-time
-app.use(function*(next)
-{
-    var start = new Date;
-    yield next;
-    var ms = new Date - start;
-    this.set('X-Response-Time', ms + 'ms');
-});
 
-// logger
-app.use(function*(next)
-{
-    var start = new Date;
-    yield next;
-    var ms = new Date - start;
-    console.log('%s %s - %sms', this.method, this.url, ms);
-});
 
-// body parser to be before the routes
-app.use(koaBody(
+// app.use(router(app));
+var public = new router();
+var secured = new router();
+
+require(__dirname + '/app/routes/public/public.js')(public, secured, passport);
+
+app.use(public.middleware())
+
+// Require authentication for now
+app.use(function* ensureAuthenticated(next)
 {
-    multipart: true,
-    // formLimit: 15,
-    formidable:
+    console.log('in ensureAuthenticated');
+    if (this.isAuthenticated())
     {
-        multiples: true
-            // uploadDir: __dirname + '/uploads'
+        yield next
     }
-}));
+    else
+    {
+        // use router get url instead of hard coding
+        this.redirect(public.url('/login'))
+    }
+});
 
-app.use(router(app));
+// var secured = new router();
 
 fs.readdir(__dirname + '/app/routes', function(err, files)
 {
     files.forEach(function(fn)
     {
         if (!/\.js$/.test(fn)) return;
-        require(__dirname + '/app/routes/' + fn)(app, passport);
+        require(__dirname + '/app/routes/' + fn)(public, secured, passport);
     });
 });
+
+app.use(secured.middleware())
 
 
 app.listen(port);

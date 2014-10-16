@@ -1,15 +1,21 @@
-module.exports = function(app, passport)
+module.exports = function(public, secured, passport)
 {
-    app.get('/', function* root(next)
+    secured.get('root', '/', function* root(next)
     {
-        yield this.render('main/login',
+        yield this.render('partials/test',
         {
             csrf: this.csrf,
-            title: "Login",
+            title: "Test Partial Content",
         });
+
+        // yield this.render('main/login',
+        // {
+        //     csrf: this.csrf,
+        //     title: "Login",
+        // });
     });
 
-    app.get('/partials/test', function* partial(next)
+    secured.get('partials-test', '/partials/test', function* partial(next)
     {
         yield this.render('partials/test',
         {
