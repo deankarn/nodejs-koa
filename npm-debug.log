@@ -1,0 +1,1045 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'install' ]
+2 info using npm@2.0.0
+3 info using node@v0.11.14
+4 verbose readDependencies using package.json deps
+5 verbose install where, deps [ '/Users/dean/.nodewww/nodejs-koa',
+5 verbose install   [ 'fs',
+5 verbose install     'koa',
+5 verbose install     'koa-better-body',
+5 verbose install     'koa-csrf',
+5 verbose install     'koa-session-store',
+5 verbose install     'mongoose',
+5 verbose install     'koa-session-mongoose',
+5 verbose install     'koa-passport',
+5 verbose install     'passport-local',
+5 verbose install     'koa-jade',
+5 verbose install     'bcrypt-nodejs',
+5 verbose install     'globalize',
+5 verbose install     'jade',
+5 verbose install     'requirejs',
+5 verbose install     'less',
+5 verbose install     'coffee-script',
+5 verbose install     'koa-router' ] ]
+6 info preinstall nodejs-koa@
+7 warn package.json fs@0.0.2 fs is also the name of a node core module.
+8 warn package.json fs@0.0.2 No description
+9 warn package.json fs@0.0.2 No repository field.
+10 verbose readDependencies using package.json deps
+11 verbose cache add [ 'koa-session-store@latest', null ]
+12 verbose cache add spec="koa-session-store@latest" args=["koa-session-store@latest",null]
+13 verbose parsed spec { raw: 'koa-session-store@latest',
+13 verbose parsed spec   scope: null,
+13 verbose parsed spec   name: 'koa-session-store',
+13 verbose parsed spec   rawSpec: 'latest',
+13 verbose parsed spec   spec: 'latest',
+13 verbose parsed spec   type: 'tag' }
+14 verbose cache add [ 'mongoose@latest', null ]
+15 verbose cache add spec="mongoose@latest" args=["mongoose@latest",null]
+16 verbose parsed spec { raw: 'mongoose@latest',
+16 verbose parsed spec   scope: null,
+16 verbose parsed spec   name: 'mongoose',
+16 verbose parsed spec   rawSpec: 'latest',
+16 verbose parsed spec   spec: 'latest',
+16 verbose parsed spec   type: 'tag' }
+17 verbose cache add [ 'koa-session-mongoose@latest', null ]
+18 verbose cache add spec="koa-session-mongoose@latest" args=["koa-session-mongoose@latest",null]
+19 verbose parsed spec { raw: 'koa-session-mongoose@latest',
+19 verbose parsed spec   scope: null,
+19 verbose parsed spec   name: 'koa-session-mongoose',
+19 verbose parsed spec   rawSpec: 'latest',
+19 verbose parsed spec   spec: 'latest',
+19 verbose parsed spec   type: 'tag' }
+20 verbose parsed spec { raw: 'koa-session-store@latest',
+20 verbose parsed spec   scope: null,
+20 verbose parsed spec   name: 'koa-session-store',
+20 verbose parsed spec   rawSpec: 'latest',
+20 verbose parsed spec   spec: 'latest',
+20 verbose parsed spec   type: 'tag' }
+21 verbose addNamed [ 'koa-session-store', 'latest' ]
+22 verbose addNamed [ null, null ]
+23 verbose parsed spec { raw: 'mongoose@latest',
+23 verbose parsed spec   scope: null,
+23 verbose parsed spec   name: 'mongoose',
+23 verbose parsed spec   rawSpec: 'latest',
+23 verbose parsed spec   spec: 'latest',
+23 verbose parsed spec   type: 'tag' }
+24 verbose addNamed [ 'mongoose', 'latest' ]
+25 verbose addNamed [ null, null ]
+26 verbose cache add [ 'koa-passport@latest', null ]
+27 verbose cache add spec="koa-passport@latest" args=["koa-passport@latest",null]
+28 verbose parsed spec { raw: 'koa-passport@latest',
+28 verbose parsed spec   scope: null,
+28 verbose parsed spec   name: 'koa-passport',
+28 verbose parsed spec   rawSpec: 'latest',
+28 verbose parsed spec   spec: 'latest',
+28 verbose parsed spec   type: 'tag' }
+29 verbose parsed spec { raw: 'koa-session-mongoose@latest',
+29 verbose parsed spec   scope: null,
+29 verbose parsed spec   name: 'koa-session-mongoose',
+29 verbose parsed spec   rawSpec: 'latest',
+29 verbose parsed spec   spec: 'latest',
+29 verbose parsed spec   type: 'tag' }
+30 verbose addNamed [ 'koa-session-mongoose', 'latest' ]
+31 verbose addNamed [ null, null ]
+32 silly lockFile 55b8dd84-koa-session-store-latest koa-session-store@latest
+33 verbose lock koa-session-store@latest /Users/dean/.npm/55b8dd84-koa-session-store-latest.lock
+34 silly lockFile 73e949f4-mongoose-latest mongoose@latest
+35 verbose lock mongoose@latest /Users/dean/.npm/73e949f4-mongoose-latest.lock
+36 silly lockFile 5ce99834-koa-session-mongoose-latest koa-session-mongoose@latest
+37 verbose lock koa-session-mongoose@latest /Users/dean/.npm/5ce99834-koa-session-mongoose-latest.lock
+38 verbose cache add [ 'passport-local@latest', null ]
+39 verbose cache add spec="passport-local@latest" args=["passport-local@latest",null]
+40 verbose parsed spec { raw: 'passport-local@latest',
+40 verbose parsed spec   scope: null,
+40 verbose parsed spec   name: 'passport-local',
+40 verbose parsed spec   rawSpec: 'latest',
+40 verbose parsed spec   spec: 'latest',
+40 verbose parsed spec   type: 'tag' }
+41 verbose parsed spec { raw: 'koa-passport@latest',
+41 verbose parsed spec   scope: null,
+41 verbose parsed spec   name: 'koa-passport',
+41 verbose parsed spec   rawSpec: 'latest',
+41 verbose parsed spec   spec: 'latest',
+41 verbose parsed spec   type: 'tag' }
+42 verbose addNamed [ 'koa-passport', 'latest' ]
+43 verbose addNamed [ null, null ]
+44 silly lockFile a987797f-koa-passport-latest koa-passport@latest
+45 verbose lock koa-passport@latest /Users/dean/.npm/a987797f-koa-passport-latest.lock
+46 verbose parsed spec { raw: 'passport-local@latest',
+46 verbose parsed spec   scope: null,
+46 verbose parsed spec   name: 'passport-local',
+46 verbose parsed spec   rawSpec: 'latest',
+46 verbose parsed spec   spec: 'latest',
+46 verbose parsed spec   type: 'tag' }
+47 verbose addNamed [ 'passport-local', 'latest' ]
+48 verbose addNamed [ null, null ]
+49 silly lockFile 00a116b3-passport-local-latest passport-local@latest
+50 verbose lock passport-local@latest /Users/dean/.npm/00a116b3-passport-local-latest.lock
+51 verbose cache add [ 'koa-jade@latest', null ]
+52 verbose cache add spec="koa-jade@latest" args=["koa-jade@latest",null]
+53 verbose parsed spec { raw: 'koa-jade@latest',
+53 verbose parsed spec   scope: null,
+53 verbose parsed spec   name: 'koa-jade',
+53 verbose parsed spec   rawSpec: 'latest',
+53 verbose parsed spec   spec: 'latest',
+53 verbose parsed spec   type: 'tag' }
+54 info addNameTag [ 'koa-session-store', 'latest' ]
+55 verbose mapToRegistry name koa-session-store
+56 verbose mapToRegistry uri https://registry.npmjs.org/koa-session-store
+57 info addNameTag [ 'mongoose', 'latest' ]
+58 verbose mapToRegistry name mongoose
+59 verbose mapToRegistry uri https://registry.npmjs.org/mongoose
+60 info addNameTag [ 'koa-session-mongoose', 'latest' ]
+61 verbose mapToRegistry name koa-session-mongoose
+62 verbose mapToRegistry uri https://registry.npmjs.org/koa-session-mongoose
+63 verbose cache add [ 'bcrypt-nodejs@latest', null ]
+64 verbose cache add spec="bcrypt-nodejs@latest" args=["bcrypt-nodejs@latest",null]
+65 verbose parsed spec { raw: 'bcrypt-nodejs@latest',
+65 verbose parsed spec   scope: null,
+65 verbose parsed spec   name: 'bcrypt-nodejs',
+65 verbose parsed spec   rawSpec: 'latest',
+65 verbose parsed spec   spec: 'latest',
+65 verbose parsed spec   type: 'tag' }
+66 verbose cache add [ 'globalize@latest', null ]
+67 verbose cache add spec="globalize@latest" args=["globalize@latest",null]
+68 verbose parsed spec { raw: 'globalize@latest',
+68 verbose parsed spec   scope: null,
+68 verbose parsed spec   name: 'globalize',
+68 verbose parsed spec   rawSpec: 'latest',
+68 verbose parsed spec   spec: 'latest',
+68 verbose parsed spec   type: 'tag' }
+69 verbose cache add [ 'jade@latest', null ]
+70 verbose cache add spec="jade@latest" args=["jade@latest",null]
+71 verbose parsed spec { raw: 'jade@latest',
+71 verbose parsed spec   scope: null,
+71 verbose parsed spec   name: 'jade',
+71 verbose parsed spec   rawSpec: 'latest',
+71 verbose parsed spec   spec: 'latest',
+71 verbose parsed spec   type: 'tag' }
+72 verbose cache add [ 'requirejs@latest', null ]
+73 verbose cache add spec="requirejs@latest" args=["requirejs@latest",null]
+74 verbose parsed spec { raw: 'requirejs@latest',
+74 verbose parsed spec   scope: null,
+74 verbose parsed spec   name: 'requirejs',
+74 verbose parsed spec   rawSpec: 'latest',
+74 verbose parsed spec   spec: 'latest',
+74 verbose parsed spec   type: 'tag' }
+75 verbose parsed spec { raw: 'koa-jade@latest',
+75 verbose parsed spec   scope: null,
+75 verbose parsed spec   name: 'koa-jade',
+75 verbose parsed spec   rawSpec: 'latest',
+75 verbose parsed spec   spec: 'latest',
+75 verbose parsed spec   type: 'tag' }
+76 verbose addNamed [ 'koa-jade', 'latest' ]
+77 verbose addNamed [ null, null ]
+78 silly lockFile f449eb49-koa-jade-latest koa-jade@latest
+79 verbose lock koa-jade@latest /Users/dean/.npm/f449eb49-koa-jade-latest.lock
+80 info addNameTag [ 'koa-passport', 'latest' ]
+81 verbose mapToRegistry name koa-passport
+82 verbose mapToRegistry uri https://registry.npmjs.org/koa-passport
+83 info addNameTag [ 'passport-local', 'latest' ]
+84 verbose mapToRegistry name passport-local
+85 verbose mapToRegistry uri https://registry.npmjs.org/passport-local
+86 verbose parsed spec { raw: 'bcrypt-nodejs@latest',
+86 verbose parsed spec   scope: null,
+86 verbose parsed spec   name: 'bcrypt-nodejs',
+86 verbose parsed spec   rawSpec: 'latest',
+86 verbose parsed spec   spec: 'latest',
+86 verbose parsed spec   type: 'tag' }
+87 verbose addNamed [ 'bcrypt-nodejs', 'latest' ]
+88 verbose addNamed [ null, null ]
+89 silly lockFile 8a2c73f6-bcrypt-nodejs-latest bcrypt-nodejs@latest
+90 verbose lock bcrypt-nodejs@latest /Users/dean/.npm/8a2c73f6-bcrypt-nodejs-latest.lock
+91 verbose parsed spec { raw: 'globalize@latest',
+91 verbose parsed spec   scope: null,
+91 verbose parsed spec   name: 'globalize',
+91 verbose parsed spec   rawSpec: 'latest',
+91 verbose parsed spec   spec: 'latest',
+91 verbose parsed spec   type: 'tag' }
+92 verbose addNamed [ 'globalize', 'latest' ]
+93 verbose addNamed [ null, null ]
+94 silly lockFile 5b9e4d34-globalize-latest globalize@latest
+95 verbose lock globalize@latest /Users/dean/.npm/5b9e4d34-globalize-latest.lock
+96 verbose parsed spec { raw: 'jade@latest',
+96 verbose parsed spec   scope: null,
+96 verbose parsed spec   name: 'jade',
+96 verbose parsed spec   rawSpec: 'latest',
+96 verbose parsed spec   spec: 'latest',
+96 verbose parsed spec   type: 'tag' }
+97 verbose addNamed [ 'jade', 'latest' ]
+98 verbose addNamed [ null, null ]
+99 silly lockFile 50c7aeb0-jade-latest jade@latest
+100 verbose lock jade@latest /Users/dean/.npm/50c7aeb0-jade-latest.lock
+101 verbose cache add [ 'less@latest', null ]
+102 verbose cache add spec="less@latest" args=["less@latest",null]
+103 verbose parsed spec { raw: 'less@latest',
+103 verbose parsed spec   scope: null,
+103 verbose parsed spec   name: 'less',
+103 verbose parsed spec   rawSpec: 'latest',
+103 verbose parsed spec   spec: 'latest',
+103 verbose parsed spec   type: 'tag' }
+104 verbose cache add [ 'coffee-script@latest', null ]
+105 verbose cache add spec="coffee-script@latest" args=["coffee-script@latest",null]
+106 verbose parsed spec { raw: 'coffee-script@latest',
+106 verbose parsed spec   scope: null,
+106 verbose parsed spec   name: 'coffee-script',
+106 verbose parsed spec   rawSpec: 'latest',
+106 verbose parsed spec   spec: 'latest',
+106 verbose parsed spec   type: 'tag' }
+107 verbose parsed spec { raw: 'requirejs@latest',
+107 verbose parsed spec   scope: null,
+107 verbose parsed spec   name: 'requirejs',
+107 verbose parsed spec   rawSpec: 'latest',
+107 verbose parsed spec   spec: 'latest',
+107 verbose parsed spec   type: 'tag' }
+108 verbose addNamed [ 'requirejs', 'latest' ]
+109 verbose addNamed [ null, null ]
+110 silly lockFile 27500c20-requirejs-latest requirejs@latest
+111 verbose lock requirejs@latest /Users/dean/.npm/27500c20-requirejs-latest.lock
+112 verbose parsed spec { raw: 'less@latest',
+112 verbose parsed spec   scope: null,
+112 verbose parsed spec   name: 'less',
+112 verbose parsed spec   rawSpec: 'latest',
+112 verbose parsed spec   spec: 'latest',
+112 verbose parsed spec   type: 'tag' }
+113 verbose addNamed [ 'less', 'latest' ]
+114 verbose addNamed [ null, null ]
+115 silly lockFile d8c46e27-less-latest less@latest
+116 verbose lock less@latest /Users/dean/.npm/d8c46e27-less-latest.lock
+117 verbose cache add [ 'koa-router@latest', null ]
+118 verbose cache add spec="koa-router@latest" args=["koa-router@latest",null]
+119 verbose parsed spec { raw: 'koa-router@latest',
+119 verbose parsed spec   scope: null,
+119 verbose parsed spec   name: 'koa-router',
+119 verbose parsed spec   rawSpec: 'latest',
+119 verbose parsed spec   spec: 'latest',
+119 verbose parsed spec   type: 'tag' }
+120 verbose parsed spec { raw: 'coffee-script@latest',
+120 verbose parsed spec   scope: null,
+120 verbose parsed spec   name: 'coffee-script',
+120 verbose parsed spec   rawSpec: 'latest',
+120 verbose parsed spec   spec: 'latest',
+120 verbose parsed spec   type: 'tag' }
+121 verbose addNamed [ 'coffee-script', 'latest' ]
+122 verbose addNamed [ null, null ]
+123 silly lockFile 7e5ad31f-coffee-script-latest coffee-script@latest
+124 verbose lock coffee-script@latest /Users/dean/.npm/7e5ad31f-coffee-script-latest.lock
+125 info addNameTag [ 'koa-jade', 'latest' ]
+126 verbose mapToRegistry name koa-jade
+127 verbose mapToRegistry uri https://registry.npmjs.org/koa-jade
+128 info addNameTag [ 'bcrypt-nodejs', 'latest' ]
+129 verbose mapToRegistry name bcrypt-nodejs
+130 verbose mapToRegistry uri https://registry.npmjs.org/bcrypt-nodejs
+131 info addNameTag [ 'globalize', 'latest' ]
+132 verbose mapToRegistry name globalize
+133 verbose mapToRegistry uri https://registry.npmjs.org/globalize
+134 info addNameTag [ 'jade', 'latest' ]
+135 verbose mapToRegistry name jade
+136 verbose mapToRegistry uri https://registry.npmjs.org/jade
+137 verbose cache add [ 'fs@latest', null ]
+138 verbose cache add spec="fs@latest" args=["fs@latest",null]
+139 verbose parsed spec { raw: 'fs@latest',
+139 verbose parsed spec   scope: null,
+139 verbose parsed spec   name: 'fs',
+139 verbose parsed spec   rawSpec: 'latest',
+139 verbose parsed spec   spec: 'latest',
+139 verbose parsed spec   type: 'tag' }
+140 verbose cache add [ 'koa@latest', null ]
+141 verbose cache add spec="koa@latest" args=["koa@latest",null]
+142 verbose parsed spec { raw: 'koa@latest',
+142 verbose parsed spec   scope: null,
+142 verbose parsed spec   name: 'koa',
+142 verbose parsed spec   rawSpec: 'latest',
+142 verbose parsed spec   spec: 'latest',
+142 verbose parsed spec   type: 'tag' }
+143 verbose parsed spec { raw: 'koa-router@latest',
+143 verbose parsed spec   scope: null,
+143 verbose parsed spec   name: 'koa-router',
+143 verbose parsed spec   rawSpec: 'latest',
+143 verbose parsed spec   spec: 'latest',
+143 verbose parsed spec   type: 'tag' }
+144 verbose addNamed [ 'koa-router', 'latest' ]
+145 verbose addNamed [ null, null ]
+146 silly lockFile 4a4d5cb9-koa-router-latest koa-router@latest
+147 verbose lock koa-router@latest /Users/dean/.npm/4a4d5cb9-koa-router-latest.lock
+148 info addNameTag [ 'requirejs', 'latest' ]
+149 verbose mapToRegistry name requirejs
+150 verbose mapToRegistry uri https://registry.npmjs.org/requirejs
+151 verbose parsed spec { raw: 'fs@latest',
+151 verbose parsed spec   scope: null,
+151 verbose parsed spec   name: 'fs',
+151 verbose parsed spec   rawSpec: 'latest',
+151 verbose parsed spec   spec: 'latest',
+151 verbose parsed spec   type: 'tag' }
+152 verbose addNamed [ 'fs', 'latest' ]
+153 verbose addNamed [ null, null ]
+154 silly lockFile 650d5fba-fs-latest fs@latest
+155 verbose lock fs@latest /Users/dean/.npm/650d5fba-fs-latest.lock
+156 verbose parsed spec { raw: 'koa@latest',
+156 verbose parsed spec   scope: null,
+156 verbose parsed spec   name: 'koa',
+156 verbose parsed spec   rawSpec: 'latest',
+156 verbose parsed spec   spec: 'latest',
+156 verbose parsed spec   type: 'tag' }
+157 verbose addNamed [ 'koa', 'latest' ]
+158 verbose addNamed [ null, null ]
+159 silly lockFile 6898e199-koa-latest koa@latest
+160 verbose lock koa@latest /Users/dean/.npm/6898e199-koa-latest.lock
+161 info addNameTag [ 'less', 'latest' ]
+162 verbose mapToRegistry name less
+163 verbose mapToRegistry uri https://registry.npmjs.org/less
+164 info addNameTag [ 'coffee-script', 'latest' ]
+165 verbose mapToRegistry name coffee-script
+166 verbose mapToRegistry uri https://registry.npmjs.org/coffee-script
+167 verbose request on initialization, where is /koa-session-store
+168 verbose request after pass 1, where is /koa-session-store
+169 verbose request url raw /koa-session-store
+170 verbose request resolving registry [ 'https://registry.npmjs.org/', './koa-session-store' ]
+171 verbose request after pass 2, where is https://registry.npmjs.org/koa-session-store
+172 verbose request no auth needed
+173 info attempt registry request try #1 at 21:51:29
+174 verbose request id 2ddc31c348ba903a
+175 verbose etag "603AQGP4JXOT5SF0S4QVQ7OY2"
+176 http request GET https://registry.npmjs.org/koa-session-store
+177 verbose request on initialization, where is /koa-session-mongoose
+178 verbose request after pass 1, where is /koa-session-mongoose
+179 verbose request url raw /koa-session-mongoose
+180 verbose request resolving registry [ 'https://registry.npmjs.org/', './koa-session-mongoose' ]
+181 verbose request after pass 2, where is https://registry.npmjs.org/koa-session-mongoose
+182 verbose request no auth needed
+183 info attempt registry request try #1 at 21:51:29
+184 verbose etag "34M4CHCY8XG7R4NFCEL8NQ50"
+185 http request GET https://registry.npmjs.org/koa-session-mongoose
+186 verbose request on initialization, where is /mongoose
+187 verbose request after pass 1, where is /mongoose
+188 verbose request url raw /mongoose
+189 verbose request resolving registry [ 'https://registry.npmjs.org/', './mongoose' ]
+190 verbose request after pass 2, where is https://registry.npmjs.org/mongoose
+191 verbose request no auth needed
+192 info attempt registry request try #1 at 21:51:29
+193 verbose etag "962PEFZ8DSIKMYMT8MP8L8RGP"
+194 http request GET https://registry.npmjs.org/mongoose
+195 verbose cache add [ 'koa-better-body@latest', null ]
+196 verbose cache add spec="koa-better-body@latest" args=["koa-better-body@latest",null]
+197 verbose parsed spec { raw: 'koa-better-body@latest',
+197 verbose parsed spec   scope: null,
+197 verbose parsed spec   name: 'koa-better-body',
+197 verbose parsed spec   rawSpec: 'latest',
+197 verbose parsed spec   spec: 'latest',
+197 verbose parsed spec   type: 'tag' }
+198 verbose cache add [ 'koa-csrf@latest', null ]
+199 verbose cache add spec="koa-csrf@latest" args=["koa-csrf@latest",null]
+200 verbose parsed spec { raw: 'koa-csrf@latest',
+200 verbose parsed spec   scope: null,
+200 verbose parsed spec   name: 'koa-csrf',
+200 verbose parsed spec   rawSpec: 'latest',
+200 verbose parsed spec   spec: 'latest',
+200 verbose parsed spec   type: 'tag' }
+201 info addNameTag [ 'koa-router', 'latest' ]
+202 verbose mapToRegistry name koa-router
+203 verbose mapToRegistry uri https://registry.npmjs.org/koa-router
+204 verbose request on initialization, where is /koa-passport
+205 verbose request after pass 1, where is /koa-passport
+206 verbose request url raw /koa-passport
+207 verbose request resolving registry [ 'https://registry.npmjs.org/', './koa-passport' ]
+208 verbose request after pass 2, where is https://registry.npmjs.org/koa-passport
+209 verbose request no auth needed
+210 info attempt registry request try #1 at 21:51:29
+211 verbose etag "8I4GT46C92SXXWRYS3RPDRKAY"
+212 http request GET https://registry.npmjs.org/koa-passport
+213 verbose request on initialization, where is /passport-local
+214 verbose request after pass 1, where is /passport-local
+215 verbose request url raw /passport-local
+216 verbose request resolving registry [ 'https://registry.npmjs.org/', './passport-local' ]
+217 verbose request after pass 2, where is https://registry.npmjs.org/passport-local
+218 verbose request no auth needed
+219 info attempt registry request try #1 at 21:51:29
+220 verbose etag "78J7YU7NXFKXVZ1IC7IY9990M"
+221 http request GET https://registry.npmjs.org/passport-local
+222 verbose parsed spec { raw: 'koa-better-body@latest',
+222 verbose parsed spec   scope: null,
+222 verbose parsed spec   name: 'koa-better-body',
+222 verbose parsed spec   rawSpec: 'latest',
+222 verbose parsed spec   spec: 'latest',
+222 verbose parsed spec   type: 'tag' }
+223 verbose addNamed [ 'koa-better-body', 'latest' ]
+224 verbose addNamed [ null, null ]
+225 silly lockFile b14bb3c3-koa-better-body-latest koa-better-body@latest
+226 verbose lock koa-better-body@latest /Users/dean/.npm/b14bb3c3-koa-better-body-latest.lock
+227 verbose parsed spec { raw: 'koa-csrf@latest',
+227 verbose parsed spec   scope: null,
+227 verbose parsed spec   name: 'koa-csrf',
+227 verbose parsed spec   rawSpec: 'latest',
+227 verbose parsed spec   spec: 'latest',
+227 verbose parsed spec   type: 'tag' }
+228 verbose addNamed [ 'koa-csrf', 'latest' ]
+229 verbose addNamed [ null, null ]
+230 silly lockFile a59992d2-koa-csrf-latest koa-csrf@latest
+231 verbose lock koa-csrf@latest /Users/dean/.npm/a59992d2-koa-csrf-latest.lock
+232 info addNameTag [ 'fs', 'latest' ]
+233 verbose mapToRegistry name fs
+234 verbose mapToRegistry uri https://registry.npmjs.org/fs
+235 info addNameTag [ 'koa', 'latest' ]
+236 verbose mapToRegistry name koa
+237 verbose mapToRegistry uri https://registry.npmjs.org/koa
+238 verbose request on initialization, where is /koa-jade
+239 verbose request after pass 1, where is /koa-jade
+240 verbose request url raw /koa-jade
+241 verbose request resolving registry [ 'https://registry.npmjs.org/', './koa-jade' ]
+242 verbose request after pass 2, where is https://registry.npmjs.org/koa-jade
+243 verbose request no auth needed
+244 info attempt registry request try #1 at 21:51:29
+245 verbose etag "48CA3HZY60T4N38DSG44QHKLD"
+246 http request GET https://registry.npmjs.org/koa-jade
+247 verbose request on initialization, where is /bcrypt-nodejs
+248 verbose request after pass 1, where is /bcrypt-nodejs
+249 verbose request url raw /bcrypt-nodejs
+250 verbose request resolving registry [ 'https://registry.npmjs.org/', './bcrypt-nodejs' ]
+251 verbose request after pass 2, where is https://registry.npmjs.org/bcrypt-nodejs
+252 verbose request no auth needed
+253 info attempt registry request try #1 at 21:51:29
+254 verbose etag "52B3LHGUQ2EBYA12JXFRFN4OV"
+255 http request GET https://registry.npmjs.org/bcrypt-nodejs
+256 verbose request on initialization, where is /jade
+257 verbose request after pass 1, where is /jade
+258 verbose request url raw /jade
+259 verbose request resolving registry [ 'https://registry.npmjs.org/', './jade' ]
+260 verbose request after pass 2, where is https://registry.npmjs.org/jade
+261 verbose request no auth needed
+262 info attempt registry request try #1 at 21:51:29
+263 verbose etag "DA2LTTOPJ813Y2O1QM7OIRWK4"
+264 http request GET https://registry.npmjs.org/jade
+265 info addNameTag [ 'koa-better-body', 'latest' ]
+266 verbose mapToRegistry name koa-better-body
+267 verbose mapToRegistry uri https://registry.npmjs.org/koa-better-body
+268 verbose request on initialization, where is /globalize
+269 verbose request after pass 1, where is /globalize
+270 verbose request url raw /globalize
+271 verbose request resolving registry [ 'https://registry.npmjs.org/', './globalize' ]
+272 verbose request after pass 2, where is https://registry.npmjs.org/globalize
+273 verbose request no auth needed
+274 info attempt registry request try #1 at 21:51:29
+275 verbose etag "8IBKF4RCVQ9G742KOB5FRY5BO"
+276 http request GET https://registry.npmjs.org/globalize
+277 info addNameTag [ 'koa-csrf', 'latest' ]
+278 verbose mapToRegistry name koa-csrf
+279 verbose mapToRegistry uri https://registry.npmjs.org/koa-csrf
+280 verbose request on initialization, where is /requirejs
+281 verbose request after pass 1, where is /requirejs
+282 verbose request url raw /requirejs
+283 verbose request resolving registry [ 'https://registry.npmjs.org/', './requirejs' ]
+284 verbose request after pass 2, where is https://registry.npmjs.org/requirejs
+285 verbose request no auth needed
+286 info attempt registry request try #1 at 21:51:29
+287 verbose etag "EH79GOHMOANB0SBHDULP7MIZ3"
+288 http request GET https://registry.npmjs.org/requirejs
+289 verbose request on initialization, where is /coffee-script
+290 verbose request after pass 1, where is /coffee-script
+291 verbose request url raw /coffee-script
+292 verbose request resolving registry [ 'https://registry.npmjs.org/', './coffee-script' ]
+293 verbose request after pass 2, where is https://registry.npmjs.org/coffee-script
+294 verbose request no auth needed
+295 info attempt registry request try #1 at 21:51:29
+296 verbose etag "BR3MB341TBV418S11THAPFMX3"
+297 http request GET https://registry.npmjs.org/coffee-script
+298 verbose request on initialization, where is /less
+299 verbose request after pass 1, where is /less
+300 verbose request url raw /less
+301 verbose request resolving registry [ 'https://registry.npmjs.org/', './less' ]
+302 verbose request after pass 2, where is https://registry.npmjs.org/less
+303 verbose request no auth needed
+304 info attempt registry request try #1 at 21:51:29
+305 verbose etag "DYJGJX1L672O5HX95QLRWDX7X"
+306 http request GET https://registry.npmjs.org/less
+307 verbose request on initialization, where is /koa-router
+308 verbose request after pass 1, where is /koa-router
+309 verbose request url raw /koa-router
+310 verbose request resolving registry [ 'https://registry.npmjs.org/', './koa-router' ]
+311 verbose request after pass 2, where is https://registry.npmjs.org/koa-router
+312 verbose request no auth needed
+313 info attempt registry request try #1 at 21:51:29
+314 verbose etag "C8U64HXYAGHNMP5LFQVM35BYA"
+315 http request GET https://registry.npmjs.org/koa-router
+316 verbose request on initialization, where is /fs
+317 verbose request after pass 1, where is /fs
+318 verbose request url raw /fs
+319 verbose request resolving registry [ 'https://registry.npmjs.org/', './fs' ]
+320 verbose request after pass 2, where is https://registry.npmjs.org/fs
+321 verbose request no auth needed
+322 info attempt registry request try #1 at 21:51:29
+323 verbose etag "5Y7A0YSE1SF0MU6CT0LO8BZ6J"
+324 http request GET https://registry.npmjs.org/fs
+325 verbose request on initialization, where is /koa
+326 verbose request after pass 1, where is /koa
+327 verbose request url raw /koa
+328 verbose request resolving registry [ 'https://registry.npmjs.org/', './koa' ]
+329 verbose request after pass 2, where is https://registry.npmjs.org/koa
+330 verbose request no auth needed
+331 info attempt registry request try #1 at 21:51:29
+332 verbose etag "9VB9VHCJJUENTXVIBH1FK8S8I"
+333 http request GET https://registry.npmjs.org/koa
+334 verbose request on initialization, where is /koa-better-body
+335 verbose request after pass 1, where is /koa-better-body
+336 verbose request url raw /koa-better-body
+337 verbose request resolving registry [ 'https://registry.npmjs.org/', './koa-better-body' ]
+338 verbose request after pass 2, where is https://registry.npmjs.org/koa-better-body
+339 verbose request no auth needed
+340 info attempt registry request try #1 at 21:51:29
+341 verbose etag "76Z2HYUVI965TOLRDCLR15DA7"
+342 http request GET https://registry.npmjs.org/koa-better-body
+343 verbose request on initialization, where is /koa-csrf
+344 verbose request after pass 1, where is /koa-csrf
+345 verbose request url raw /koa-csrf
+346 verbose request resolving registry [ 'https://registry.npmjs.org/', './koa-csrf' ]
+347 verbose request after pass 2, where is https://registry.npmjs.org/koa-csrf
+348 verbose request no auth needed
+349 info attempt registry request try #1 at 21:51:29
+350 verbose etag "EGQ29033FI1DMQSWM6CVPSXG"
+351 http request GET https://registry.npmjs.org/koa-csrf
+352 http 200 https://registry.npmjs.org/fs
+353 silly registry.get cb [ 200,
+353 silly registry.get   { date: 'Tue, 14 Oct 2014 01:51:23 GMT',
+353 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+353 silly registry.get     etag: '"3YAGCJWVHDBWD4ARR0NW7UO1F"',
+353 silly registry.get     'content-type': 'application/json',
+353 silly registry.get     'cache-control': 'max-age=60',
+353 silly registry.get     'content-length': '1549',
+353 silly registry.get     'accept-ranges': 'bytes',
+353 silly registry.get     via: '1.1 varnish',
+353 silly registry.get     age: '0',
+353 silly registry.get     'x-served-by': 'cache-jfk1031-JFK',
+353 silly registry.get     'x-cache': 'MISS',
+353 silly registry.get     'x-cache-hits': '0',
+353 silly registry.get     'x-timer': 'S1413251483.690106,VS0,VE14',
+353 silly registry.get     vary: 'Accept',
+353 silly registry.get     connection: 'close' } ]
+354 verbose addNamed [ 'fs', '0.0.2' ]
+355 verbose addNamed [ '0.0.2', '0.0.2' ]
+356 silly lockFile afea0479-fs-0-0-2 fs@0.0.2
+357 verbose lock fs@0.0.2 /Users/dean/.npm/afea0479-fs-0-0-2.lock
+358 silly lockFile afea0479-fs-0-0-2 fs@0.0.2
+359 silly lockFile afea0479-fs-0-0-2 fs@0.0.2
+360 silly lockFile 650d5fba-fs-latest fs@latest
+361 silly lockFile 650d5fba-fs-latest fs@latest
+362 info already installed fs@0.0.2
+363 http 304 https://registry.npmjs.org/passport-local
+364 silly registry.get cb [ 304,
+364 silly registry.get   { date: 'Tue, 14 Oct 2014 01:51:23 GMT',
+364 silly registry.get     server: 'Apache',
+364 silly registry.get     via: '1.1 varnish',
+364 silly registry.get     'last-modified': 'Tue, 14 Oct 2014 01:51:23 GMT',
+364 silly registry.get     'cache-control': 'max-age=60',
+364 silly registry.get     etag: '"78J7YU7NXFKXVZ1IC7IY9990M"',
+364 silly registry.get     age: '47',
+364 silly registry.get     'x-served-by': 'cache-jfk1028-JFK',
+364 silly registry.get     'x-cache': 'HIT',
+364 silly registry.get     'x-cache-hits': '1',
+364 silly registry.get     'x-timer': 'S1413251483.706366,VS0,VE0',
+364 silly registry.get     vary: 'Accept',
+364 silly registry.get     'content-length': '0',
+364 silly registry.get     connection: 'close' } ]
+365 verbose etag https://registry.npmjs.org/passport-local from cache
+366 verbose addNamed [ 'passport-local', '1.0.0' ]
+367 verbose addNamed [ '1.0.0', '1.0.0' ]
+368 silly lockFile 8defd22e-passport-local-1-0-0 passport-local@1.0.0
+369 verbose lock passport-local@1.0.0 /Users/dean/.npm/8defd22e-passport-local-1-0-0.lock
+370 silly lockFile 8defd22e-passport-local-1-0-0 passport-local@1.0.0
+371 silly lockFile 8defd22e-passport-local-1-0-0 passport-local@1.0.0
+372 silly lockFile 00a116b3-passport-local-latest passport-local@latest
+373 silly lockFile 00a116b3-passport-local-latest passport-local@latest
+374 info already installed passport-local@1.0.0
+375 http 304 https://registry.npmjs.org/jade
+376 silly registry.get cb [ 304,
+376 silly registry.get   { date: 'Tue, 14 Oct 2014 01:51:23 GMT',
+376 silly registry.get     server: 'Apache',
+376 silly registry.get     via: '1.1 varnish',
+376 silly registry.get     'last-modified': 'Tue, 14 Oct 2014 01:51:23 GMT',
+376 silly registry.get     'cache-control': 'max-age=60',
+376 silly registry.get     etag: '"DA2LTTOPJ813Y2O1QM7OIRWK4"',
+376 silly registry.get     age: '52',
+376 silly registry.get     'x-served-by': 'cache-jfk1030-JFK',
+376 silly registry.get     'x-cache': 'HIT',
+376 silly registry.get     'x-cache-hits': '1',
+376 silly registry.get     'x-timer': 'S1413251483.767298,VS0,VE0',
+376 silly registry.get     vary: 'Accept',
+376 silly registry.get     'content-length': '0',
+376 silly registry.get     connection: 'close' } ]
+377 verbose etag https://registry.npmjs.org/jade from cache
+378 verbose addNamed [ 'jade', '1.7.0' ]
+379 verbose addNamed [ '1.7.0', '1.7.0' ]
+380 silly lockFile 154ac756-jade-1-7-0 jade@1.7.0
+381 verbose lock jade@1.7.0 /Users/dean/.npm/154ac756-jade-1-7-0.lock
+382 silly lockFile 154ac756-jade-1-7-0 jade@1.7.0
+383 silly lockFile 154ac756-jade-1-7-0 jade@1.7.0
+384 silly lockFile 50c7aeb0-jade-latest jade@latest
+385 silly lockFile 50c7aeb0-jade-latest jade@latest
+386 info already installed jade@1.7.0
+387 http 304 https://registry.npmjs.org/requirejs
+388 silly registry.get cb [ 304,
+388 silly registry.get   { date: 'Tue, 14 Oct 2014 01:51:23 GMT',
+388 silly registry.get     server: 'Apache',
+388 silly registry.get     via: '1.1 varnish',
+388 silly registry.get     'last-modified': 'Tue, 14 Oct 2014 01:51:23 GMT',
+388 silly registry.get     'cache-control': 'max-age=60',
+388 silly registry.get     etag: '"EH79GOHMOANB0SBHDULP7MIZ3"',
+388 silly registry.get     age: '52',
+388 silly registry.get     'x-served-by': 'cache-jfk1034-JFK',
+388 silly registry.get     'x-cache': 'HIT',
+388 silly registry.get     'x-cache-hits': '1',
+388 silly registry.get     'x-timer': 'S1413251483.780929,VS0,VE0',
+388 silly registry.get     vary: 'Accept',
+388 silly registry.get     'content-length': '0',
+388 silly registry.get     connection: 'close' } ]
+389 verbose etag https://registry.npmjs.org/requirejs from cache
+390 verbose addNamed [ 'requirejs', '2.1.15' ]
+391 verbose addNamed [ '2.1.15', '2.1.15' ]
+392 silly lockFile 87818c58-requirejs-2-1-15 requirejs@2.1.15
+393 verbose lock requirejs@2.1.15 /Users/dean/.npm/87818c58-requirejs-2-1-15.lock
+394 silly lockFile 87818c58-requirejs-2-1-15 requirejs@2.1.15
+395 silly lockFile 87818c58-requirejs-2-1-15 requirejs@2.1.15
+396 silly lockFile 27500c20-requirejs-latest requirejs@latest
+397 silly lockFile 27500c20-requirejs-latest requirejs@latest
+398 info already installed requirejs@2.1.15
+399 http 304 https://registry.npmjs.org/coffee-script
+400 silly registry.get cb [ 304,
+400 silly registry.get   { date: 'Tue, 14 Oct 2014 01:51:23 GMT',
+400 silly registry.get     server: 'Apache',
+400 silly registry.get     via: '1.1 varnish',
+400 silly registry.get     'last-modified': 'Tue, 14 Oct 2014 01:51:23 GMT',
+400 silly registry.get     'cache-control': 'max-age=60',
+400 silly registry.get     etag: '"BR3MB341TBV418S11THAPFMX3"',
+400 silly registry.get     age: '4',
+400 silly registry.get     'x-served-by': 'cache-jfk1028-JFK',
+400 silly registry.get     'x-cache': 'HIT',
+400 silly registry.get     'x-cache-hits': '1',
+400 silly registry.get     'x-timer': 'S1413251483.786311,VS0,VE0',
+400 silly registry.get     vary: 'Accept',
+400 silly registry.get     'content-length': '0',
+400 silly registry.get     connection: 'close' } ]
+401 verbose etag https://registry.npmjs.org/coffee-script from cache
+402 verbose addNamed [ 'coffee-script', '1.8.0' ]
+403 verbose addNamed [ '1.8.0', '1.8.0' ]
+404 silly lockFile d0d79082-coffee-script-1-8-0 coffee-script@1.8.0
+405 verbose lock coffee-script@1.8.0 /Users/dean/.npm/d0d79082-coffee-script-1-8-0.lock
+406 silly lockFile d0d79082-coffee-script-1-8-0 coffee-script@1.8.0
+407 silly lockFile d0d79082-coffee-script-1-8-0 coffee-script@1.8.0
+408 silly lockFile 7e5ad31f-coffee-script-latest coffee-script@latest
+409 silly lockFile 7e5ad31f-coffee-script-latest coffee-script@latest
+410 info already installed coffee-script@1.8.0
+411 http 304 https://registry.npmjs.org/koa-csrf
+412 silly registry.get cb [ 304,
+412 silly registry.get   { date: 'Tue, 14 Oct 2014 01:51:23 GMT',
+412 silly registry.get     server: 'Apache',
+412 silly registry.get     via: '1.1 varnish',
+412 silly registry.get     'last-modified': 'Tue, 14 Oct 2014 01:51:23 GMT',
+412 silly registry.get     'cache-control': 'max-age=60',
+412 silly registry.get     etag: '"EGQ29033FI1DMQSWM6CVPSXG"',
+412 silly registry.get     age: '0',
+412 silly registry.get     'x-served-by': 'cache-jfk1021-JFK',
+412 silly registry.get     'x-cache': 'MISS',
+412 silly registry.get     'x-cache-hits': '0',
+412 silly registry.get     'x-timer': 'S1413251483.767922,VS0,VE39',
+412 silly registry.get     vary: 'Accept',
+412 silly registry.get     'content-length': '0',
+412 silly registry.get     connection: 'close' } ]
+413 verbose etag https://registry.npmjs.org/koa-csrf from cache
+414 verbose addNamed [ 'koa-csrf', '2.1.3' ]
+415 verbose addNamed [ '2.1.3', '2.1.3' ]
+416 silly lockFile fa961ce2-koa-csrf-2-1-3 koa-csrf@2.1.3
+417 verbose lock koa-csrf@2.1.3 /Users/dean/.npm/fa961ce2-koa-csrf-2-1-3.lock
+418 silly lockFile fa961ce2-koa-csrf-2-1-3 koa-csrf@2.1.3
+419 silly lockFile fa961ce2-koa-csrf-2-1-3 koa-csrf@2.1.3
+420 silly lockFile a59992d2-koa-csrf-latest koa-csrf@latest
+421 silly lockFile a59992d2-koa-csrf-latest koa-csrf@latest
+422 info already installed koa-csrf@2.1.3
+423 http 304 https://registry.npmjs.org/koa
+424 silly registry.get cb [ 304,
+424 silly registry.get   { date: 'Tue, 14 Oct 2014 01:51:23 GMT',
+424 silly registry.get     server: 'Apache',
+424 silly registry.get     via: '1.1 varnish',
+424 silly registry.get     'last-modified': 'Tue, 14 Oct 2014 01:51:23 GMT',
+424 silly registry.get     'cache-control': 'max-age=60',
+424 silly registry.get     etag: '"9VB9VHCJJUENTXVIBH1FK8S8I"',
+424 silly registry.get     age: '0',
+424 silly registry.get     'x-served-by': 'cache-jfk1022-JFK',
+424 silly registry.get     'x-cache': 'MISS',
+424 silly registry.get     'x-cache-hits': '0',
+424 silly registry.get     'x-timer': 'S1413251483.759941,VS0,VE75',
+424 silly registry.get     vary: 'Accept',
+424 silly registry.get     'content-length': '0',
+424 silly registry.get     connection: 'close' } ]
+425 verbose etag https://registry.npmjs.org/koa from cache
+426 verbose addNamed [ 'koa', '0.12.2' ]
+427 verbose addNamed [ '0.12.2', '0.12.2' ]
+428 silly lockFile d9e62122-koa-0-12-2 koa@0.12.2
+429 verbose lock koa@0.12.2 /Users/dean/.npm/d9e62122-koa-0-12-2.lock
+430 silly lockFile d9e62122-koa-0-12-2 koa@0.12.2
+431 silly lockFile d9e62122-koa-0-12-2 koa@0.12.2
+432 silly lockFile 6898e199-koa-latest koa@latest
+433 silly lockFile 6898e199-koa-latest koa@latest
+434 info already installed koa@0.12.2
+435 http 304 https://registry.npmjs.org/koa-passport
+436 silly registry.get cb [ 304,
+436 silly registry.get   { date: 'Tue, 14 Oct 2014 01:51:23 GMT',
+436 silly registry.get     server: 'Apache',
+436 silly registry.get     via: '1.1 varnish',
+436 silly registry.get     'last-modified': 'Tue, 14 Oct 2014 01:51:23 GMT',
+436 silly registry.get     'cache-control': 'max-age=60',
+436 silly registry.get     etag: '"8I4GT46C92SXXWRYS3RPDRKAY"',
+436 silly registry.get     age: '0',
+436 silly registry.get     'x-served-by': 'cache-jfk1032-JFK',
+436 silly registry.get     'x-cache': 'MISS',
+436 silly registry.get     'x-cache-hits': '0',
+436 silly registry.get     'x-timer': 'S1413251483.737748,VS0,VE74',
+436 silly registry.get     vary: 'Accept',
+436 silly registry.get     'content-length': '0',
+436 silly registry.get     connection: 'close' } ]
+437 verbose etag https://registry.npmjs.org/koa-passport from cache
+438 verbose addNamed [ 'koa-passport', '1.1.1' ]
+439 verbose addNamed [ '1.1.1', '1.1.1' ]
+440 silly lockFile 7eb46759-koa-passport-1-1-1 koa-passport@1.1.1
+441 verbose lock koa-passport@1.1.1 /Users/dean/.npm/7eb46759-koa-passport-1-1-1.lock
+442 silly lockFile 7eb46759-koa-passport-1-1-1 koa-passport@1.1.1
+443 silly lockFile 7eb46759-koa-passport-1-1-1 koa-passport@1.1.1
+444 silly lockFile a987797f-koa-passport-latest koa-passport@latest
+445 silly lockFile a987797f-koa-passport-latest koa-passport@latest
+446 info already installed koa-passport@1.1.1
+447 http 304 https://registry.npmjs.org/koa-session-store
+448 silly registry.get cb [ 304,
+448 silly registry.get   { date: 'Tue, 14 Oct 2014 01:51:23 GMT',
+448 silly registry.get     server: 'Apache',
+448 silly registry.get     via: '1.1 varnish',
+448 silly registry.get     'last-modified': 'Tue, 14 Oct 2014 01:51:23 GMT',
+448 silly registry.get     'cache-control': 'max-age=60',
+448 silly registry.get     etag: '"603AQGP4JXOT5SF0S4QVQ7OY2"',
+448 silly registry.get     age: '0',
+448 silly registry.get     'x-served-by': 'cache-jfk1028-JFK',
+448 silly registry.get     'x-cache': 'MISS',
+448 silly registry.get     'x-cache-hits': '0',
+448 silly registry.get     'x-timer': 'S1413251483.781312,VS0,VE88',
+448 silly registry.get     vary: 'Accept',
+448 silly registry.get     'content-length': '0',
+448 silly registry.get     connection: 'close' } ]
+449 verbose etag https://registry.npmjs.org/koa-session-store from cache
+450 verbose addNamed [ 'koa-session-store', '1.1.1' ]
+451 verbose addNamed [ '1.1.1', '1.1.1' ]
+452 silly lockFile b605cba0-koa-session-store-1-1-1 koa-session-store@1.1.1
+453 verbose lock koa-session-store@1.1.1 /Users/dean/.npm/b605cba0-koa-session-store-1-1-1.lock
+454 http 304 https://registry.npmjs.org/koa-better-body
+455 silly registry.get cb [ 304,
+455 silly registry.get   { date: 'Tue, 14 Oct 2014 01:51:23 GMT',
+455 silly registry.get     server: 'Apache',
+455 silly registry.get     via: '1.1 varnish',
+455 silly registry.get     'last-modified': 'Tue, 14 Oct 2014 01:51:23 GMT',
+455 silly registry.get     'cache-control': 'max-age=60',
+455 silly registry.get     etag: '"76Z2HYUVI965TOLRDCLR15DA7"',
+455 silly registry.get     age: '0',
+455 silly registry.get     'x-served-by': 'cache-jfk1020-JFK',
+455 silly registry.get     'x-cache': 'MISS',
+455 silly registry.get     'x-cache-hits': '0',
+455 silly registry.get     'x-timer': 'S1413251483.829727,VS0,VE27',
+455 silly registry.get     vary: 'Accept',
+455 silly registry.get     'content-length': '0',
+455 silly registry.get     connection: 'close' } ]
+456 verbose etag https://registry.npmjs.org/koa-better-body from cache
+457 silly lockFile b605cba0-koa-session-store-1-1-1 koa-session-store@1.1.1
+458 silly lockFile b605cba0-koa-session-store-1-1-1 koa-session-store@1.1.1
+459 silly lockFile 55b8dd84-koa-session-store-latest koa-session-store@latest
+460 silly lockFile 55b8dd84-koa-session-store-latest koa-session-store@latest
+461 verbose addNamed [ 'koa-better-body', '1.0.3' ]
+462 verbose addNamed [ '1.0.3', '1.0.3' ]
+463 silly lockFile 4b399ec6-koa-better-body-1-0-3 koa-better-body@1.0.3
+464 verbose lock koa-better-body@1.0.3 /Users/dean/.npm/4b399ec6-koa-better-body-1-0-3.lock
+465 info already installed koa-session-store@1.1.1
+466 silly lockFile 4b399ec6-koa-better-body-1-0-3 koa-better-body@1.0.3
+467 silly lockFile 4b399ec6-koa-better-body-1-0-3 koa-better-body@1.0.3
+468 silly lockFile b14bb3c3-koa-better-body-latest koa-better-body@latest
+469 silly lockFile b14bb3c3-koa-better-body-latest koa-better-body@latest
+470 info already installed koa-better-body@1.0.3
+471 http 304 https://registry.npmjs.org/koa-session-mongoose
+472 silly registry.get cb [ 304,
+472 silly registry.get   { date: 'Tue, 14 Oct 2014 01:51:23 GMT',
+472 silly registry.get     server: 'Apache',
+472 silly registry.get     via: '1.1 varnish',
+472 silly registry.get     'last-modified': 'Tue, 14 Oct 2014 01:51:23 GMT',
+472 silly registry.get     'cache-control': 'max-age=60',
+472 silly registry.get     etag: '"34M4CHCY8XG7R4NFCEL8NQ50"',
+472 silly registry.get     age: '0',
+472 silly registry.get     'x-served-by': 'cache-jfk1026-JFK',
+472 silly registry.get     'x-cache': 'MISS',
+472 silly registry.get     'x-cache-hits': '0',
+472 silly registry.get     'x-timer': 'S1413251483.865457,VS0,VE14',
+472 silly registry.get     vary: 'Accept',
+472 silly registry.get     'content-length': '0',
+472 silly registry.get     connection: 'close' } ]
+473 verbose etag https://registry.npmjs.org/koa-session-mongoose from cache
+474 http 304 https://registry.npmjs.org/bcrypt-nodejs
+475 silly registry.get cb [ 304,
+475 silly registry.get   { date: 'Tue, 14 Oct 2014 01:51:23 GMT',
+475 silly registry.get     server: 'Apache',
+475 silly registry.get     via: '1.1 varnish',
+475 silly registry.get     'last-modified': 'Tue, 14 Oct 2014 01:51:23 GMT',
+475 silly registry.get     'cache-control': 'max-age=60',
+475 silly registry.get     etag: '"52B3LHGUQ2EBYA12JXFRFN4OV"',
+475 silly registry.get     age: '0',
+475 silly registry.get     'x-served-by': 'cache-jfk1032-JFK',
+475 silly registry.get     'x-cache': 'HIT',
+475 silly registry.get     'x-cache-hits': '1',
+475 silly registry.get     'x-timer': 'S1413251483.792827,VS0,VE88',
+475 silly registry.get     vary: 'Accept',
+475 silly registry.get     'content-length': '0',
+475 silly registry.get     connection: 'close' } ]
+476 verbose etag https://registry.npmjs.org/bcrypt-nodejs from cache
+477 verbose addNamed [ 'koa-session-mongoose', '0.4.0' ]
+478 verbose addNamed [ '0.4.0', '0.4.0' ]
+479 silly lockFile 12419509-koa-session-mongoose-0-4-0 koa-session-mongoose@0.4.0
+480 verbose lock koa-session-mongoose@0.4.0 /Users/dean/.npm/12419509-koa-session-mongoose-0-4-0.lock
+481 verbose addNamed [ 'bcrypt-nodejs', '0.0.3' ]
+482 verbose addNamed [ '0.0.3', '0.0.3' ]
+483 silly lockFile 30db234c-bcrypt-nodejs-0-0-3 bcrypt-nodejs@0.0.3
+484 verbose lock bcrypt-nodejs@0.0.3 /Users/dean/.npm/30db234c-bcrypt-nodejs-0-0-3.lock
+485 silly lockFile 30db234c-bcrypt-nodejs-0-0-3 bcrypt-nodejs@0.0.3
+486 silly lockFile 30db234c-bcrypt-nodejs-0-0-3 bcrypt-nodejs@0.0.3
+487 silly lockFile 12419509-koa-session-mongoose-0-4-0 koa-session-mongoose@0.4.0
+488 silly lockFile 12419509-koa-session-mongoose-0-4-0 koa-session-mongoose@0.4.0
+489 silly lockFile 8a2c73f6-bcrypt-nodejs-latest bcrypt-nodejs@latest
+490 silly lockFile 8a2c73f6-bcrypt-nodejs-latest bcrypt-nodejs@latest
+491 silly lockFile 5ce99834-koa-session-mongoose-latest koa-session-mongoose@latest
+492 silly lockFile 5ce99834-koa-session-mongoose-latest koa-session-mongoose@latest
+493 info already installed bcrypt-nodejs@0.0.3
+494 info already installed koa-session-mongoose@0.4.0
+495 http 304 https://registry.npmjs.org/globalize
+496 silly registry.get cb [ 304,
+496 silly registry.get   { date: 'Tue, 14 Oct 2014 01:51:23 GMT',
+496 silly registry.get     server: 'Apache',
+496 silly registry.get     via: '1.1 varnish',
+496 silly registry.get     'last-modified': 'Tue, 14 Oct 2014 01:51:23 GMT',
+496 silly registry.get     'cache-control': 'max-age=60',
+496 silly registry.get     etag: '"8IBKF4RCVQ9G742KOB5FRY5BO"',
+496 silly registry.get     age: '0',
+496 silly registry.get     'x-served-by': 'cache-jfk1020-JFK',
+496 silly registry.get     'x-cache': 'MISS',
+496 silly registry.get     'x-cache-hits': '0',
+496 silly registry.get     'x-timer': 'S1413251483.694696,VS0,VE272',
+496 silly registry.get     vary: 'Accept',
+496 silly registry.get     'content-length': '0',
+496 silly registry.get     connection: 'close' } ]
+497 verbose etag https://registry.npmjs.org/globalize from cache
+498 verbose addNamed [ 'globalize', '1.0.0-alpha.9' ]
+499 verbose addNamed [ '1.0.0-alpha.9', '1.0.0-alpha.9' ]
+500 silly lockFile 8c9edad1-globalize-1-0-0-alpha-9 globalize@1.0.0-alpha.9
+501 verbose lock globalize@1.0.0-alpha.9 /Users/dean/.npm/8c9edad1-globalize-1-0-0-alpha-9.lock
+502 silly lockFile 8c9edad1-globalize-1-0-0-alpha-9 globalize@1.0.0-alpha.9
+503 silly lockFile 8c9edad1-globalize-1-0-0-alpha-9 globalize@1.0.0-alpha.9
+504 silly lockFile 5b9e4d34-globalize-latest globalize@latest
+505 silly lockFile 5b9e4d34-globalize-latest globalize@latest
+506 info already installed globalize@1.0.0-alpha.9
+507 http 304 https://registry.npmjs.org/koa-router
+508 silly registry.get cb [ 304,
+508 silly registry.get   { date: 'Tue, 14 Oct 2014 01:51:23 GMT',
+508 silly registry.get     server: 'Apache',
+508 silly registry.get     via: '1.1 varnish',
+508 silly registry.get     'last-modified': 'Tue, 14 Oct 2014 01:51:24 GMT',
+508 silly registry.get     'cache-control': 'max-age=60',
+508 silly registry.get     etag: '"C8U64HXYAGHNMP5LFQVM35BYA"',
+508 silly registry.get     age: '0',
+508 silly registry.get     'x-served-by': 'cache-jfk1025-JFK',
+508 silly registry.get     'x-cache': 'MISS',
+508 silly registry.get     'x-cache-hits': '0',
+508 silly registry.get     'x-timer': 'S1413251483.898808,VS0,VE121',
+508 silly registry.get     vary: 'Accept',
+508 silly registry.get     'content-length': '0',
+508 silly registry.get     connection: 'close' } ]
+509 verbose etag https://registry.npmjs.org/koa-router from cache
+510 verbose addNamed [ 'koa-router', '3.4.0' ]
+511 verbose addNamed [ '3.4.0', '3.4.0' ]
+512 silly lockFile a86464e0-koa-router-3-4-0 koa-router@3.4.0
+513 verbose lock koa-router@3.4.0 /Users/dean/.npm/a86464e0-koa-router-3-4-0.lock
+514 silly lockFile a86464e0-koa-router-3-4-0 koa-router@3.4.0
+515 silly lockFile a86464e0-koa-router-3-4-0 koa-router@3.4.0
+516 silly lockFile 4a4d5cb9-koa-router-latest koa-router@latest
+517 silly lockFile 4a4d5cb9-koa-router-latest koa-router@latest
+518 info already installed koa-router@3.4.0
+519 http 304 https://registry.npmjs.org/koa-jade
+520 silly registry.get cb [ 304,
+520 silly registry.get   { date: 'Tue, 14 Oct 2014 01:51:23 GMT',
+520 silly registry.get     server: 'Apache',
+520 silly registry.get     via: '1.1 varnish',
+520 silly registry.get     'last-modified': 'Tue, 14 Oct 2014 01:51:24 GMT',
+520 silly registry.get     'cache-control': 'max-age=60',
+520 silly registry.get     etag: '"48CA3HZY60T4N38DSG44QHKLD"',
+520 silly registry.get     age: '0',
+520 silly registry.get     'x-served-by': 'cache-jfk1032-JFK',
+520 silly registry.get     'x-cache': 'MISS',
+520 silly registry.get     'x-cache-hits': '0',
+520 silly registry.get     'x-timer': 'S1413251483.786185,VS0,VE471',
+520 silly registry.get     vary: 'Accept',
+520 silly registry.get     'content-length': '0',
+520 silly registry.get     connection: 'close' } ]
+521 verbose etag https://registry.npmjs.org/koa-jade from cache
+522 verbose addNamed [ 'koa-jade', '0.3.1' ]
+523 verbose addNamed [ '0.3.1', '0.3.1' ]
+524 silly lockFile 973bb350-koa-jade-0-3-1 koa-jade@0.3.1
+525 verbose lock koa-jade@0.3.1 /Users/dean/.npm/973bb350-koa-jade-0-3-1.lock
+526 silly lockFile 973bb350-koa-jade-0-3-1 koa-jade@0.3.1
+527 silly lockFile 973bb350-koa-jade-0-3-1 koa-jade@0.3.1
+528 silly lockFile f449eb49-koa-jade-latest koa-jade@latest
+529 silly lockFile f449eb49-koa-jade-latest koa-jade@latest
+530 info already installed koa-jade@0.3.1
+531 http 200 https://registry.npmjs.org/less
+532 silly registry.get cb [ 200,
+532 silly registry.get   { date: 'Tue, 14 Oct 2014 01:51:23 GMT',
+532 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+532 silly registry.get     etag: '"4GQDC9B099E6QIPV3T2GSM170"',
+532 silly registry.get     'content-type': 'application/json',
+532 silly registry.get     'cache-control': 'max-age=60',
+532 silly registry.get     'content-length': '65646',
+532 silly registry.get     'accept-ranges': 'bytes',
+532 silly registry.get     via: '1.1 varnish',
+532 silly registry.get     age: '53',
+532 silly registry.get     'x-served-by': 'cache-jfk1025-JFK',
+532 silly registry.get     'x-cache': 'HIT',
+532 silly registry.get     'x-cache-hits': '3',
+532 silly registry.get     'x-timer': 'S1413251483.786111,VS0,VE0',
+532 silly registry.get     vary: 'Accept',
+532 silly registry.get     connection: 'close' } ]
+533 verbose addNamed [ 'less', '1.7.5' ]
+534 verbose addNamed [ '1.7.5', '1.7.5' ]
+535 silly lockFile fbb355ce-less-1-7-5 less@1.7.5
+536 verbose lock less@1.7.5 /Users/dean/.npm/fbb355ce-less-1-7-5.lock
+537 silly lockFile fbb355ce-less-1-7-5 less@1.7.5
+538 silly lockFile fbb355ce-less-1-7-5 less@1.7.5
+539 silly lockFile d8c46e27-less-latest less@latest
+540 silly lockFile d8c46e27-less-latest less@latest
+541 info already installed less@1.7.5
+542 http 200 https://registry.npmjs.org/mongoose
+543 silly registry.get cb [ 200,
+543 silly registry.get   { date: 'Tue, 14 Oct 2014 01:51:23 GMT',
+543 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R14B04)',
+543 silly registry.get     etag: '"2DSF5Q9HKLGBGR3MVKTENOC1P"',
+543 silly registry.get     'content-type': 'application/json',
+543 silly registry.get     'cache-control': 'max-age=60',
+543 silly registry.get     'content-length': '271090',
+543 silly registry.get     'accept-ranges': 'bytes',
+543 silly registry.get     via: '1.1 varnish',
+543 silly registry.get     age: '0',
+543 silly registry.get     'x-served-by': 'cache-jfk1026-JFK',
+543 silly registry.get     'x-cache': 'HIT',
+543 silly registry.get     'x-cache-hits': '1',
+543 silly registry.get     'x-timer': 'S1413251483.893235,VS0,VE23',
+543 silly registry.get     vary: 'Accept',
+543 silly registry.get     connection: 'close' } ]
+544 verbose addNamed [ 'mongoose', '3.8.17' ]
+545 verbose addNamed [ '3.8.17', '3.8.17' ]
+546 silly lockFile a4695088-mongoose-3-8-17 mongoose@3.8.17
+547 verbose lock mongoose@3.8.17 /Users/dean/.npm/a4695088-mongoose-3-8-17.lock
+548 silly lockFile a4695088-mongoose-3-8-17 mongoose@3.8.17
+549 silly lockFile a4695088-mongoose-3-8-17 mongoose@3.8.17
+550 silly lockFile 73e949f4-mongoose-latest mongoose@latest
+551 silly lockFile 73e949f4-mongoose-latest mongoose@latest
+552 info already installed mongoose@3.8.17
+553 silly resolved []
+554 info build /Users/dean/.nodewww/nodejs-koa
+555 verbose linkStuff [ false, false, false, '/Users/dean/.nodewww' ]
+556 info linkStuff nodejs-koa@
+557 verbose linkBins nodejs-koa@
+558 verbose linkMans nodejs-koa@
+559 verbose rebuildBundles nodejs-koa@
+560 verbose rebuildBundles [ '.bin',
+560 verbose rebuildBundles   'bcrypt-nodejs',
+560 verbose rebuildBundles   'cldr-data',
+560 verbose rebuildBundles   'coffee-script',
+560 verbose rebuildBundles   'fs',
+560 verbose rebuildBundles   'globalize',
+560 verbose rebuildBundles   'jade',
+560 verbose rebuildBundles   'koa',
+560 verbose rebuildBundles   'koa-better-body',
+560 verbose rebuildBundles   'koa-csrf',
+560 verbose rebuildBundles   'koa-jade',
+560 verbose rebuildBundles   'koa-passport',
+560 verbose rebuildBundles   'koa-router',
+560 verbose rebuildBundles   'koa-session-mongoose',
+560 verbose rebuildBundles   'koa-session-store',
+560 verbose rebuildBundles   'less',
+560 verbose rebuildBundles   'mongoose',
+560 verbose rebuildBundles   'passport-local',
+560 verbose rebuildBundles   'requirejs' ]
+561 verbose rebuild bundle /Users/dean/.nodewww/nodejs-koa/node_modules/cldr-data
+562 info build /Users/dean/.nodewww/nodejs-koa/node_modules/cldr-data
+563 info preinstall cldr-data@25.0.2
+564 verbose linkStuff [ false,
+564 verbose linkStuff   false,
+564 verbose linkStuff   false,
+564 verbose linkStuff   '/Users/dean/.nodewww/nodejs-koa/node_modules' ]
+565 info linkStuff cldr-data@25.0.2
+566 verbose linkBins cldr-data@25.0.2
+567 verbose linkMans cldr-data@25.0.2
+568 verbose rebuildBundles cldr-data@25.0.2
+569 verbose rebuildBundles [ 'cldr-data-downloader' ]
+570 info install cldr-data@25.0.2
+571 verbose unsafe-perm in lifecycle true
+572 info cldr-data@25.0.2 Failed to exec install script
+573 verbose stack Error: Exit status 1
+573 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:212:16)
+573 verbose stack     at ChildProcess.emit (events.js:110:17)
+573 verbose stack     at maybeClose (child_process.js:1000:16)
+573 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:1072:5)
+574 verbose pkgid cldr-data@25.0.2
+575 verbose cwd /Users/dean/.nodewww/nodejs-koa
+576 error Darwin 13.4.0
+577 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "install"
+578 error node v0.11.14
+579 error npm  v2.0.0
+580 error code ELIFECYCLE
+581 error cldr-data@25.0.2 install: `node install.js`
+581 error Exit status 1
+582 error Failed at the cldr-data@25.0.2 install script.
+582 error This is most likely a problem with the cldr-data package,
+582 error not with npm itself.
+582 error Tell the author that this fails on your system:
+582 error     node install.js
+582 error You can get their info via:
+582 error     npm owner ls cldr-data
+582 error There is likely additional logging output above.
+583 verbose exit [ 1, true ]
