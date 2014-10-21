@@ -4,6 +4,7 @@
     var initialize, self, setUtcOffsetTime;
     initialize = function() {
       var rules;
+      setUtcOffsetTime();
       rules = {
         email: {
           identifier: 'email',
@@ -24,7 +25,7 @@
           ]
         }
       };
-      $('form.ui.form').form(rules, {
+      $('#login-ct').find('form.ui.form').form(rules, {
         inline: true,
         on: 'submit'
       });

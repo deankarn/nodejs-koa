@@ -1,4 +1,4 @@
-module.exports = function(public, secured, passport)
+module.exports = function(public, secured)
 {
     secured.get('root', '/', function* root(next)
     {

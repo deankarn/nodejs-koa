@@ -1,9 +1,5 @@
 extends /layouts/_layout
 
-block additional-css
-	//link(rel='stylesheet', href='/static/bundled/login.css')
-	//!= css('app.login_view')
-
 block content
 	span#login-ct
 		form.block.centered.ui.form.raised.segment(action='/login', method='post')
