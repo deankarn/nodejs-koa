@@ -26,23 +26,23 @@ module.exports = function(public, secured)
         // });
     });
 
-    // public.post('/login',
-    //     passport.authenticate('local-login',
-    //     {
-    //         successRedirect: secured.url('root'),
-    //         failureRedirect: public.url('login')
-    //     })
-    // );
-
-    public.post('/login',function*(next){
-        console.log('setting request mongo object');
-        this.request.mongo = this.mongo; yield next;},
+    public.post('/login',
         passport.authenticate('local-login',
         {
             successRedirect: secured.url('root'),
             failureRedirect: public.url('login')
         })
     );
+
+    // public.post('/login',function*(next){
+    //     console.log('setting request mongo object');
+    //     this.request.mongo = this.mongo; yield next;},
+    //     passport.authenticate('local-login',
+    //     {
+    //         successRedirect: secured.url('root'),
+    //         failureRedirect: public.url('login')
+    //     })
+    // );
 
     public.get('logout', '/logout', function*(next)
     {

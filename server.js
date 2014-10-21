@@ -7,10 +7,10 @@ var
     koaBody = require('koa-better-body'),
     csrf = require('koa-csrf'),
     session = require('koa-session-store'),
-    // mongoose = require('mongoose'),
-    mongo = require('koa-mongo'),
-    mongoStore = require('koa-session-mongo'),
-    // mongooseStore = require('koa-session-mongoose'),
+    mongoose = require('mongoose'),
+    // mongo = require('koa-mongo'),
+    // mongoStore = require('koa-session-mongo'),
+    mongooseStore = require('koa-session-mongoose'),
     passport = require('koa-passport'),
     jade = require('koa-jade'),
     fs = require('fs');
@@ -73,27 +73,28 @@ Globalize.locale('en-GB');
 //
 // var localeMidgard = require(__dirname + '/app/middleware/locale.js')(Globalize);
 
-// var models = fs.readdirSync(__dirname + '/app/models');
-// models.forEach(function(filename)
-// {
-//     if (!/\.js$/.test(filename)) return;
-//
-//     console.log("loading model:" + filename + '...');
-//     require(__dirname + '/app/models/' + filename);
-// });
-// fs.readdir(__dirname + '/app/models', function(err, files)
-// {
-//     console.log('models');
-//     // console.log(files);
-//     files.forEach(function(filename)
-//     {
-//         console.log("model:" + filename);
-//         if (!/\.js$/.test(filename)) return;
-//         require(__dirname + '/app/models/' + filename);
-//     });
-// });
+var models = fs.readdirSync(__dirname + '/app/models');
+models.forEach(function(filename)
+{
+    if (!/\.js$/.test(filename)) return;
 
-// mongoose.connect(configDB.url); // connect to our database
+    console.log("loading model:" + filename + '...');
+    require(__dirname + '/app/models/' + filename);
+});
+fs.readdir(__dirname + '/app/models', function(err, files)
+{
+    console.log('models');
+    // console.log(files);
+    files.forEach(function(filename)
+    {
+        console.log("model:" + filename);
+        if (!/\.js$/.test(filename)) return;
+        require(__dirname + '/app/models/' + filename);
+    });
+});
+
+mongoose.connect(configDB.url); // connect to our database
+// console.log(db);
 // var db = mongoose.createConnection(configDB.url,
 // {
 //     server:
@@ -102,13 +103,13 @@ Globalize.locale('en-GB');
 //     }
 // });
 
-app.use(mongo({
-  uri: configDB.url,
-  max: 100,
-  min: 1,
-  timeout: 30000,
-  log: false
-}));
+// app.use(mongo({
+//   uri: configDB.url,
+//   max: 100,
+//   min: 1,
+//   timeout: 30000,
+//   log: false
+// }));
 
 app.proxy = true;
 app.keys = ['iSwearByMyPrettyFloralBonnetIwillendyou']; // needed for cookie-signing
@@ -210,21 +211,21 @@ app.use(koaBody(
 
 require(__dirname + '/app/config/passport')(configDB);
 
-app.use(session({
-  store: mongoStore.create({
-          url: configDB.url
-        })
-}));
-// app.use(session(
-// {
-//     store: mongooseStore.create(
-//     {
-//         collection: 'sessions',
-//         connection: db,
-//         expires: 60 * 60 * 24 * 14, // 2 weeks is the default
-//         // model: 'KoaSession'
-//     })
+// app.use(session({
+//   store: mongoStore.create({
+//           url: configDB.url
+//         })
 // }));
+app.use(session(
+{
+    store: mongooseStore.create(
+    {
+        collection: 'sessions',
+        // connection: db,
+        expires: 60 * 60 * 24 * 14, // 2 weeks is the default
+        // model: 'KoaSession'
+    })
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -247,7 +248,8 @@ app.use(jade.middleware(
 
 
 // var User = require('mongoose').model('User');
-// x-response-time
+// // var User = db.model('User');
+// // x-response-time
 // app.use(function* (next) {
 //   // this.mongo.collection('users').findOne({}, function (err, doc) {
 //   //   console.log(doc);
@@ -255,6 +257,7 @@ app.use(jade.middleware(
 //
 //   console.log('finding');
 //   var user = yield User.findOne({'local.email': 'Dean.Karn@gmail.com'}).exec();
+//   // var user = yield User.find({}).exec();
 //
 //   console.log('user:' + user);
 //
