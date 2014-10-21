@@ -1,8 +1,8 @@
 // app/models/user.js
 // load the things we need
 var mongoose = require('mongoose');
-var bcrypt   = require('bcrypt');
-// var co       = require('co');
+var bcrypt   = require('co-bcrypt');
+var co       = require('co');
 
 // const SALT_WORK_FACTOR = 10;
 
@@ -45,26 +45,26 @@ var userSchema = mongoose.Schema({
 
 userSchema.pre('save', function (done) {
   // only hash the password if it has been modified (or is new)
-  if (!this.isModified('password')) {
-    return done();
-  }
+  // if (!this.isModified('password')) {
+  //   return done();
+  // }
+  //
+  // var salt = bcrypt.genSaltSync(10);
+  // var hash = bcrypt.hashSync(this.local.password, salt, null);
+  // this.password = hash;
+  // done();
 
-  var salt = bcrypt.genSaltSync(10);
-  var hash = bcrypt.hashSync(this.local.password, salt, null);
-  this.password = hash;
-  done();
-
-  // co(function*() {
-  //   try {
-  //     var salt = bcrypt.genSaltSync(10);
-  //     var hash = bcrypt.hashSync(this.local.password, salt, null);
-  //     this.password = hash;
-  //     done();
-  //   }
-  //   catch (err) {
-  //     done(err);
-  //   }
-  // }).call(this, done);
+  co(function*() {
+    try {
+      var salt = bcrypt.genSaltSync(10);
+      var hash = bcrypt.hashSync(this.local.password, salt, null);
+      this.password = hash;
+      done();
+    }
+    catch (err) {
+      done(err);
+    }
+  }).call(this, done);
 });
 
 // methods ======================
@@ -74,12 +74,12 @@ userSchema.pre('save', function (done) {
 // };
 
 // checking if password is valid
-// userSchema.methods.validPassword = function*(password) {
-//     return yield bcrypt.compare(password, this.local.password);
-// };
-userSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.local.password);
+userSchema.methods.validPassword = function*(password) {
+    return yield bcrypt.compare(password, this.local.password);
 };
+// userSchema.methods.validPassword = function(password) {
+//     return bcrypt.compareSync(password, this.local.password);
+// };
 
 // create the model for users and expose it to our app
 module.exports = mongoose.model('User', userSchema);

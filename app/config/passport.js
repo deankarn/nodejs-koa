@@ -4,8 +4,8 @@ module.exports = function(configDB)
     var bcrypt = require('bcrypt');
     var LocalStrategy = require('passport-local').Strategy;
     var MongoClient = require('mongodb').MongoClient;
-    // var User = require('mongoose').model('User');
-    // var co = require('co');
+    var User = require('mongoose').model('User');
+    var co = require('co');
 
     // var user = {
     //     id: 1,
@@ -19,29 +19,32 @@ module.exports = function(configDB)
 
     passport.deserializeUser(function(id, done)
     {
-        console.log(id);
-
-        MongoClient.connect(configDB.url, function(err, db)
-        {
-            console.log(err);
-            // assert.equal(null, err);
-            // console.log("Connected correctly to server");
-            var collection = db.collection('users');
-
-            collection.find(
-            {
-
-            }).toArray(function(err, users)
-            {
-                db.close();
-                console.log(users[0]);
-                var user = users[0];
-
-                done(null, user);
-            });
-
-            // db.close();
-        });
+        console.log('deserializing user');
+        User.findById(id, done);
+        // User.findOne({'_id':id})
+        // console.log(id);
+        //
+        // MongoClient.connect(configDB.url, function(err, db)
+        // {
+        //     console.log(err);
+        //     // assert.equal(null, err);
+        //     // console.log("Connected correctly to server");
+        //     var collection = db.collection('users');
+        //
+        //     collection.find(
+        //     {
+        //
+        //     }).toArray(function(err, users)
+        //     {
+        //         db.close();
+        //         console.log(users[0]);
+        //         var user = users[0];
+        //
+        //         done(null, user);
+        //     });
+        //
+        //     // db.close();
+        // });
         // console.log(id);
         // console.log(req);
         // req.mongo.collection('users').findOne(
@@ -121,80 +124,71 @@ module.exports = function(configDB)
             //     console.log(doc);
             //   });
             // console.log('before co');
-            // co(function*()
-            // {
-            //     console.log('inside co');
-            //     try
-            //     {
-            //         console.log('finding user');
-            //         var user = yield User.findOne({'local.email': email}).exec();
-            //         // var user =
-            //         //     yield this.findOne(
-            //         //     {
-            //         //         'username': username.toLowerCase()
-            //         //     }).exec();
-            //
-            //         console.log('user:' + user);
-            //
-            //         if (!user) throw new Error('Username or Passowrd is incorrect.');
-            //
-            //         var valid =
-            //             yield user.validPassword(password);
-            //
-            //         if (valid)
-            //             return user;
-            //
-            //         // password does not match, but don't want to say that.
-            //         throw new Error('Username or Passowrd is incorrect.');
-            //         // return yield User.matchUser(username, password);
-            //     }
-            //     catch (ex)
-            //     {
-            //         console.log('Error:' + ex)
-            //         return null;
-            //     }
-            // })(done);
+            co(function*()
+            {
+                console.log('inside co');
+                try
+                {
+                    console.log('finding user');
+                    var user = yield User.findOne({'local.email': email}).exec();
+                    // var user =
+                    //     yield this.findOne(
+                    //     {
+                    //         'username': username.toLowerCase()
+                    //     }).exec();
+
+                    console.log('user:' + user);
+
+                    if (!user) throw new Error('Username or Passowrd is incorrect.');
+
+                    var valid =
+                        yield user.validPassword(password);
+
+                    if (valid)
+                        return user;
+
+                    // password does not match, but don't want to say that.
+                    throw new Error('Username or Passowrd is incorrect.');
+                    // return yield User.matchUser(username, password);
+                }
+                catch (ex)
+                {
+                    console.log('Error:' + ex)
+                    return null;
+                }
+            })(done);
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
-            req.mongo.collection('users').findOne(
-            {
-                'local.email': email
-            }, function(err, user)
-            {
-                console.log(user);
-
-                // if there are any errors, return the error before anything else
-                if (err)
-                    return done(err);
-
-                // if no user is found, return the message
-                if (!user)
-                    return done(null, false, 'Username or Password incorrect');
-
-                // if the user is found but the password is wrong
-
-                // if (!user.validPassword(password))
-                if (!bcrypt.compareSync(password, user.local.password))
-                    return done(null, false); // create the loginMessage and save it to session as flashdata
-
-                // all is well, return successful user
-                // // req.session.localeString = 'en-GB'; // will be saved on user profile
-                // req.session.localeString = user.localeString; // will be saved on user profile
-                //         //set utc offset time on session
-                //         req.session.localeString = req.user.locale;
-                //         req.session.utcOffset = req.body['utc-offset'];
-
-                return done(null, user);
-            });
-            // retrieve user ...
-            // if (email === 'test@gmail.com' && password === 'test')
+            // req.mongo.collection('users').findOne(
             // {
-            //     done(null, user)
-            // }
-            // else
+            //     'local.email': email
+            // }, function(err, user)
             // {
-            //     done(null, false)
-            // }
+            //     console.log(user);
+            //
+            //     // if there are any errors, return the error before anything else
+            //     if (err)
+            //         return done(err);
+            //
+            //     // if no user is found, return the message
+            //     if (!user)
+            //         return done(null, false, 'Username or Password incorrect');
+            //
+            //     // if the user is found but the password is wrong
+            //
+            //     // if (!user.validPassword(password))
+            //     if (!bcrypt.compareSync(password, user.local.password))
+            //         return done(null, false); // create the loginMessage and save it to session as flashdata
+            //
+            //     // all is well, return successful user
+            //     // // req.session.localeString = 'en-GB'; // will be saved on user profile
+            //     // req.session.localeString = user.localeString; // will be saved on user profile
+            //     //         //set utc offset time on session
+            //     //         req.session.localeString = req.user.locale;
+            //     //         req.session.utcOffset = req.body['utc-offset'];
+            //
+            //     return done(null, user);
+            // });
         }));
 
     passport.use('local-signup', new LocalStrategy(
