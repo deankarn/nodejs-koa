@@ -24,7 +24,7 @@ define ["main", "common.datetime"], (main, dt) ->
             }
         }
 
-        $('#login-ct').find('form.ui.form').form(rules, {
+        $('#user-ct').find('form.ui.form').form(rules, {
             inline : true,
             on : 'submit'
           } )

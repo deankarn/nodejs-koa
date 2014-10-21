@@ -1,54 +1,85 @@
-module.exports = function(mongoose)
+// app/models/user.js
+// load the things we need
+var mongoose = require('mongoose');
+var bcrypt   = require('bcrypt');
+// var co       = require('co');
+
+// const SALT_WORK_FACTOR = 10;
+
+// define the schema for our user model
+var userSchema = mongoose.Schema({
+
+    local            : {
+        email        : String,
+        password     : String,
+    },
+    facebook         : {
+        id           : String,
+        token        : String,
+        email        : String,
+        name         : String
+    },
+    twitter          : {
+        id           : String,
+        token        : String,
+        displayName  : String,
+        username     : String
+    },
+    google           : {
+        id           : String,
+        token        : String,
+        email        : String,
+        name         : String
+    },
+    locale     : String,
+    updated_at : { type: Date, default: Date.now },
+    created_at : { type: Date, default: Date.now }
+},
 {
-    // app/models/user.js
-    // load the things we need
-    // var mongoose = require('mongoose');
-    var bcrypt   = require('bcrypt-nodejs');
+  toJSON : {
+    transform: function (doc, ret, options) {
+      delete ret.local.password;
+    }
+  }
+});
 
-    // console.log(mongoose);
+userSchema.pre('save', function (done) {
+  // only hash the password if it has been modified (or is new)
+  if (!this.isModified('password')) {
+    return done();
+  }
 
-    // define the schema for our user model
-    var userSchema = mongoose.Schema({
+  var salt = bcrypt.genSaltSync(10);
+  var hash = bcrypt.hashSync(this.local.password, salt, null);
+  this.password = hash;
+  done();
 
-        local            : {
-            email        : String,
-            password     : String,
-        },
-        facebook         : {
-            id           : String,
-            token        : String,
-            email        : String,
-            name         : String
-        },
-        twitter          : {
-            id           : String,
-            token        : String,
-            displayName  : String,
-            username     : String
-        },
-        google           : {
-            id           : String,
-            token        : String,
-            email        : String,
-            name         : String
-        },
-        locale     : String,
-        updated_at : { type: Date, default: Date.now },
-        created_at : { type: Date, default: Date.now }
-    });
+  // co(function*() {
+  //   try {
+  //     var salt = bcrypt.genSaltSync(10);
+  //     var hash = bcrypt.hashSync(this.local.password, salt, null);
+  //     this.password = hash;
+  //     done();
+  //   }
+  //   catch (err) {
+  //     done(err);
+  //   }
+  // }).call(this, done);
+});
 
-    // methods ======================
-    // generating a hash
-    userSchema.methods.generateHash = function(password) {
-        return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-    };
+// methods ======================
+// generating a hash
+// userSchema.methods.generateHash = function(password) {
+//     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+// };
 
-    // checking if password is valid
-    userSchema.methods.validPassword = function(password) {
-        return bcrypt.compareSync(password, this.local.password);
-    };
+// checking if password is valid
+// userSchema.methods.validPassword = function*(password) {
+//     return yield bcrypt.compare(password, this.local.password);
+// };
+userSchema.methods.validPassword = function(password) {
+    return bcrypt.compareSync(password, this.local.password);
+};
 
-    // create the model for users and expose it to our app
-    // module.exports = mongoose.model('User', userSchema);
-    exports = mongoose.model('User', userSchema);
-}
+// create the model for users and expose it to our app
+module.exports = mongoose.model('User', userSchema);

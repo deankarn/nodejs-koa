@@ -1,6 +1,6 @@
-var koaBody = require('koa-better-body');
+var passport = require('koa-passport');
 
-module.exports = function(public, secured, passport)
+module.exports = function(public, secured)
 {
     public.get('login', '/login', function* login(next)
     {
@@ -26,25 +26,22 @@ module.exports = function(public, secured, passport)
         // });
     });
 
-    // public.post('/login', function*(next)
-    // {
-    //     console.log(this.request.body.fields.email);
-    //     this.redirect(public.url('login'));
-    // });
-    public.post('/login',
+    // public.post('/login',
+    //     passport.authenticate('local-login',
+    //     {
+    //         successRedirect: secured.url('root'),
+    //         failureRedirect: public.url('login')
+    //     })
+    // );
+
+    public.post('/login',function*(next){
+        console.log('setting request mongo object');
+        this.request.mongo = this.mongo; yield next;},
         passport.authenticate('local-login',
         {
             successRedirect: secured.url('root'),
             failureRedirect: public.url('login')
-        },
-        function*(err, user, info)
-        {
-            console.log(info);
-            console.log(user);
-            console.log(err);
-        }
-        )
-
+        })
     );
 
     public.get('logout', '/logout', function*(next)

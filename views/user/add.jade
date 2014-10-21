@@ -1,0 +1,17 @@
+extends /layouts/_layout
+
+block content
+    span#user-ct
+        h1= title
+
+        form(action='/signup', method='post')
+            input(type='hidden', name='_csrf', value=token)
+            input#utc-offset(type='hidden', name='utc-offset')
+            label= email
+            input(type='text', name='email')
+            label= password
+            input(type='password', name='password')
+            button(type='submit') #{title}
+
+block additional-js
+    != js('app.login_view')

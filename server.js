@@ -1,3 +1,5 @@
+process.env.TZ = 'UTC';
+
 var
     Globalize = require('globalize'),
     koa = require('koa'),
@@ -5,8 +7,10 @@ var
     koaBody = require('koa-better-body'),
     csrf = require('koa-csrf'),
     session = require('koa-session-store'),
-    mongoose = require('mongoose'),
-    mongooseStore = require('koa-session-mongoose'),
+    // mongoose = require('mongoose'),
+    mongo = require('koa-mongo'),
+    mongoStore = require('koa-session-mongo'),
+    // mongooseStore = require('koa-session-mongoose'),
     passport = require('koa-passport'),
     jade = require('koa-jade'),
     fs = require('fs');
@@ -69,14 +73,42 @@ Globalize.locale('en-GB');
 //
 // var localeMidgard = require(__dirname + '/app/middleware/locale.js')(Globalize);
 
+// var models = fs.readdirSync(__dirname + '/app/models');
+// models.forEach(function(filename)
+// {
+//     if (!/\.js$/.test(filename)) return;
+//
+//     console.log("loading model:" + filename + '...');
+//     require(__dirname + '/app/models/' + filename);
+// });
+// fs.readdir(__dirname + '/app/models', function(err, files)
+// {
+//     console.log('models');
+//     // console.log(files);
+//     files.forEach(function(filename)
+//     {
+//         console.log("model:" + filename);
+//         if (!/\.js$/.test(filename)) return;
+//         require(__dirname + '/app/models/' + filename);
+//     });
+// });
+
 // mongoose.connect(configDB.url); // connect to our database
-var db = mongoose.createConnection(configDB.url,
-{
-    server:
-    {
-        poolSize: 4
-    }
-});
+// var db = mongoose.createConnection(configDB.url,
+// {
+//     server:
+//     {
+//         poolSize: 4
+//     }
+// });
+
+app.use(mongo({
+  uri: configDB.url,
+  max: 100,
+  min: 1,
+  timeout: 30000,
+  log: false
+}));
 
 app.proxy = true;
 app.keys = ['iSwearByMyPrettyFloralBonnetIwillendyou']; // needed for cookie-signing
@@ -122,65 +154,77 @@ app.use(function*(next)
     console.log('%s %s - %sms', this.method, this.url, ms);
 });
 
+// app.use(function*(next){
+//     console.log('setting request mongo object');
+//     this.request.mongo = this.mongo; yield next;});
+
 // body parser to be before the routes
 app.use(koaBody(
 {
+    fieldsKey: false,
+    // filesKey:'_files',
     multipart: true,
     // formLimit: 15,
     formidable:
     {
+        maxFields: 20,
         multiples: true
             // uploadDir: __dirname + '/uploads'
     }
 }));
 
-app.use(function*(next)
-{
-    // if there are fields from better-body-parser but not files aka json or url form encoded
-    if(this.request.body.fields && !this.request.body.files){
-        var body = this.request.body.fields;
-        this.request.body = body;
-    }
-
-    // if(this.request.body.fields || this.request.body.files){
-    //
-    //     var body = {};
-    //
-    //     if(this.request.body.fields)
-    //     {
-    //         var fields = this.request.body.fields;
-    //         body = fields;
-    //     }
-    //
-    //     if(this.request.body.files)
-    //     {
-    //         var fields = this.request.body.fields;
-    //         body.fields = fields;
-    //     }
-    //
-    //     this.request.body = body;
-    // }
-
-    yield next;
-});
+// app.use(function*(next)
+// {
+//     // if there are fields from better-body-parser but not files aka json or url form encoded
+//     if(this.request.body.fields && !this.request.body.files){
+//         var body = this.request.body.fields;
+//         this.request.body = body;
+//     }
+//
+//     // if(this.request.body.fields || this.request.body.files){
+//     //
+//     //     var body = {};
+//     //
+//     //     if(this.request.body.fields)
+//     //     {
+//     //         var fields = this.request.body.fields;
+//     //         body = fields;
+//     //     }
+//     //
+//     //     if(this.request.body.files)
+//     //     {
+//     //         var fields = this.request.body.fields;
+//     //         body.fields = fields;
+//     //     }
+//     //
+//     //     this.request.body = body;
+//     // }
+//
+//     yield next;
+// });
 // var bodyParser = require('koa-bodyparser');
 // app.use(bodyParser());
 // app.use(koaBody());
 
 // require(__dirname + '/app/config/passport')(mongoose, passport); // pass passport for configuration
 
-require(__dirname + '/app/config/passport');
+require(__dirname + '/app/config/passport')(configDB);
 
-app.use(session(
-{
-    store: mongooseStore.create(
-    {
-        collection: 'sessions',
-        connection: db,
-        expires: 60 * 60 * 24 * 14, // 2 weeks is the default
-        // model: 'KoaSession'
-    })
+app.use(session({
+  store: mongoStore.create({
+          url: configDB.url
+        })
 }));
+// app.use(session(
+// {
+//     store: mongooseStore.create(
+//     {
+//         collection: 'sessions',
+//         connection: db,
+//         expires: 60 * 60 * 24 * 14, // 2 weeks is the default
+//         // model: 'KoaSession'
+//     })
+// }));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -202,41 +246,54 @@ app.use(jade.middleware(
 }));
 
 
-
+// var User = require('mongoose').model('User');
 // x-response-time
-
+// app.use(function* (next) {
+//   // this.mongo.collection('users').findOne({}, function (err, doc) {
+//   //   console.log(doc);
+//   // });
+//
+//   console.log('finding');
+//   var user = yield User.findOne({'local.email': 'Dean.Karn@gmail.com'}).exec();
+//
+//   console.log('user:' + user);
+//
+//   // this.mongo.collection('test').insert({name:'test', dt1:new Date()}, function(err, doc){
+//   //    console.log(err);
+//   //    console.log(doc);
+//   // });
+// });
 
 // app.use(router(app));
 var public = new router();
 var secured = new router();
 
-require(__dirname + '/app/routes/public/public.js')(public, secured, passport);
+require(__dirname + '/app/routes/public/public.js')(public, secured);
 
 app.use(public.middleware())
 
 // Require authentication for now
 app.use(function* ensureAuthenticated(next)
 {
-    console.log('in ensureAuthenticated');
+    // console.log('in ensureAuthenticated');
     if (this.isAuthenticated())
     {
         yield next
     }
     else
     {
+        // console.log('redirecting:' + public.url('login'));
         // use router get url instead of hard coding
-        this.redirect(public.url('/login'))
+        this.redirect(public.url('login'))
     }
 });
-
-// var secured = new router();
 
 fs.readdir(__dirname + '/app/routes', function(err, files)
 {
     files.forEach(function(fn)
     {
         if (!/\.js$/.test(fn)) return;
-        require(__dirname + '/app/routes/' + fn)(public, secured, passport);
+        require(__dirname + '/app/routes/' + fn)(public, secured);
     });
 });
 
