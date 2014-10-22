@@ -20,7 +20,7 @@
 			"password": "mot de passe"
 		}
 	},
-	"zh-Hans-CN":{
+	"zh":{
 		"signup":{
 			"title": "报名",
 			"email": "电子邮件",
