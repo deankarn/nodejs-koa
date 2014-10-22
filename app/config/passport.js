@@ -3,7 +3,7 @@ module.exports = function(configDB)
     var passport = require('koa-passport');
     var bcrypt = require('bcrypt');
     var LocalStrategy = require('passport-local').Strategy;
-    var MongoClient = require('mongodb').MongoClient;
+    // var MongoClient = require('mongodb').MongoClient;
     var User = require('mongoose').model('User');
     var co = require('co');
 
@@ -130,7 +130,11 @@ module.exports = function(configDB)
                 try
                 {
                     console.log('finding user');
-                    var user = yield User.findOne({'local.email': email}).exec();
+                    var user =
+                        yield User.findOne(
+                        {
+                            'local.email': email
+                        }).exec();
                     // var user =
                     //     yield this.findOne(
                     //     {
@@ -140,14 +144,25 @@ module.exports = function(configDB)
                     console.log('user:' + user);
 
                     if (!user) throw new Error('Username or Passowrd is incorrect.');
+                    // if (!user) return dn(null, false, 'Username or Password incorrect');
 
                     var valid =
                         yield user.validPassword(password);
 
                     if (valid)
+                    {
+                        req.session.testVariable = 'testing123';
+                        // req.session.localeString = req.user.locale;
+                        // req.session.utcOffset = req.body['utc-offset'];
+
+                        console.log('success returning user co');
                         return user;
+                        // console.log(dn);
+                        // return dn(null, user);
+                    }
 
                     // password does not match, but don't want to say that.
+                    // return dn(null, false);
                     throw new Error('Username or Passowrd is incorrect.');
                     // return yield User.matchUser(username, password);
                 }
@@ -157,6 +172,9 @@ module.exports = function(configDB)
                     return null;
                 }
             })(done);
+
+            console.log('outside done co');
+            // })(done);
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
             // req.mongo.collection('users').findOne(

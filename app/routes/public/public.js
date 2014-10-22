@@ -14,57 +14,37 @@ module.exports = function(public, secured)
             forgot: 'Forgot',
             language: 'Language'
         });
-        // yield this.render('main/login.jade',
-        // {
-        //     csrf: this.csrf,
-        //     title: req.locale.translate('login/title'),
-        //     email: req.locale.translate('login/email'),
-        //     password: req.locale.translate('login/password'),
-        //     forgot: req.locale.translate('login/forgot'),
-        //     language: req.locale.translate('login/language'),
-        //     message: req.flash('loginMessage')
-        // });
     });
 
-    public.post('/login',
-        passport.authenticate('local-login',
-        {
-            successRedirect: secured.url('root'),
-            failureRedirect: public.url('login')
-        })
-    );
+    public.post('/login', function*(next)
+    {
+        var ctx = this
 
-    // public.post('/login',function*(next){
-    //     console.log('setting request mongo object');
-    //     this.request.mongo = this.mongo; yield next;},
-    //     passport.authenticate('local-login',
-    //     {
-    //         successRedirect: secured.url('root'),
-    //         failureRedirect: public.url('login')
-    //     })
-    // );
+        yield passport.authenticate('local-login',
+            {
+                successRedirect: secured.url('root'),
+                failureRedirect: public.url('login')
+            }),
+            function*(err, user, info)
+            {
+                console.log(err);
+                console.log(user);
+                console.log(info);
+
+                if (err || !user)
+                    ctx.redirect(public.url('login'));
+
+                // req.session.localeString = ctx.request.user.locale;
+                // req.session.utcOffset = ctx.request.body['utc-offset'];
+
+                console.log('redirecting to root');
+                ctx.redirect(secured.url('root'));
+            }
+    });
 
     public.get('logout', '/logout', function*(next)
     {
         this.logout();
-        this.redirect(public.url('root'));
+        this.redirect(public.url('login'));
     });
-
-    // process the login form
-    // app.post('/login', passport.authenticate('local-login',
-    //     {
-    //         // successRedirect : '/profile', // redirect to the secure homepage
-    //         failureRedirect: '/login', // redirect back to the signup page if there is an error
-    //         failureFlash: true // allow flash messages
-    //     }),
-    //     function(req, res)
-    //     {
-    //
-    //         //set utc offset time on session
-    //         req.session.localeString = req.user.locale;
-    //         req.session.utcOffset = req.body['utc-offset'];
-    //
-    //         //res.redirect('/profile');
-    //         res.redirect('/');
-    //     });
 };
