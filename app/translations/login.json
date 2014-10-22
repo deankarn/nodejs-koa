@@ -26,7 +26,7 @@
 			"language": "Sélectionnez la langue"
 		}
 	},
-	"zh-Hans-CN":{
+	"zh":{
 		"login":{
 			"title": "登录",
 			"email": "电子邮件",

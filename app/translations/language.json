@@ -20,7 +20,7 @@
 			"setLangMsg": "Définir la langue"
 		}
 	},
-	"zh-Hans-CN":{
+	"zh":{
 		"language":{
 			"title": "语言",
 			"selectLangMsg": "选择语言",
