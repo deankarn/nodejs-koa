@@ -34,14 +34,65 @@ module.exports = function (Globalize, public)
 				}
 				else
 				{
-					console.log('setting default locale:en-GB');
+					// check for Accept-Language headerto try and determine locale
+					var languages = this.acceptsLanguages();
+					var languageDetermined = false;
 
-					this.localeString = 'en-GB';
-					this.locale = new Globalize(this.localeString);
-
-					if (!req.url.match(/^\/language(?:.+)?$/))
+					if (languages && languages.length > 0)
 					{
-						return this.redirect(public.url('language'));
+						for (i = 0, len = languages.length; i < len; i++)
+						{
+							var lang = languages[i].toLowerCase();
+
+							console.log('language:' + lang);
+
+							switch (lang)
+							{
+							case 'en':
+							case 'en-us':
+								this.localeString = 'en';
+								languageDetermined = true;
+								break;
+							case 'en-gb':
+							case 'en-ca':
+								this.localeString = 'en-GB';
+								languageDetermined = true;
+								break;
+							case 'fr-CA':
+							case 'fr-fr':
+							case 'fr':
+								this.localeString = 'fr';
+								languageDetermined = true;
+								break;
+							case 'zh-hant':
+							case 'zh':
+							case 'zh-hans-cn':
+								this.localeString = 'zh-Hant';
+								languageDetermined = true;
+								break;
+							}
+
+							if (languageDetermined)
+							{
+								console.log('language determined from Accept-Language header:' + this.localeString);
+
+								this.locale = new Globalize(this.localeString);
+								break;
+							}
+						}
+					}
+
+					if (!languageDetermined)
+					{
+						console.log('setting default locale:en-GB as language coult not be determined');
+
+						this.localeString = 'en-GB';
+						this.locale = new Globalize(this.localeString);
+
+						if (!req.url.match(/^\/language(?:.+)?$/))
+						{
+							return this.redirect(public.url('language'));
+						}
 					}
 				}
 			}
