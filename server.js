@@ -1,3 +1,5 @@
+// Force UTC DateTime to ensure dates are not parsed in the servers locale
+// we will do the converting to the users locale
 process.env.TZ = 'UTC';
 
 var
@@ -11,7 +13,8 @@ var
 	mongooseStore = require('koa-session-mongoose'),
 	passport = require('koa-passport'),
 	jade = require('koa-jade'),
-	fs = require('fs');
+	fs = require('fs'),
+	wrench = require('wrench');
 
 var env = process.env.NODE_ENV || 'development';
 var production = env == 'production' ? true : false;
@@ -50,9 +53,10 @@ Globalize.load(require(__dirname + '/cldr/supplemental/timeData.json'));
 Globalize.load(require(__dirname + '/cldr/supplemental/weekData.json'));
 
 // Load all translations in the /app/translations/ directory
+wrench.readdirRecursive(__dirname + '/app/translations', function (err, files){
 
-fs.readdir(__dirname + '/app/translations', function (err, files)
-{
+	if(!files) return;
+
 	files.forEach(function (fn)
 	{
 		if (!/\.json$/.test(fn)) return;
@@ -73,13 +77,13 @@ models.forEach(function (filename)
 	console.log("loading model:" + filename + '...');
 	require(__dirname + '/app/models/' + filename);
 });
+
 fs.readdir(__dirname + '/app/models', function (err, files)
 {
 	console.log('models');
 	// console.log(files);
 	files.forEach(function (filename)
 	{
-		console.log("model:" + filename);
 		if (!/\.js$/.test(filename)) return;
 		require(__dirname + '/app/models/' + filename);
 	});
@@ -174,7 +178,18 @@ var localeMidgard = require(__dirname + '/app/middleware/locale.js')(Globalize, 
 // this should be done, right before getting to any route, no sooner.
 app.use(localeMidgard);
 
-require(__dirname + '/app/routes/public/public.js')(public, secured);
+// require(__dirname + '/app/routes/public/public.js')(public, secured);
+wrench.readdirRecursive(__dirname + '/app/routes/public', function (err, files){
+
+	if(!files) return;
+
+	files.forEach(function (fn)
+	{
+		// console.log(fn);
+		if (!/\.js$/.test(fn)) return;
+		require(__dirname + '/app/routes/public/' + fn)(public, secured);
+	});
+});
 
 app.use(public.middleware())
 
@@ -192,14 +207,26 @@ app.use(function* ensureAuthenticated(next)
 	}
 });
 
-fs.readdir(__dirname + '/app/routes', function (err, files)
-{
+wrench.readdirRecursive(__dirname + '/app/routes/secured', function (err, files){
+
+	if(!files) return;
+
 	files.forEach(function (fn)
 	{
+		// console.log(fn);
 		if (!/\.js$/.test(fn)) return;
-		require(__dirname + '/app/routes/' + fn)(public, secured);
+		require(__dirname + '/app/routes/secured/' + fn)(public, secured);
 	});
 });
+
+// fs.readdir(__dirname + '/app/routes', function (err, files)
+// {
+// 	files.forEach(function (fn)
+// 	{
+// 		if (!/\.js$/.test(fn)) return;
+// 		require(__dirname + '/app/routes/' + fn)(public, secured);
+// 	});
+// });
 
 app.use(secured.middleware())
 

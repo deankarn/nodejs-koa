@@ -10,14 +10,14 @@ block content
 				input#utc-offset(type='hidden', name='utc-offset')
 			div.field
 				label= email
-				div.ui.left.labeled.icon.input
+				div.ui.left.icon.corner.labled.input
 					input(type='text', name='email', palceholder='Email', autofocus)
 					i.user.icon
 					div.ui.corner.label
 						i.icon.asterisk
 			div.field
 				label= password
-				div.ui.left.labeled.icon.input
+				div.ui.left.icon.corner.labled.input
 					input(type='password', name='password', paceholder='Password')
 					i.lock.icon
 					div.ui.corner.label
@@ -28,6 +28,7 @@ block content
 				tbody
 					tr
 						td
+
 							a.ui.basic.button(href='/password-recovery') #{forgot}
 						td
 							a.ui.basic.button(href='/language') #{language}

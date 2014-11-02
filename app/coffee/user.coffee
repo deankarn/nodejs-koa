@@ -1,7 +1,6 @@
-define ["main", "common.datetime"], (main, dt) ->
+define ["main"], (main) ->
 
-    initialize = () ->
-        setUtcOffsetTime()
+    initializeAdd = () ->
 
         rules = {
             email: {
@@ -21,20 +20,28 @@ define ["main", "common.datetime"], (main, dt) ->
                   prompt : 'Please enter your Password'
                 }
               ]
+            },
+            locale: {
+              identifier : 'locale',
+              rules: [
+                {
+                  type : 'empty',
+                  prompt : 'Please select a Language'
+                }
+              ]
             }
         }
 
-        $('#user-ct').find('form.ui.form').form(rules, {
+        ct = $('#user-ct')
+
+        ct.find('form.ui.form').form(rules, {
             inline : true,
             on : 'submit'
           } )
         true
 
-    setUtcOffsetTime = () ->
-        offset = dt.getUtcTimezoneOffsetInSeconds()
-        elem = document.getElementById('utc-offset')
-        elem.value = offset
+        ct.find('div.ui.selection.dropdown').dropdown();
 
     self = {
-        initialize: initialize
+        initializeAdd: initializeAdd
     }

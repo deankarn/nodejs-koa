@@ -6,13 +6,16 @@ block content
 			input(type='hidden', name='_csrf', value=csrf)
 			h1.ui.center.aligned.header #{selectLangMsg}
 			div.field
-				//label= selectLangMsg
 				select#select-lang(size=10)
 					each lang in languages
 						if lang.value == localeString
-							option(value=lang.value,selected='selected') #{lang.text}
+							option(value=lang.value,selected='selected')
+								i(class=lang.flag)
+								span #{lang.text}
 						else
-							option(value=lang.value) #{lang.text}
+							option(value=lang.value)
+								i(class=lang.flag)
+								span #{lang.text}
 
 			div#submit-lang.fluid.ui.blue.submit.button= setLangMsg
 
