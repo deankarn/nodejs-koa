@@ -44,21 +44,20 @@ var userSchema = mongoose.Schema({
 });
 
 userSchema.pre('save', function (done) {
+    
   // only hash the password if it has been modified (or is new)
-  // if (!this.isModified('password')) {
-  //   return done();
-  // }
-  //
-  // var salt = bcrypt.genSaltSync(10);
-  // var hash = bcrypt.hashSync(this.local.password, salt, null);
-  // this.password = hash;
-  // done();
+  if (!this.isModified('local.password')) {
+    return done();
+  }
 
   co(function*() {
     try {
-      var salt = bcrypt.genSaltSync(10);
-      var hash = bcrypt.hashSync(this.local.password, salt, null);
-      this.password = hash;
+      var salt = yield bcrypt.genSalt(10);
+      var hash = yield bcrypt.hash(this.local.password, salt, null);
+
+      console.log(hash);
+
+      this.local.password = hash;
       done();
     }
     catch (err) {

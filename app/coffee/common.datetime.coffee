@@ -1,4 +1,4 @@
-define ["common"], () ->
+define ["common"], (common) ->
 
     initialize = () ->
         # here for future stuff like gathering holidays for your region etc...

@@ -21,7 +21,8 @@
     "requirejs" : "latest",
     "less" : "latest",
     "coffee-script" : "latest",
-    "koa-router" : "latest"
+    "koa-router" : "latest",
+    "wrench" : "latest"
   },
     "devDependencies" : {
   }

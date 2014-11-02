@@ -2,7 +2,7 @@ module.exports = function(public, secured)
 {
     secured.get('root', '/', function* root(next)
     {
-        yield this.render('main/test',
+        yield this.render('root/test',
         {
             csrf: this.csrf,
             title: "Test Partial Content",

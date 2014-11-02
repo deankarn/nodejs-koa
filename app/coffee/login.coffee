@@ -1,5 +1,4 @@
 define ["main", "common.datetime"], (main, dt) ->
-
     initialize = () ->
         setUtcOffsetTime()
 
