@@ -2,3 +2,4 @@ node_modules/
 cldr/*
 
 !cldr/README
+!node_modules/app/*
