@@ -40,7 +40,6 @@ define ["main", "common"], (main, common) ->
             this.fieldsCount = this.fields.length
 
             # show first field
-            # classie.add( this.fields[ this.current ], 'fs-current' );
             common.addClass(this.fields[this.current], 'ff-current-field')
 
             # create/add controls
@@ -65,12 +64,13 @@ define ["main", "common"], (main, common) ->
             # navigation dots
             if this.options.ctrlNavDots
                 this.ctrlNav = common.createElement( 'nav', { cName : 'ff-nav-dots', appendTo : this.ctrls } )
-                dots = ''
 
                 for i in [0...this.fieldsCount] by 1
-                    dots += if i == this.current then '<button class="ff-dot-current"></button>' else '<button disabled></button > '
+                    if i == this.current
+                        common.createElement 'button', { cName : 'ff-dot-current', appendTo : this.ctrlNav}
+                    else
+                        common.createElement 'button', { disabled : true, appendTo : this.ctrlNav}
 
-                this.ctrlNav.innerHTML = dots;
                 this._showCtrl( this.ctrlNav ) ;
                 this.ctrlNavDots = [].slice.call( this.ctrlNav.children )
 

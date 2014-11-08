@@ -39,6 +39,7 @@ define [], () ->
         if( opt )
             el.className = opt.cName if opt.cName
             el.innerHTML = opt.inner if opt.inner
+            el.disabled = true if opt.disabled
             opt.appendTo.appendChild(el) if opt.appendTo
 
         el;
