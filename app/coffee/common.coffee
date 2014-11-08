@@ -33,11 +33,22 @@ define [], () ->
 
         true
 
+    createElement = (tag, opt) ->
+        el = document.createElement(tag)
+
+        if( opt )
+            el.className = opt.cName if opt.cName
+            el.innerHTML = opt.inner if opt.inner
+            opt.appendTo.appendChild(el) if opt.appendTo
+
+        el;
+
     self = {
         initialize: initialize,
         hasClass: hasClass,
         addClass: addClass,
         addClasses: addClasses,
         removeClass: removeClass,
-        getCookie: getCookie
+        getCookie: getCookie,
+        createElement: createElement
     };

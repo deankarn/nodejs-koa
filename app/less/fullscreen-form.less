@@ -1,0 +1,885 @@
+/* Main form wrapper */
+.ff-ct {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	color: #000;
+}
+
+// .overview .ff-ct {
+// 	height: auto;
+// }
+
+/* Title */
+.ff-title {
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 0;
+	padding: 40px;
+	width: 100%;
+}
+
+.ff-title h1 {
+	margin: 0;
+}
+
+/* Form */
+.ff-form {
+	position: relative;
+	text-align: left;
+	font-size: 2.5em;
+}
+
+// .no-js .ff-form {
+// 	padding: 0 0 6em 0;
+// }
+
+/* Views (fullscreen and overview)*/
+.ff-form {
+	top: 32%;
+	margin: 0 auto;
+	width: 70%;
+}
+
+.ff-form,
+.ff-message-error {
+	max-width: 960px;
+}
+
+// .ff-form-overview {
+// 	padding: 2.5em 30% 6em;
+// 	width: 100%;
+// 	height: 100%;
+// 	background: #fffed8;
+// 	color: #3b3f45;
+// 	font-size: 1.2em;
+// }
+//
+// .ff-form-overview .ff-field-list::before {
+// 	display: block;
+// 	margin-bottom: 2.5em;
+// 	color: #3b3f45;
+// 	content: 'Review & Submit';
+// 	font-weight: 700;
+// 	font-size: 1.85em;
+// }
+
+/* Switch view animation (we hide the current view, switch the view class and show it again) */
+.ff-form.ff-show {
+	-webkit-animation: animFadeIn 0.5s;
+	animation: animFadeIn 0.5s;
+}
+
+@-webkit-keyframes animFadeIn {
+	0% { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+@keyframes animFadeIn {
+	0% { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+.ff-form.ff-show .ff-field-list {
+	-webkit-animation: animMove 0.5s;
+	animation: animMove 0.5s;
+}
+
+@-webkit-keyframes animMove {
+	from { top: 100px; }
+}
+
+@keyframes animMove {
+	from { top: 100px; }
+} /* we need to use top here because otherwise all our fixed elements will become absolute */
+
+/* Visibility control of elements */
+.ff-form .ff-field-list > li,
+.ff-nav-dots,
+.ff-progress,
+.ff-numbers,
+button.ff-continue,
+.ff-message-error,
+.ff-message-final {
+	visibility: hidden;
+}
+
+// .no-js .ff-form .ff-field-list > li {
+// 	visibility: visible;
+// }
+
+.ff-show {
+	visibility: visible !important;
+}
+
+/* Some general styles */
+.ff-ct button {
+	border: none;
+	background: none;
+}
+
+.ff-ct button[disabled] {
+	opacity: 0.3;
+	pointer-events: none;
+}
+
+.ff-ct input:focus,
+.ff-ct button:focus {
+	outline: none;
+}
+
+/* Hide the submit button */
+.ff-form .ff-submit {
+	display: none!important;
+}
+
+/* Fields */
+.ff-field-list {
+	position: relative;
+	margin: 0 auto;
+	padding: 0;
+	top: 0;
+	list-style: none;
+}
+
+// .ff-form-overview ol {
+// 	max-width: ;
+// }
+
+.ff-field-list > li {
+	position: relative;
+	z-index: 1;
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+.ff-fieldlist > li:hover {
+	z-index: 999;
+}
+
+.ff-form .ff-field-list > li {
+	position: absolute;
+	width: 100%;
+}
+
+// .ff-form-overview .ff-field-list > li,
+// .no-js .ff-form .ff-field-list > li {
+// 	margin: 1em 0 2em;
+// 	padding: 0 0 2em 0;
+// 	border-bottom: 2px solid rgba(0,0,0,0.1);
+// }
+
+/* Labels & info */
+.ff-field-list > li label {
+	position: relative;
+}
+
+.ff-field-list > li label.ff-field-label {
+	display: inline-block;
+	padding: 0 5px 1em 0;
+	font-weight: 700;
+	pointer-events: none;
+}
+
+.ff-form .ff-field-list > li label[data-info]::after {
+	position: relative;
+	display: inline-block;
+	margin-left: 10px;
+	width: 24px;
+	height: 24px;
+	border: 2px solid rgba(0,0,0,0.4);
+	color: rgba(0,0,0,0.4);
+	border-radius: 50%;
+	content: 'i';
+	vertical-align: top;
+	text-align: center;
+	font-weight: 700;
+	font-style: italic;
+	font-size: 14px;
+	font-family: Georgia, serif;
+	line-height: 20px;
+	cursor: pointer;
+	pointer-events: auto;
+}
+
+.ff-form .ff-field-list > li label[data-info]::before {
+    position: absolute;
+    bottom: 100%;
+   	left: 0;
+    padding: 0 0 10px;
+    min-width: 200px;
+	content: attr(data-info);
+	font-size: 0.4em;
+	color: #6a7b7e;
+    opacity: 0;
+    -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+    transition: opacity 0.3s, transform 0.3s;
+    -webkit-transform: translate3d(0,-5px,0);
+    transform: translate3d(0,-5px,0);
+    pointer-events: none;
+}
+
+.ff-form .ff-field-list > li label[data-info]:hover::before {
+    opacity: 1;
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+}
+
+.ff-form .ff-field-list > li label:hover ~ .ff-info,
+.ff-form .ff-field-list > li .ff-info:hover {
+	opacity: 1;
+	-webkit-transform: translateY(0);
+	transform: translateY(0);
+	pointer-events: auto;
+}
+
+/* Inputs */
+.ff-field-list input {
+	display: block;
+	margin: 0;
+	padding: 0 0 0.15em;
+	width: 100%;
+	border: none;
+	border-bottom: 2px solid rgba(0,0,0,0.2);
+	background-color: transparent;
+	color: #fffed8;
+	text-overflow: ellipsis;
+	font-weight: bold;
+	font-size: 1.5em;
+	border-radius: 0;
+}
+
+.ff-field-list input:invalid {
+	box-shadow: none; /* removes red shadow in FF*/
+}
+
+// .ff-form-overview .ff-field-list input {
+// 	border-bottom-color: transparent;
+// 	color: rgba(0,0,0,0.5);
+// }
+
+.ff-field-list [required] {
+	background-image: url(../img/abacusstar.svg);
+	background-position: top right;
+	background-size: 18px;
+	background-repeat: no-repeat;
+}
+
+.ff-field-list input:focus {
+	background-color: #3b3f45; /* Fixes chrome bug with placeholder */
+}
+
+// .ff-form-overview .ff-field-list input:focus {
+// 	background-color: #fffed8; /* Fixes chrome bug with placeholder */
+// }
+
+// .ff-form-overview .ff-field-list input {
+// 	font-size: 1.2em;
+// }
+
+.ff-field-list .ff-radio-custom input[type="radio"] {
+	position: absolute;
+	display: block;
+	margin: 30px auto 20px;
+	margin: 0 auto 20px;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.ff-field-list > li .ff-radio-custom span {
+	float: left;
+	position: relative;
+	margin-right: 3%;
+	padding: 10px;
+	max-width: 200px;
+	width: 30%;
+	text-align: center;
+	font-weight: 700;
+	font-size: 50%;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.ff-field-list > li .ff-radio-custom span label {
+	color: rgba(0,0,0,0.4);
+	-webkit-transition: color 0.3s;
+	transition: color 0.3s;
+}
+
+// .ff-form-overview .ff-field-list > li .fs-radio-custom span {
+// 	max-width: 140px;
+// }
+//
+// .ff-form-overview .ff-field-list > li .fs-radio-custom span {
+// 	font-size: 75%;
+// }
+
+.ff-field-list > li .ff-radio-custom label {
+	display: block;
+	padding-top: 100%;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+}
+
+.ff-field-list .ff-radio-custom label::after {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 100%;
+	height: 100%;
+	background-position: 50% 0%;
+	background-size: 85%;
+	background-repeat: no-repeat;
+	content: '';
+	opacity: 0.5;
+	-webkit-transition: opacity 0.2s;
+	transition: opacity 0.2s;
+	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+}
+
+.ff-field-list .ff-radio-custom label.radio-mobile::after {
+	background-image: url(../img/mobile.svg);
+}
+
+.ff-field-list .ff-radio-custom label.radio-social::after {
+	background-image: url(../img/social.svg);
+}
+
+.ff-field-list .ff-radio-custom label.radio-conversion::after {
+	background-image: url(../img/conversion.svg);
+}
+
+.ff-field-list .ff-radio-custom label:hover::after,
+.ff-field-list input[type="radio"]:focus + label::after,
+.ff-field-list input[type="radio"]:checked + label::after {
+	opacity: 1;
+}
+
+.ff-field-list .ff-radio-custom input[type="radio"]:checked + label {
+	color: #fffed8;
+}
+
+// .ff-form-overview .ff-field-list .fs-radio-custom input[type="radio"]:checked + label {
+// 	color: rgba(0,0,0,0.8);
+// }
+
+.ff-field-list textarea {
+	padding: 0.25em;
+	width: 100%;
+	height: 200px;
+	border: 2px solid rgba(0,0,0,0.2);
+	background-color: transparent;
+	color: #fffed8;
+	font-weight: 700;
+	font-size: 0.85em;
+	resize: none;
+}
+
+// .ff-form-overview .ff-field-list textarea {
+// 	height: 100px;
+// 	color: rgba(0,0,0,0.5);
+// }
+
+.ff-field-list textarea:focus {
+	outline: none;
+}
+
+// .ff-form-overview .ff-field-list textarea {
+// 	padding: 0;
+// 	border-color: transparent;
+// }
+
+// .ff-form-overview .ff-field-list textarea:focus {
+// 	background: #fffed8;
+// }
+
+.ff-form div.cs-select.cs-skin-boxes {
+	display: block;
+}
+
+// .ff-form-overview .cs-skin-boxes > span {
+// 	border-radius: 5px;
+// 	width: 90px;
+// 	height: 70px;
+// 	font-size: 0.8em;
+// }
+//
+// .ff-form-overview .cs-skin-boxes > span::before {
+// 	padding-top: 50px;
+// 	box-shadow: 0 20px 0 #292c30, inset 0 -5px #292c30;
+// }
+
+.ff-field-list input.ff-mark {
+	padding-left: 1em;
+	background-image: url(../img/dollar.svg);
+	background-position: 0% 0.15em;
+	background-size: auto 75%;
+	background-repeat: no-repeat;
+}
+
+.ff-field-list input.ff-mark[required] {
+	background-image: url(../img/dollar.svg), url(../img/abacusstar.svg);
+	background-position: 0% 0.15em, top right;
+	background-size: auto 75%, 18px;
+	background-repeat: no-repeat;
+}
+
+/* placeholder */
+.ff-field-list input::-webkit-input-placeholder,
+.ff-field-list textarea::-webkit-input-placeholder {
+	color: rgba(0,0,0,0.1);
+}
+
+.ff-field-list input:-moz-placeholder,
+.ff-field-list textarea:-moz-placeholder {
+	color: rgba(0,0,0,0.1);
+}
+
+.ff-field-list input::-moz-placeholder,
+.ff-field-list textarea::-moz-placeholder {
+	color: rgba(0,0,0,0.1);
+}
+
+.ff-field-list input:-ms-input-placeholder,
+.ff-field-list textarea:-ms-input-placeholder {
+	color: rgba(0,0,0,0.1);
+}
+
+/* Hide placeholder when focused in Webkit browsers */
+.ff-field-list input:focus::-webkit-input-placeholder {
+	color: transparent;
+}
+
+/* Dot navigation */
+.ff-nav-dots {
+	position: absolute;
+	top: 50%;
+	right: 60px;
+	left: auto;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+.ff-nav-dots button {
+	position: relative;
+	display: block;
+	padding: 0;
+	margin: 16px 0;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: transparent;
+	-webkit-transition: -webkit-transform 0.3s ease, opacity 0.3s ease;
+	transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.ff-nav-dots button::before,
+.ff-nav-dots button::after {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	background-color: rgba(0,0,0,0.5);
+	content: '';
+	text-indent: 0;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.ff-nav-dots button::after {
+	background-color: rgba(0,0,0,0.4);
+	-webkit-transform: perspective(1000px) rotate3d(0,1,0,180deg);
+	transform: perspective(1000px) rotate3d(0,1,0,180deg);
+}
+
+.ff-nav-dots button.ff-dot-current {
+	-webkit-transform: perspective(1000px) rotate3d(0,1,0,180deg);
+	transform: perspective(1000px) rotate3d(0,1,0,180deg);
+}
+
+.ff-nav-dots button:hover::before,
+.ff-nav-dots button.ff-dot-current::before {
+	background: #fffed8;
+}
+
+/* Progress bar */
+.ff-progress {
+	position: absolute;
+	top: 0;
+	width: 0%;
+	height: 0.5em;
+	background: #fffed8;
+	-webkit-transition: width 0.3s ease-in-out;
+	transition: width 0.3s ease-in-out;
+}
+
+/* Number indicator */
+.ff-numbers {
+	position: absolute;
+	top: 0;
+	right: 0;
+	overflow: hidden;
+	color: rgba(0,0,0,0.4);
+	margin: 40px;
+	width: 2em;
+	font-weight: 700;
+	font-size: 2em;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	cursor: default;
+}
+
+.ff-numbers:after {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	content: '/';
+	font-weight: 300;
+	opacity: 0.4;
+	left: 0;
+}
+
+.ff-numbers span {
+	float: right;
+	width: 40%;
+	text-align: center;
+}
+
+.ff-numbers .ff-number-current {
+	float: left;
+}
+
+.ff-numbers .ff-number-new {
+	position: absolute;
+	left: 0;
+	-webkit-transform: translateY(100%);
+	transform: translateY(100%);
+}
+
+/* Animations for numbers */
+/* Show next number */
+.ff-numbers.ff-show-next .ff-number-new {
+	-webkit-animation: animMoveUpFromDown 0.4s both;
+	animation: animMoveUpFromDown 0.4s both;
+}
+
+@-webkit-keyframes animMoveUpFromDown {
+	from { -webkit-transform: translateY(100%); }
+	to { -webkit-transform: translateY(0); }
+}
+
+@keyframes animMoveUpFromDown {
+	from { -webkit-transform: translateY(100%); transform: translateY(100%); }
+	to { -webkit-transform: translateY(0); transform: translateY(0); }
+}
+
+.ff-numbers.ff-show-next .ff-number-current {
+	-webkit-animation: animMoveUp 0.4s both;
+	animation: animMoveUp 0.4s both;
+}
+
+@-webkit-keyframes animMoveUp {
+	to { -webkit-transform: translateY(-100%); }
+}
+
+@keyframes animMoveUp {
+	to { -webkit-transform: translateY(-100%); transform: translateY(-100%); }
+}
+
+/* Show previous number */
+.ff-numbers.ff-show-prev .ff-number-new {
+	-webkit-animation: animMoveDownFromUp 0.4s both;
+	animation: animMoveDownFromUp 0.4s both;
+}
+
+@-webkit-keyframes animMoveDownFromUp {
+	from { -webkit-transform: translateY(-100%); }
+	to { -webkit-transform: translateY(0); }
+}
+
+@keyframes animMoveDownFromUp {
+	from { -webkit-transform: translateY(-100%); transform: translateY(-100%); }
+	to { -webkit-transform: translateY(0); transform: translateY(0); }
+}
+
+.ff-numbers.ff-show-prev .ff-number-current {
+	-webkit-animation: animMoveDown 0.4s both;
+	animation: animMoveDown 0.4s both;
+}
+
+@-webkit-keyframes animMoveDown {
+	to { -webkit-transform: translateY(100%); }
+}
+
+@keyframes animMoveDown {
+	to { -webkit-transform: translateY(100%); transform: translateY(100%); }
+}
+
+/* Continue button and submit button */
+button.ff-submit,
+button.ff-continue {
+	padding: 0.6em 1.5em;
+	border: 3px solid #232529;
+	border-radius: 40px;
+	font-weight: 700;
+	color: rgba(0,0,0,0.4);
+}
+
+// .ff-form-overview .ff-submit,
+// .no-js .ff-form .ff-submit  {
+// 	display: block;
+// 	float: right;
+// }
+
+// .ff-form-overview .ff-submit {
+// 	border-color: #232529;
+// 	color: #232529;
+// }
+
+button.ff-continue {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	margin: 0 40px 60px 0;
+	font-size: 1.25em;
+}
+
+button.ff-submit:hover,
+button.ff-submit:focus,
+button.ff-continue:hover {
+	background: #232529;
+	color: #fff;
+}
+
+.ff-continue::after {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	line-height: 3;
+	text-align: center;
+	background: transparent;
+	color: rgba(0,0,0,0.3);
+	content: 'or press ENTER';
+	font-size: 0.65em;
+	pointer-events: none;
+}
+
+/* Error message */
+.ff-message-error {
+	position: absolute;
+	bottom: 75%;
+	left: 50%;
+	z-index: 800;
+	max-width: 960px;
+	width: 70%;
+	color: #eb7e7f;
+	font-weight: 700;
+	font-size: 1em;
+	opacity: 0;
+	-webkit-transform: translate3d(-50%,-5px,0);
+	transform: translate3d(-50%,-5px,0);
+}
+
+.ff-message-error.ff-show {
+	opacity: 1;
+	-webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+	transition: transform 0.3s, opacity 0.3s;
+	-webkit-transform: translate3d(-50%,0,0);
+	transform: translate3d(-50%,0,0);
+}
+
+/* Animation classes & animations */
+.ff-form li.ff-current-field {
+	visibility: visible;
+}
+
+.ff-form li.ff-hide,
+.ff-form li.ff-show {
+	pointer-events: none;
+}
+
+/* Hide current li when navigating to next question */
+.ff-form .ff-display-next .ff-hide {
+	visibility: visible;
+}
+
+.ff-form .ff-display-next .ff-hide .ff-anim-lower,
+.ff-form .ff-display-next .ff-hide .ff-anim-upper {
+	-webkit-animation: animHideNext 0.5s cubic-bezier(0.7,0,0.3,1) forwards;
+	animation: animHideNext 0.5s cubic-bezier(0.7,0,0.3,1) forwards;
+}
+
+.ff-form .ff-display-next .ff-hide .ff-anim-lower {
+	-webkit-animation-delay: 0.1s;
+	animation-delay: 0.1s;
+}
+
+@-webkit-keyframes animHideNext {
+	to { opacity: 0; -webkit-transform: translate3d(0,-500px,0); }
+}
+
+@keyframes animHideNext {
+	to { opacity: 0; -webkit-transform: translate3d(0,-500px,0); transform: translate3d(0,-500px,0); }
+}
+
+/* Show new li when navigating to next question */
+.ff-form .ff-display-next .ff-show .ff-anim-lower,
+.ff-form .ff-display-next .ff-show .ff-anim-upper {
+	-webkit-animation: animShowNext 0.5s cubic-bezier(0.7,0,0.3,1) both 0.15s;
+	animation: animShowNext 0.5s cubic-bezier(0.7,0,0.3,1) both 0.15s;
+}
+
+.ff-form .ff-display-next .ff-show .ff-anim-lower {
+	-webkit-animation-delay: 0.25s;
+	animation-delay: 0.25s;
+}
+
+@-webkit-keyframes animShowNext {
+	from { opacity: 0; -webkit-transform: translate3d(0,500px,0); }
+}
+
+@keyframes animShowNext {
+	from { opacity: 0; -webkit-transform: translate3d(0,500px,0); transform: translate3d(0,500px,0); }
+}
+
+/* Hide current li when navigating to previous question */
+.ff-form .ff-display-prev .ff-hide {
+	visibility: visible;
+}
+
+.ff-form .ff-display-prev .ff-hide .ff-anim-lower,
+.ff-form .ff-display-prev .ff-hide .ff-anim-upper {
+	-webkit-animation: animHidePrev 0.5s cubic-bezier(0.7,0,0.3,1) forwards;
+	animation: animHidePrev 0.5s cubic-bezier(0.7,0,0.3,1) forwards;
+}
+
+.ff-form .ff-display-prev .ff-hide .ff-anim-upper {
+	-webkit-animation-delay: 0.1s;
+	animation-delay: 0.1s;
+}
+
+@-webkit-keyframes animHidePrev {
+	to { opacity: 0; -webkit-transform: translate3d(0,500px,0); }
+}
+
+@keyframes animHidePrev {
+	to { opacity: 0; -webkit-transform: translate3d(0,500px,0); transform: translate3d(0,500px,0); }
+}
+
+/* Show new li when navigating to previous question */
+.ff-form .ff-display-prev .ff-show .ff-anim-lower,
+.ff-form .ff-display-prev .ff-show .ff-anim-upper {
+	-webkit-animation: animShowPrev 0.5s cubic-bezier(0.7,0,0.3,1) both 0.15s;
+	animation: animShowPrev 0.5s cubic-bezier(0.7,0,0.3,1) both 0.15s;
+}
+
+.ff-form .ff-display-prev .ff-show .ff-anim-upper {
+	-webkit-animation-delay: 0.25s;
+	animation-delay: 0.25s;
+}
+
+@-webkit-keyframes animShowPrev {
+	from { opacity: 0; -webkit-transform: translate3d(0,-500px,0); }
+}
+
+@keyframes animShowPrev {
+	from { opacity: 0; -webkit-transform: translate3d(0,-500px,0); transform: translate3d(0,-500px,0); }
+}
+
+/* Remove IE clear cross */
+input[type=text]::-ms-clear {
+    display: none;
+}
+
+/* Adjust form for smaller screens */
+@media screen and (max-width: 52.5em) {
+	body {
+		min-height: 500px;
+	}
+
+	.ff-ct {
+		font-size: 70%;
+	}
+
+	.ff-form {
+		top: 6em;
+		right: 2em;
+		left: 0;
+		padding: 0 3.75em 0 1em;
+		width: auto;
+		font-size: 2em;
+	}
+
+	// .ff-form.ff-form-overview {
+	// 	top: 0;
+	// 	right: 0;
+	// 	padding: 1.5em 1em 8em 1em;
+	// 	font-size: 1.5em;
+	// }
+
+	.ff-title {
+		padding: 20px;
+	}
+
+	.ff-numbers {
+		margin: 20px;
+	}
+
+	.ff-nav-dots {
+		right: 25px;
+	}
+
+	button.ff-continue {
+		right: 20px;
+		bottom: 20px;
+		margin: 0;
+		padding: 50px 0 0 50px;
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		font-size: 2em;
+	}
+
+	button.ff-continue::before {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		content: '\27A1';
+		text-align: center;
+		font-size: 1em;
+		line-height: 50px;
+	}
+
+	.ff-continue::after {
+		content: '';
+	}
+
+	button.ff-submit {
+		width: 100%;
+		font-size: 1.25em;
+	}
+
+	.ff-message-error {
+		bottom: 1.75em;
+		left: 0;
+		padding: 0 90px 0 2em;
+		width: 100%;
+		font-size: 1.5em;
+		-webkit-transform: translate3d(0,-5px,0);
+		transform: translate3d(0,-5px,0);
+	}
+
+	.ff-message-error.ff-show {
+		-webkit-transform: translate3d(0,0,0);
+		transform: translate3d(0,0,0);
+	}
+}
