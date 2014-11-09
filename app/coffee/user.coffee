@@ -43,7 +43,7 @@ define ["main", "fullscreen-form"], (main, FullscreenForm) ->
         #   } )
         # true
 
-        ct.find('form.ui.form').form()
+        # ct.find('form.ui.form').form()
         ct.find('div.ui.selection.dropdown').dropdown();
 
         new FullscreenForm( ct[0], {})

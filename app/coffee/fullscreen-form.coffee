@@ -14,12 +14,14 @@ define ["main", "common"], (main, common) ->
 
         options:
             # show progress bar
-            ctrlProgress : true,
+            ctrlNavProgress : true,
             # show navigation dots
             ctrlNavDots : true,
             # show [current field]/[total fields] status
-            ctrlNavPosition : true,
+            ctrlNavNumbers : true,
             # reached the review and submit step
+            #pass in onsubmit function
+            #pass in validation array with name : function name = id or name of field
             # onReview : () ->
             #     false
 
@@ -31,7 +33,8 @@ define ["main", "common"], (main, common) ->
             this.fieldsList = this.formEl.querySelector( 'ol.ff-field-list' )
 
             # current field position
-            this.current = 0
+            # this.current = 0
+            this.currentIdx = 0
 
             # all fields
             this.fields = [].slice.call( this.fieldsList.children )
@@ -39,14 +42,12 @@ define ["main", "common"], (main, common) ->
             # total fields
             this.fieldsCount = this.fields.length
 
+            this.currentField = this.fields[this.currentIdx]
             # show first field
-            common.addClass(this.fields[this.current], 'ff-current-field')
+            common.addClass(this.currentField, 'ff-current-field')
 
             # create/add controls
             this._registerControls()
-
-            # create/add messages
-            this._addErrorMsg()
 
             # init events
             this._initEvents()
@@ -59,38 +60,39 @@ define ["main", "common"], (main, common) ->
 
             # continue button (jump to next field)
             this.ctrlContinue = common.createElement( 'button', { cName : 'ff-continue', inner : 'Continue', appendTo : this.ctrls } )
-            this._showCtrl( this.ctrlContinue )
+            this._showCtrl this.ctrlContinue
 
             # navigation dots
             if this.options.ctrlNavDots
                 this.ctrlNav = common.createElement( 'nav', { cName : 'ff-nav-dots', appendTo : this.ctrls } )
 
                 for i in [0...this.fieldsCount] by 1
-                    if i == this.current
-                        common.createElement 'button', { cName : 'ff-dot-current', appendTo : this.ctrlNav}
+                    if i == this.currentIdx
+                        this.currentNavDot = common.createElement 'button', { cName : 'ff-dot-current', appendTo : this.ctrlNav}
                     else
                         common.createElement 'button', { disabled : true, appendTo : this.ctrlNav}
 
-                this._showCtrl( this.ctrlNav ) ;
+                this._showCtrl this.ctrlNav
                 this.ctrlNavDots = [].slice.call( this.ctrlNav.children )
 
             # field number status
-            if this.options.ctrlNavPosition
-                this.ctrlFldStatus = common.createElement( 'span', { cName : 'ff-numbers', appendTo : this.ctrls } )
+            if this.options.ctrlNavNumbers
+                this.ctrlNavNumberCt = common.createElement( 'span', { cName : 'ff-numbers', appendTo : this.ctrls } )
 
                 # current field placeholder
-                this.ctrlFldStatusCurr = common.createElement( 'span', { cName : 'ff-number-current', inner : Number( this.current + 1 ) } )
-                this.ctrlFldStatus.appendChild( this.ctrlFldStatusCurr ) ;
+                this.currentNavNumber = common.createElement( 'span', { cName : 'ff-number-current', inner : Number( this.currentIdx + 1 ), appendTo : this.ctrlNavNumberCt } )
 
                 # total fields placeholder
-                this.ctrlFldStatusTotal = common.createElement( 'span', { cName : 'ff-number-total', inner : this.fieldsCount } )
-                this.ctrlFldStatus.appendChild( this.ctrlFldStatusTotal )
-                this._showCtrl( this.ctrlFldStatus )
+                this.totalNavNumber = common.createElement( 'span', { cName : 'ff-number-total', inner : this.fieldsCount, appendTo : this.ctrlNavNumberCt } )
+
+                this._showCtrl( this.ctrlNavNumberCt )
 
             # progress bar
-            if this.options.ctrlProgress
+            if this.options.ctrlNavProgress
                 this.ctrlProgress = common.createElement( 'div', { cName : 'ff-progress', appendTo : this.ctrls } )
                 this._showCtrl( this.ctrlProgress )
+
+            this.msgError = common.createElement( 'span', { cName : 'ff-message-error', appendTo : this.el } )
 
             true
 
@@ -100,11 +102,6 @@ define ["main", "common"], (main, common) ->
 
         _hideCtrl: (ctrl) ->
             common.removeClass( ctrl, 'ff-show')
-            true
-
-        _addErrorMsg: () ->
-            # error message
-            this.msgError = common.createElement( 'span', { cName : 'ff-message-error', appendTo : this.el } )
             true
 
         _initEvents: () ->
@@ -122,22 +119,7 @@ define ["main", "common"], (main, common) ->
                         true
                     true
 
-                # for dot, i in this.ctrlNavDots
-                #     dot.addEventListener 'click', (e) ->
-                #         #i value here is incorrect!!!
-                #         console.log i
-                #         self._showField i
-                #         true
-                        # true
-
-            #             this.ctrlNavDots.forEach( function( dot, pos ) {
-			# 	dot.addEventListener( 'click', function() {
-			# 		self._showField( pos );
-			# 	} );
-			# } );
-
             # Unsure if we really want this, or make them hit next?
-
 
             # jump to next field without clicking the continue button (for fields/list items with the attribute "data-input-trigger")
             # this.fields.forEach( function( fld ) {
@@ -181,88 +163,68 @@ define ["main", "common"], (main, common) ->
 
             true
 
-        _nextField: (backto) ->
+        _nextField: (pos) ->
 
-            # console.log backto
+            if this.isBusy
+                return
 
-            this.isLastStep = if this.current == this.fieldsCount - 1 and backto == undefined then true else false
+            this.isBusy = true
+            this.nextIdx = pos
+            this.isMovingBack = this.nextIdx != undefined
+            this.isLastStep = if this.currentIdx == this.fieldsCount - 1 and not this.isMovingBack then true else false
 
-            # console.log this.isLastStep
-            # console.log this.isAnimating
-            # console.log not this._validate()
+            if this.nextIdx == undefined
+                this.nextIdx = this.currentIdx + 1
 
-            if this.isLastStep or this.isAnimating or not this._validate()
-                return false
-
-            this.isAnimating = true
-
-            # this.isLastStep = if this.current == this.fieldsCount - 1 and backto == undefined then true else false
-
-            # console.log this.isLastStep
-
-            # clear any previous error messages
             this._clearError()
+            #VALIDATE FIELD HERE IF NOT VALID...LEAVE
 
-            # current field
-            currentFld = this.fields[ this.current ]
+            if this.isLastStep
+                # show the complete form and hide the controls
+                this._hideCtrl this.ctrlNav
+                this._hideCtrl this.ctrlProgress
+                this._hideCtrl this.ctrlContinue
+                this._hideCtrl this.ctrlNavNumberCt
+                common.removeClass this.currentField, 'ff-current-field'
+                #change to continue button to finish
+                # self.options.onReview
 
-            # save the navigation direction
-            this.navdir = if not (backto == undefined) then (if backto < this.current then 'prev' else 'next') else 'next'
+                alert "Ready to Validate..."
+                alert "Ready To Fire Submit function"
+                # self.isLastStep = false
+                # self._nextField 2
+                true
+            else
+                common.removeClass this.currentField, 'ff-current-field'
 
-            # update current field
-            this.current = if not (backto == undefined) then backto else this.current + 1
-            this.farthest = this.current
-            # if backto == undefined
-            #     # update progress bar (unless we navigate backwards)
-            #     # this._progress()
-            #
-            #     # save farthest position so far
-            #     this.farthest = this.current
+                this.nextField = this.fields[this.nextIdx]
+                this.nextNavDot = this.ctrlNavDots[this.nextIdx]
 
-            # add class "fs-display-next" or "fs-display-prev" to the list of fields
-            common.addClass this.fieldsList, "ff-display-#{this.navdir}"
-
-            # remove class "ff-current-field" from current field and add it to the next one
-            # also add class "ff-show" to the next field and the class "ff-hide" to the current one
-            common.removeClass currentFld, 'ff-current-field'
-            common.addClass currentFld, 'ff-hide'
-
-            if not this.isLastStep
-                # update nav
                 this._updateNav()
-
-                # change the current field number/status
                 this._updateFieldNumber()
                 this._progress()
-                nextField = this.fields[ this.current ]
-                common.addClass nextField, 'ff-current-field'
-                common.addClass nextField, 'ff-show'
 
-            # after animation ends remove added classes from fields
-            self = this
-            onEndAnimationFn = ()->
-                common.removeClass self.fieldsList, "ff-display-#{self.navdir}"
-                common.removeClass currentFld, 'ff-hide'
+                common.addClass this.nextField, 'ff-current-field'
+                common.addClass this.nextField, 'ff-show'
 
-                if self.isLastStep
-                    # show the complete form and hide the controls
-                    self._hideCtrl self.ctrlNav
-                    self._hideCtrl self.ctrlProgress
-                    self._hideCtrl self.ctrlContinue
-                    self._hideCtrl self.ctrlFldStatus
-                    #change to continue button to finish
-                    # self.options.onReview
-                else
-                    common.removeClass nextField, 'ff-show'
+                self = this
+                onEndAnimationFn = ()->
+                    common.removeClass self.nextField, 'ff-show'
 
-                    if self.options.ctrlNavPosition
-                        self.ctrlFldStatusCurr.innerHTML = self.ctrlFldStatusNew.innerHTML
-                        self.ctrlFldStatus.removeChild self.ctrlFldStatusNew
-                        common.removeClass self.ctrlFldStatus, "ff-show-#{self.navdir}"
+                    if self.options.ctrlNavNumbers
+                        self.currentNavNumber.innerHTML = self.nextNavNumber.innerHTML
+                        self.ctrlNavNumberCt.removeChild self.nextNavNumber
+                        # common.removeClass self.ctrlFldStatus, "ff-show-#{self.navdir}"
 
-                self.isAnimating = false
+                    self.currentIdx = self.nextIdx
+                    self.currentField = self.nextField
+                    self.currentNavDot = self.nextNavDot
+
+                    self.isBusy = false
+                    true
+
+                onEndAnimationFn()
                 true
-            onEndAnimationFn()
             true
 
         _showField: (pos)->
@@ -272,14 +234,17 @@ define ["main", "common"], (main, common) ->
             true
 
         _updateFieldNumber: ()->
-            if this.options.ctrlNavPosition
+            if this.options.ctrlNavNumbers
                 # first, create next field number placeholder
-                this.ctrlFldStatusNew = document.createElement 'span'
-                this.ctrlFldStatusNew.className = 'fs-number-new'
-                this.ctrlFldStatusNew.innerHTML = Number this.current + 1
+
+                # this.nextNavNumber = common.createElement( 'span', { cName : 'fs-number-new', inner: Number this.nextIdx, appendTo : this.ctrlNavNumberCt } )
+
+                this.nextNavNumber = document.createElement 'span'
+                this.nextNavNumber.className = 'fs-number-new'
+                this.nextNavNumber.innerHTML = Number this.nextIdx + 1
 
                 # insert it in the DOM
-                this.ctrlFldStatus.appendChild this.ctrlFldStatusNew
+                this.ctrlNavNumberCt.appendChild this.nextNavNumber
                 # this._progress()
                 # add class "ff-show-next" or "ff-show-prev" depending on the navigation direction
                 # self = this;
@@ -289,19 +254,19 @@ define ["main", "common"], (main, common) ->
             true
 
         _progress: ()->
-            if this.options.ctrlProgress
-                this.ctrlProgress.style.width = this.current * ( 100 / this.fieldsCount ) + '%'
+            if this.options.ctrlNavProgress
+                this.ctrlProgress.style.width = this.nextIdx * ( 100 / this.fieldsCount ) + '%'
             true
 
         _updateNav: ()->
             if this.options.ctrlNavDots
-                common.removeClass this.ctrlNav.querySelector('button.ff-dot-current'), 'ff-dot-current'
-                common.addClass this.ctrlNavDots[ this.current ], 'ff-dot-current'
-                this.ctrlNavDots[ this.current ].disabled = false
-                for i in [this.fieldsCount - 1...this.current] by -1
-                    this.ctrlNavDots[ i ].disabled = true
+                common.removeClass this.currentNavDot, 'ff-dot-current'
+                common.addClass this.nextNavDot, 'ff-dot-current'
+                this.nextNavDot.disabled = false
 
-
+                if this.isMovingBack
+                    for i in [this.fieldsCount - 1...this.nextIdx] by -1
+                        this.ctrlNavDots[i].disabled = true
             true
 
         _showCtrl: (ctrl)->
