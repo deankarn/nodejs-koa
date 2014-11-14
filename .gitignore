@@ -1,5 +1,8 @@
 
+cldr/*
 
+!cldr/README
+!node_modules/app/*
 
 
 # Numerous always-ignore extensions
@@ -28,8 +31,8 @@ nbproject
 .idea
 
 # Folders to ignore
+# node module install directory
 node_modules/
-cldr/*
 
-!cldr/README
-!node_modules/app/*
+# Database Connection
+/app/config/database.js
