@@ -28,7 +28,7 @@ var lessCompiler = require(__dirname + '/app/config/less-compiler.js')(
 	// paths:[__dirname + '/app/less'], // defaults to basedir if not specified
 	files: ['style.less'],
 	recompileOnChange: !production,
-	compress: !production
+	compress: production
 });
 
 var requirejsCompiler = require(__dirname + '/app/config/requirejs-compiler.js')(
