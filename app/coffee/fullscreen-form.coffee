@@ -2,6 +2,11 @@ define ["main", "common"], (main, common) ->
 
     class FullscreenForm
 
+        'use strict';
+
+        animEndEventName = common.animationEndEventName()
+        support = { animations : if animEndEventName == null then false else true }
+
         constructor: (@el, options) ->
             this.extend(this.options, options)
             this._init()
@@ -60,20 +65,24 @@ define ["main", "common"], (main, common) ->
 
             # continue button (jump to next field)
             this.ctrlContinue = common.createElement( 'button', { cName : 'ff-continue', inner : 'Continue', appendTo : this.ctrls } )
+            this.ctrlContinue.setAttribute('data-subtext', 'or press ENTER');
             this._showCtrl this.ctrlContinue
 
             # navigation dots
             if this.options.ctrlNavDots
                 this.ctrlNav = common.createElement( 'nav', { cName : 'ff-nav-dots', appendTo : this.ctrls } )
-
+                dots = ''
                 for i in [0...this.fieldsCount] by 1
-                    if i == this.currentIdx
-                        this.currentNavDot = common.createElement 'button', { cName : 'ff-dot-current', appendTo : this.ctrlNav}
-                    else
-                        common.createElement 'button', { disabled : true, appendTo : this.ctrlNav}
+                    dots += if i == this.currentIdx then '<button class="ff-dot-current"></button>' else '<button disabled></button>'
+                    # if i == this.currentIdx
+                    #     this.currentNavDot = common.createElement 'button', { cName : 'ff-dot-current', appendTo : this.ctrlNav}
+                    # else
+                    #     common.createElement 'button', { disabled : true, appendTo : this.ctrlNav}
 
+                this.ctrlNav.innerHTML = dots
                 this._showCtrl this.ctrlNav
                 this.ctrlNavDots = [].slice.call( this.ctrlNav.children )
+                this.currentNavDot = this.ctrlNavDots[0]
 
             # field number status
             if this.options.ctrlNavNumbers
@@ -165,10 +174,10 @@ define ["main", "common"], (main, common) ->
 
         _nextField: (pos) ->
 
-            if this.isBusy
+            if this.isBusy || this.isAnimating
                 return
 
-            this.isBusy = true
+            this.isBusy = this.isAnimating = true
             this.nextIdx = pos
             this.isMovingBack = this.nextIdx != undefined
             this.isLastStep = if this.currentIdx == this.fieldsCount - 1 and not this.isMovingBack then true else false
@@ -196,6 +205,7 @@ define ["main", "common"], (main, common) ->
                 true
             else
                 common.removeClass this.currentField, 'ff-current-field'
+                common.addClass this.currentField, 'ff-hide'
 
                 this.nextField = this.fields[this.nextIdx]
                 this.nextNavDot = this.ctrlNavDots[this.nextIdx]
@@ -204,26 +214,44 @@ define ["main", "common"], (main, common) ->
                 this._updateFieldNumber()
                 this._progress()
 
-                common.addClass this.nextField, 'ff-current-field'
-                common.addClass this.nextField, 'ff-show'
+                common.addClasses this.nextField, [ 'ff-current-field', 'ff-show']
+
+                if this.isMovingBack
+                    common.addClass this.el, 'ff-show-prev'
+                else
+                    common.addClass this.el, 'ff-show-next'
 
                 self = this
-                onEndAnimationFn = ()->
+                onEndAnimationFn = (e)->
+                    console.log 'end animation'
+                    if support.animations
+                        this.removeEventListener animEndEventName, onEndAnimationFn
+
+                    common.removeClass self.currentField, 'ff-hide'
                     common.removeClass self.nextField, 'ff-show'
+
+                    if self.isMovingBack
+                        common.removeClass self.el, 'ff-show-prev'
+                    else
+                        common.removeClass self.el, 'ff-show-next'
 
                     if self.options.ctrlNavNumbers
                         self.currentNavNumber.innerHTML = self.nextNavNumber.innerHTML
                         self.ctrlNavNumberCt.removeChild self.nextNavNumber
-                        # common.removeClass self.ctrlFldStatus, "ff-show-#{self.navdir}"
 
                     self.currentIdx = self.nextIdx
                     self.currentField = self.nextField
                     self.currentNavDot = self.nextNavDot
 
-                    self.isBusy = false
+                    self.isBusy = self.isAnimating = false
                     true
 
-                onEndAnimationFn()
+                console.log animEndEventName
+                if support.animations
+                    this.nextField.addEventListener animEndEventName, onEndAnimationFn
+                else
+                    onEndAnimationFn()
+
                 true
             true
 
@@ -235,22 +263,13 @@ define ["main", "common"], (main, common) ->
 
         _updateFieldNumber: ()->
             if this.options.ctrlNavNumbers
-                # first, create next field number placeholder
-
-                # this.nextNavNumber = common.createElement( 'span', { cName : 'fs-number-new', inner: Number this.nextIdx, appendTo : this.ctrlNavNumberCt } )
 
                 this.nextNavNumber = document.createElement 'span'
-                this.nextNavNumber.className = 'fs-number-new'
+                this.nextNavNumber.className = 'ff-number-new'
                 this.nextNavNumber.innerHTML = Number this.nextIdx + 1
 
                 # insert it in the DOM
                 this.ctrlNavNumberCt.appendChild this.nextNavNumber
-                # this._progress()
-                # add class "ff-show-next" or "ff-show-prev" depending on the navigation direction
-                # self = this;
-                # setTimeout( ()->
-                #     common.addClass self.ctrlFldStatus, if self.navdir == 'next' then 'ff-show-next' else 'ff-show-prev'
-                # 25)
             true
 
         _progress: ()->

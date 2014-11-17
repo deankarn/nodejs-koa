@@ -10,24 +10,20 @@ block content
                 li
                     div.field
                         label.ff-field-label(data-info="We won't send you spam, we promise...") #{email}
-                        div.ui.left.icon.corner.labeled.input
-                            input(type='text', name='email', palceholder='Email')
+                        div.ui.left.icon.input
+                            input(type='text', name='email', palceholder='Email', required)
                             i.user.icon
-                            div.ui.corner.label
-                                i.icon.asterisk
                 li
                     div.field
                         label.ff-field-label= password
-                        div.ui.left.icon.corner.labeled.input
-                            input(type='password', name='password', paceholder='Password')
+                        div.ui.left.icon.input
+                            input(type='password', name='password', paceholder='Password', required)
                             i.lock.icon
-                            div.ui.corner.label
-                                i.icon.asterisk
                 li
                     div.field
                         label.ff-field-label= language
                         div.ui.fluid.search.selection.dropdown
-                            input(type='hidden', name='locale', value=languages[0].value)
+                            input(type='hidden', name='locale', value=languages[0].value, required)
                             i.dropdown.icon
                             div.default.text #{languages[0].text}
                             div.menu

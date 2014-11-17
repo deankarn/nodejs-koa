@@ -1,83 +1,83 @@
-module.exports = function(options)
+module.exports = function (options)
 {
-    var fs = require('fs');
-    var less = require('less');
+	var fs = require('fs');
+	var less = require('less');
 
-    options = options ||
-    {};
+	options = options ||
+	{};
 
-    var basedir = options.basedir || __dirname;
-    var bundledDir = options.bundledDir || basedir;
-    var paths = options.paths || [basedir]; // @import base search path(s)
-    var files = options.files || ['style.less']; // files to compile/recompile when watching
-    var recompileOnChange = options.recompileOnChange || false;
-    var compress = options.compress || false;
+	var basedir = options.basedir || __dirname;
+	var bundledDir = options.bundledDir || basedir;
+	var paths = options.paths || [basedir]; // @import base search path(s)
+	var files = options.files || ['style.less']; // files to compile/recompile when watching
+	var recompileOnChange = options.recompileOnChange || false;
+	var compress = options.compress || false;
 
-    var lessc = new(less.Parser)(
-    {
-        paths: paths, // Specify search paths for @import directives
-        filename: 'style.less' // Specify a filename, for better error messages
-    });
+	var lessOptions = {
+		paths: paths, // Specify search paths for @import directives
+		filename: 'style.less', // Specify a filename, for better error messages
+		compress: compress // Minify CSS output
+	};
 
-    compileLess();
+	compileLess();
 
-    if (recompileOnChange)
-    {
-        setupFileWatcher();
-    }
+	if (recompileOnChange)
+	{
+		setupFileWatcher();
+	}
 
-    function compileLess()
-    {
-        for (i = 0, len = files.length; i < len; i++)
-        {
-            var file = files[i];
+	function compileLess()
+	{
+		for (i = 0, len = files.length; i < len; i++)
+		{
+			var file = files[i];
 
-            fs.readFile(basedir + '/' + file, 'utf8', function(err, data)
-            {
-                if (err)
-                {
-                    return console.log(err);
-                }
+			fs.readFile(basedir + '/' + file, 'utf8', function (err, data)
+			{
+				if (err)
+				{
+					return console.log(err);
+				}
 
-                var dataString = data.toString();
+				var dataString = data.toString();
 
-                lessc.parse(dataString, function(e, tree)
-                {
+				less.render(dataString, lessOptions, function (error, output)
+				{
+					if (error)
+					{
+						console.log(error);
+					}
+					
+					var res = output.css;
+					var name = file.substr(0, file.lastIndexOf("."));
+					var output = bundledDir + '/' + name + '.css';
 
-                    var res = tree.toCSS(
-                    {
-                        compress: compress // Minify CSS output
-                    });
+					fs.writeFile(output, res, function (err)
+					{
+						if (err) throw err;
+						console.log('Compiled/Recompiled ' + file + ' to:' + output);
+					});
+				});
+			});
+		}
+	}
 
-                    var name = file.substr(0, file.lastIndexOf("."));
-                    var output = bundledDir + '/' + name + '.css';
+	function setupFileWatcher()
+	{
+		fs.watch(basedir, function (event, filename)
+		{
+			// event change||rename - this was fired on add
 
-                    fs.writeFile(output, res, function(err)
-                    {
-                        if (err) throw err;
-                        console.log('Compiled/Recompiled ' + file + ' to:' + output);
-                    });
-                });
-            });
-        }
-    }
+			if (filename)
+			{
+				console.log(filename + ' event: ' + event);
+			}
+			else
+			{
+				console.log('.less file changed: ' + event);
+			}
 
-    function setupFileWatcher()
-    {
-        fs.watch(basedir, function(event, filename)
-        {
-            // event change||rename - this was fired on add
-
-            if (filename)
-            {
-                console.log(filename + ' event: ' + event);
-            }
-            else
-            {
-                console.log('.less file changed: ' + event);
-            }
-
-            compileLess();
-        });
-    }
+			compileLess();
+		});
+	}
 }
