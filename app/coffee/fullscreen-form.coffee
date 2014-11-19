@@ -25,7 +25,20 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
             ctrlNavDots : true,
             # show [current field]/[total fields] status
             ctrlNavNumbers : true,
-            # reached the review and submit step
+            # back button text, for internationalization
+            ctrlBackText : 'Back',
+            # next button text, for internationalization
+            ctrlNextText : 'Next',
+            # continue text, for internationalization
+            ctrlContinueText : 'Continue',
+            # continue subtext, for internationalization
+            ctrlContinueSubtext : 'or press ENTER',
+            # busy function to do whatever during bust aperations i.e. a saving indicator
+            onBusy : null,
+            #busy completed function
+            onBusyComplete : null,
+            # reached end, do you want to call a function for submitting or something...
+            onCompete : null,
             #pass in onsubmit function
             #pass in validation array with name : function name = id or name of field
             # onReview : () ->
@@ -58,6 +71,11 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
             # init events
             this._initEvents()
 
+            # focus on first field
+            this._focusOnCurrentFieldInput()
+
+            true
+
         _registerControls: () ->
 
             # This should be redone so that nothing is added to the DOM until controls finished
@@ -65,9 +83,13 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
             this.ctrls = common.createElement( 'div', { cName : 'ff-controls', appendTo : this.el } )
 
             # continue button (jump to next field)
-            this.ctrlContinue = common.createElement( 'button', { cName : 'ff-continue', inner : 'Continue', appendTo : this.ctrls } )
-            this.ctrlContinue.setAttribute('data-subtext', 'or press ENTER');
+            this.ctrlContinue = common.createElement( 'button', { cName : 'ff-continue', inner : this.options.ctrlContinueText, appendTo : this.ctrls } )
+            this.ctrlContinue.setAttribute('data-subtext', this.options.ctrlContinueSubtext);
             this._showCtrl this.ctrlContinue
+
+            # final error or success buttons
+            this.ctrlBack = common.createElement( 'button', { cName : 'ff-back', inner : this.options.ctrlBackText, appendTo : this.ctrls } )
+            this.ctrlNext = common.createElement( 'button', { cName : 'ff-next', inner : this.options.ctrlNextText, appendTo : this.ctrls } )
 
             # navigation dots
             if this.options.ctrlNavDots
@@ -103,6 +125,7 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
                 this._showCtrl( this.ctrlProgress )
 
             this.msgError = common.createElement( 'span', { cName : 'ff-message-error', appendTo : this.el } )
+            this.msgSuccess = common.createElement( 'span', { cName : 'ff-message-success', appendTo : this.el } )
 
             true
 
@@ -134,7 +157,7 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
                 if not fld.hasAttribute "data-input-trigger"
                     return
 
-                input = fld.querySelector( 'input' ) || fld.querySelector( 'select' )
+                input = fld.querySelector( 'input' ) || fld.querySelector( 'select' )|| fld.querySelector( 'textarea' )
 
                 switch input.tagName.toLowerCase()
                     when 'select'
@@ -150,15 +173,18 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
                                         self._nextField()
                                         true
                                     true
-                            when 'text' #, 'hidden' hidden does not fire onchange event so...
+                            when 'text', 'password' #, 'hidden' hidden does not fire onchange event so...
                                 input.addEventListener 'change', () ->
-                                    alert('changed')
                                     self._nextField()
                                     true
                             when 'button'
                                 input.addEventListener 'click', () ->
                                     self._nextField()
                                     true
+                    when 'textarea'
+                        input.addEventListener 'change', () ->
+                            self._nextField()
+                            true
                         # true
                 true
 
@@ -189,7 +215,13 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
                 this.nextIdx = this.currentIdx + 1
 
             this._clearError()
+            this._clearSuccess()
             #VALIDATE FIELD HERE IF NOT VALID...LEAVE
+
+            this._hideCtrl this.ctrlBack
+            this._hideCtrl this.ctrlNext
+
+            self = this
 
             if this.isLastStep
                 # show the complete form and hide the controls
@@ -198,13 +230,42 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
                 this._hideCtrl this.ctrlContinue
                 this._hideCtrl this.ctrlNavNumberCt
                 common.removeClass this.currentField, 'ff-current-field'
-                #change to continue button to finish
-                # self.options.onReview
 
-                alert "Ready to Validate..."
-                alert "Ready To Fire Submit function"
-                # self.isLastStep = false
-                # self._nextField 2
+                # fire busy indicator function
+                if this.options.onBusy
+                    this.options.onBusy()
+
+                #fire onComplete, wait for results object
+                if this.options.onComplete
+                    this.options.onComplete (results, extra) ->
+
+                        if results.error
+                            if extra
+                                self.ctrlBack.onclick = extra
+                            else
+                                self.ctrlBack.onclick = () ->
+                                    self._nextField 0
+                                    self._showCtrl self.ctrlNav
+                                    self._showCtrl self.ctrlProgress
+                                    self._showCtrl self.ctrlContinue
+                                    self._showCtrl self.ctrlNavNumberCt
+                                    true
+
+                            self._showError results.message
+                            self._showCtrl self.ctrlBack
+                        else
+                            if extra
+                                self.ctrlNext.onclick = extra
+
+                            self._showSuccess results.message
+                            self._showCtrl self.ctrlNext
+
+                        # fire busy indicator function
+                        if self.options.onBusyComplete
+                            self.options.onBusyComplete()
+
+                        self.isBusy = self.isAnimating = false
+                        true
                 true
             else
                 common.removeClass this.currentField, 'ff-current-field'
@@ -219,12 +280,16 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
 
                 common.addClasses this.nextField, [ 'ff-current-field', 'ff-show']
 
+                if this.nextField.hasAttribute 'data-hide-continue'
+                    common.removeClass this.ctrlContinue, 'ff-show'
+                else
+                    common.addClass this.ctrlContinue, 'ff-show'
+
                 if this.isMovingBack
                     common.addClass this.el, 'ff-show-prev'
                 else
                     common.addClass this.el, 'ff-show-next'
 
-                self = this
                 onEndAnimationFn = (e)->
                     # console.log 'end animation'
                     if support.animations
@@ -246,6 +311,8 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
                     self.currentField = self.nextField
                     self.currentNavDot = self.nextNavDot
 
+                    self._focusOnCurrentFieldInput()
+
                     self.isBusy = self.isAnimating = false
                     true
 
@@ -256,6 +323,28 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
                     onEndAnimationFn()
 
                 true
+            true
+
+        _focusOnCurrentFieldInput: (el) ->
+            # console.log this.currentField
+            if el == undefined
+                #explicitly selecting type to ensure a hidden input isn't selected
+                el = this.currentField.querySelector('input[type="text"]') || this.currentField.querySelector('input[type="password"]') || this.currentField.querySelector('input[type="radio"]') || this.currentField.querySelector('input[type="checkbox"]') || this.currentField.querySelector('select') || this.currentField.querySelector('textarea')
+
+            # if not element to focus in on
+            if not el
+                return
+
+            switch el.tagName.toLowerCase()
+                when 'select'
+                    el.focus()
+                when "input"
+                    type = el.type.toLowerCase()
+                    switch type
+                        when 'radio', 'checkbox', 'button'
+                            el.focus()
+                        when 'text', 'textarea', 'password'
+                            el.select()
             true
 
         _showField: (pos)->
@@ -292,11 +381,13 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
             true
 
         _showCtrl: (ctrl)->
-            common.addClass ctrl, 'ff-show'
+            if ctrl
+                common.addClass ctrl, 'ff-show'
             true
 
         _hideCtrl: (ctrl)->
-            common.removeClass ctrl, 'ff-show'
+            if ctrl
+                common.removeClass ctrl, 'ff-show'
             true
 
         _validate: ()->
@@ -350,14 +441,13 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
 
             true
 
-        _showError: (err)->
-            message = ''
+        _showSuccess: (message)->
 
-            switch err
-                when 'NOVAL'
-                    message = 'Please fill the field before continuing'
-                when 'INVALIDEMAIL'
-                    message = 'Please fill a valid email address'
+            this.msgSuccess.innerHTML = message
+            this._showCtrl this.msgSuccess
+            true
+
+        _showError: (message)->
 
             this.msgError.innerHTML = message
             this._showCtrl this.msgError
@@ -365,4 +455,8 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
 
         _clearError: ()->
             this._hideCtrl this.msgError
+            true
+
+        _clearSuccess: ()->
+            this._hideCtrl this.msgSuccess
             true

@@ -85,6 +85,7 @@
         }
 
     }
+    & .ff-message-success,
     & .ff-message-error {
         max-width: @ff-form-width;
         position: absolute;
@@ -117,6 +118,9 @@
             transform: translate3d(-50%,0,0);
         }
 
+    }
+    & .ff-message-success{
+        color: @ff-success-color;
     }
     & button {
         border: none;
@@ -263,7 +267,8 @@
 
         }
         & button {
-
+            &.ff-next,
+            &.ff-back,
             &.ff-submit,
             &.ff-continue {
                 padding: 0.6em 1.5em;
@@ -273,6 +278,8 @@
                 color: @ff-color-alpha-40;
 
             }
+            &.ff-next,
+            &.ff-back,
             &.ff-continue {
                 position: absolute;
                 right: 0;
@@ -297,7 +304,9 @@
             }
             &.ff-submit:hover,
             &.ff-submit:focus,
-            &.ff-continue:hover {
+            &.ff-continue:hover,
+            &.ff-back:hover,
+            &.ff-next:hover {
                 background: @ff-hover-background;
                 color: @ff-hover-text;
             }
@@ -454,7 +463,8 @@
 
                     }
                     &:focus {
-                        background-color: @ff-focus-background;
+                        outline: none;
+                        background-color: @ff-input-background;
                         /* Fixes chrome bug with placeholder */
                         &::-webkit-input-placeholder {
                             color: transparent;
@@ -502,7 +512,7 @@
 
                     &:focus {
                         outline: none;
-                        background-color: @ff-focus-background;
+                        background-color: @ff-input-background;
                     }
                     &::-webkit-input-placeholder,
                     &::-moz-input-placeholder,
@@ -531,7 +541,10 @@
     & .ff-progress,
     & .ff-numbers,
     & .ff-continue,
+    & .ff-next,
+    & .ff-back,
     & .ff-message-error,
+    & .ff-message-success,
     & .ff-message-final {
         visibility: hidden;
 
@@ -573,6 +586,8 @@
 
             }
             & button {
+                &.ff-back,
+                &.ff-next,
                 &.ff-continue {
                     right: 20px;
                     bottom: 20px;
@@ -600,6 +615,12 @@
                     }
 
                 }
+                &.ff-back
+                {
+                    &::before{
+                        content: '\2B05';
+                    }
+                }
                 &.ff-submit {
                     width: 100%;
                     font-size: 1.25em;
@@ -607,6 +628,7 @@
             }
 
         }
+        & .ff-message-success,
         & .ff-message-error {
             bottom: 1.75em;
             left: 0;
