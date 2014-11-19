@@ -2,6 +2,7 @@ module.exports = function (options)
 {
 	var fs = require('fs');
 	var less = require('less');
+	var chokidar = require('chokidar');
 
 	options = options ||
 	{};
@@ -62,22 +63,36 @@ module.exports = function (options)
 		}
 	}
 
+	function compileLessFile(event, filename)
+	{
+		if (filename)
+		{
+			console.log(filename + ' event: ' + event);
+		}
+		else
+		{
+			console.log('.less file changed: ' + event);
+		}
+
+		compileLess();
+	}
+
 	function setupFileWatcher()
 	{
-		fs.watch(basedir, function (event, filename)
+		var watcher = chokidar.watch(basedir,
 		{
-			// event change||rename - this was fired on add
-
-			if (filename)
-			{
-				console.log(filename + ' event: ' + event);
-			}
-			else
-			{
-				console.log('.less file changed: ' + event);
-			}
-
-			compileLess();
+			// ignored: /[\/\\]\./,
+			persistent: true
 		});
+
+		watcher
+			.on('add', function (path)
+			{
+				compileLessFile("added", path);
+			})
+			.on('change', function (path)
+			{
+				compileLessFile("changed", path);
+			})
 	}
 }

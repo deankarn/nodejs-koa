@@ -31,13 +31,6 @@ var lessCompiler = require(__dirname + '/app/config/less-compiler.js')(
 	compress: production
 });
 
-// var requirejsCompiler = require(__dirname + '/app/config/requirejs-compiler.js')(
-// {
-// 	basedir: __dirname + '/static/js',
-// 	bundledDir: __dirname + '/static/bundled',
-// 	compileExcludeModules: ['main'],
-// 	recompileOnChange: !production
-// });
 var jsHandler = require(__dirname + '/app/config/js-handler.js')(
 {
 	basedir: __dirname + '/static/js',
