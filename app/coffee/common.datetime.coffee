@@ -1,4 +1,4 @@
-define ["common"], (common) ->
+define "common.datetime", ["common"], (common) ->
 
     initialize = () ->
         # here for future stuff like gathering holidays for your region etc...

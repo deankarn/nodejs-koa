@@ -34,4 +34,8 @@ block content
 							a.ui.basic.button(href='/language') #{language}
 
 block additional-js
-	script(type="text/javascript") require(['login'], function(m){ m.initialize(); });
+	script(type="text/javascript") document.addEventListener("DOMContentLoaded", function() { require(["login"], function(l){ l.initialize();})});
+	//- script(type="text/javascript") define(["login"], function(login){ alert('here'); console.log(login); });
+	//- script(src='/static/bundled/login.js')
+	//- script(type="text/javascript") include(["/static/bundled/login"], function(m){ console.log(m); });
+	//- script(type="text/javascript") requirejs(['login'], function(m){ m.initialize(); });

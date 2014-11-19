@@ -17,4 +17,5 @@ block content
 
 
 block additional-js
-	script(type="text/javascript") require(['test'], function(tp){ tp.initialize(); });
+	script(type="text/javascript") document.addEventListener("DOMContentLoaded", function() { require(["test"], function(m){ m.initialize();})});
+	//- script(type="text/javascript") require(['test'], function(tp){ tp.initialize(); });

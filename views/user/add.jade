@@ -11,7 +11,7 @@ block content
                     div.field
                         label.ff-field-label(data-info="We won't send you spam, we promise...") #{email}
                         div.ui.left.icon.input
-                            input(type='text', name='email', palceholder='Email', required)
+                            input(type='text', name='email', placeholder='Email', required)
                             i.user.icon
                 li
                     div.field
@@ -39,4 +39,5 @@ block content
             div.ff-submit.fluid.ui.blue.submit.button= title
 
 block additional-js
-    script(type="text/javascript") require(['user'], function(m){ m.initializeAdd(); });
+    script(type="text/javascript") document.addEventListener("DOMContentLoaded", function() { require(["user"], function(m){ m.initializeAdd();})});
+    //- script(type="text/javascript") require(['user'], function(m){ console.log(m); m.initializeAdd(); });

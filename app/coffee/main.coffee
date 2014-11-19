@@ -1,5 +1,4 @@
-define ["jquery", "semanticui", "common"], ($, s, c) ->
-
+define "main", ["semanticui", "common"], (s, common) ->
     initialize = () ->
         true
 

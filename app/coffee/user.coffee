@@ -1,4 +1,4 @@
-define ["main", "fullscreen-form"], (main, FullscreenForm) ->
+define "user", ["main", "fullscreen-form"], (main, FullscreenForm) ->
 
     initializeAdd = () ->
 

@@ -1,3 +1,4 @@
+// define("jquery", [], function(jQuery){
 /*!
  * jQuery JavaScript Library v2.1.1
  * http://jquery.com/
@@ -9182,9 +9183,9 @@ if ( typeof noGlobal === strundefined ) {
 	window.jQuery = window.$ = jQuery;
 }
 
-
-
-
 return jQuery;
 
 }));
+
+// return $;
+// });
