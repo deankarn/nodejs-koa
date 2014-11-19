@@ -1,4 +1,8 @@
-define ["main", "common.datetime"], (main, dt) ->
+define "login", ["main", "common.datetime"], (main, dt) ->
+
+    # console.log dt
+    # console.log main
+
     initialize = () ->
         setUtcOffsetTime()
 
@@ -30,10 +34,13 @@ define ["main", "common.datetime"], (main, dt) ->
         true
 
     setUtcOffsetTime = () ->
+        # console.log dt
+        # console.log main
+        # console.log modules
         offset = dt.getUtcTimezoneOffsetInSeconds()
         elem = document.getElementById('utc-offset')
         elem.value = offset
-
+    # initialize()
     self = {
         initialize: initialize
     }

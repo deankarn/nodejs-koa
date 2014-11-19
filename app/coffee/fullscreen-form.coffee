@@ -1,5 +1,6 @@
-define ["main", "common"], (main, common) ->
-
+define "fullscreen-form", ["main", "common"], (main, common) ->
+    # console.log main
+    # console.log common
     class FullscreenForm
 
         'use strict';
@@ -13,7 +14,7 @@ define ["main", "common"], (main, common) ->
 
         extend: (a, b) ->
             for key of b
-                console.log b[key]
+                # console.log b[key]
                 a[key] = b[key] if b.hasOwnProperty key
             a
 
@@ -223,7 +224,7 @@ define ["main", "common"], (main, common) ->
 
                 self = this
                 onEndAnimationFn = (e)->
-                    console.log 'end animation'
+                    # console.log 'end animation'
                     if support.animations
                         this.removeEventListener animEndEventName, onEndAnimationFn
 
@@ -246,7 +247,7 @@ define ["main", "common"], (main, common) ->
                     self.isBusy = self.isAnimating = false
                     true
 
-                console.log animEndEventName
+                # console.log animEndEventName
                 if support.animations
                     this.nextField.addEventListener animEndEventName, onEndAnimationFn
                 else

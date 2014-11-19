@@ -1,4 +1,4 @@
-define [], () ->
+define "common", [], () ->
 
     initialize = () ->
         true
@@ -56,7 +56,6 @@ define [], () ->
 
         for t of transitions
             if transitions.hasOwnProperty(t) && el.style[t] != undefined
-                console.log el.style[t]
                 return transitions[t]
         return null
 
@@ -73,7 +72,6 @@ define [], () ->
 
         for a of animations
             if animations.hasOwnProperty(a) && el.style[a] != undefined
-                console.log el.style[a]
                 return animations[a]
         return null
 

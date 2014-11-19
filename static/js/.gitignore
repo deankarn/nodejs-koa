@@ -5,3 +5,6 @@
 !require.js
 !jquery.js
 !semanticui.js
+!include-min.js
+!include.js
+!tinyrequire.min.js

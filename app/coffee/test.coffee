@@ -1,10 +1,15 @@
-define ["main"], (main) ->
+define "test", ["main"], (main) ->
 
     initialize = () ->
         button = document.getElementById('load-partials')
         button.onclick = loadPartialView
 
-        $('.ui.dropdown').dropdown()
+        # $('.ui.dropdown').dropdown()
+        dd = $('.ui.dropdown')
+
+        console.log dd
+        dd.dropdown()
+
         true
 
     loadPartialView = (e) ->

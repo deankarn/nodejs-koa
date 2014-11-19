@@ -31,12 +31,18 @@ var lessCompiler = require(__dirname + '/app/config/less-compiler.js')(
 	compress: production
 });
 
-var requirejsCompiler = require(__dirname + '/app/config/requirejs-compiler.js')(
+// var requirejsCompiler = require(__dirname + '/app/config/requirejs-compiler.js')(
+// {
+// 	basedir: __dirname + '/static/js',
+// 	bundledDir: __dirname + '/static/bundled',
+// 	compileExcludeModules: ['main'],
+// 	recompileOnChange: !production
+// });
+var jsHandler = require(__dirname + '/app/config/js-handler.js')(
 {
 	basedir: __dirname + '/static/js',
 	bundledDir: __dirname + '/static/bundled',
-	compileExcludeModules: ['main'],
-	recompileOnChange: !production
+	watchForChanges: !production
 });
 
 // Before we can use Globalize, we need to feed it on the appropriate I18n content (Unicode CLDR). Read Requirements on Getting Started on the root's README.md for more information.

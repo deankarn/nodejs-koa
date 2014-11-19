@@ -47,7 +47,7 @@ module.exports = function (options)
 					{
 						console.log(error);
 					}
-					
+
 					var res = output.css;
 					var name = file.substr(0, file.lastIndexOf("."));
 					var output = bundledDir + '/' + name + '.css';
