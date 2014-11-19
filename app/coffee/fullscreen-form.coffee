@@ -381,12 +381,12 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
             true
 
         _showCtrl: (ctrl)->
-            if ctrl
+            if ctrl and ctrl != undefined
                 common.addClass ctrl, 'ff-show'
             true
 
         _hideCtrl: (ctrl)->
-            if ctrl
+            if ctrl and ctrl != undefined
                 common.removeClass ctrl, 'ff-show'
             true
 
