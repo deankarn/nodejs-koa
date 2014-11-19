@@ -454,7 +454,8 @@
 
                     }
                     &:focus {
-                        background-color: @ff-focus-background;
+                        outline: none;
+                        background-color: @ff-input-background;
                         /* Fixes chrome bug with placeholder */
                         &::-webkit-input-placeholder {
                             color: transparent;
@@ -502,7 +503,7 @@
 
                     &:focus {
                         outline: none;
-                        background-color: @ff-focus-background;
+                        background-color: @ff-input-background;
                     }
                     &::-webkit-input-placeholder,
                     &::-moz-input-placeholder,
