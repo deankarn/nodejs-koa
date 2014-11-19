@@ -129,36 +129,38 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
                         true
                     true
 
-            # Unsure if we really want this, or make them hit next?
+            # Need to split out the input types somehow for custom dropdowns i.e. semanticui dropdown
+            this.fields.forEach (fld) ->
+                if not fld.hasAttribute "data-input-trigger"
+                    return
 
-            # jump to next field without clicking the continue button (for fields/list items with the attribute "data-input-trigger")
-            # this.fields.forEach( function( fld ) {
-            #     if( fld.hasAttribute( 'data-input-trigger' ) ) {
-            #         var input = fld.querySelector( 'input[type="radio"]' ) || /*fld.querySelector( '.cs-select' ) ||*/ fld.querySelector( 'select' ); // assuming only radio and select elements (TODO: exclude multiple selects)
-            #         if( !input ) return;
-            #
-            #         switch( input.tagName.toLowerCase() ) {
-            #             case 'select' :
-            #                 input.addEventListener( 'change', function() { self._nextField(); } );
-            #                 break;
-            #
-            #             case 'input' :
-            #                 [].slice.call( fld.querySelectorAll( 'input[type="radio"]' ) ).forEach( function( inp ) {
-            #                     inp.addEventListener( 'change', function(ev) { self._nextField(); } );
-            #                 } );
-            #                 break;
-            #
-            #             /*
-            #             // for our custom select we would do something like:
-            #             case 'div' :
-            #                 [].slice.call( fld.querySelectorAll( 'ul > li' ) ).forEach( function( inp ) {
-            #                     inp.addEventListener( 'click', function(ev) { self._nextField(); } );
-            #                 } );
-            #                 break;
-            #             */
-            #         }
-            #     }
-            # } );
+                input = fld.querySelector( 'input' ) || fld.querySelector( 'select' )
+
+                switch input.tagName.toLowerCase()
+                    when 'select'
+                        input.addEventListener 'change', () ->
+                             self._nextField()
+                             true
+                    when "input"
+                        type = input.type.toLowerCase()
+                        switch type
+                            when 'radio', 'checkbox'
+                                [].slice.call( fld.querySelectorAll "input[type='#{type}']").forEach (inp) ->
+                                    inp.addEventListener 'change', (ev) ->
+                                        self._nextField()
+                                        true
+                                    true
+                            when 'text' #, 'hidden' hidden does not fire onchange event so...
+                                input.addEventListener 'change', () ->
+                                    alert('changed')
+                                    self._nextField()
+                                    true
+                            when 'button'
+                                input.addEventListener 'click', () ->
+                                    self._nextField()
+                                    true
+                        # true
+                true
 
             # keyboard navigation events - jump to next field when pressing enter
             document.addEventListener 'keydown', (e) ->

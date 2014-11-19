@@ -1,16 +1,4 @@
 @import "base";
-
-@ff-color:#000;
-@ff-subtext-color: fade(@ff-color, 40%);
-@ff-dark-subtext-color: fade(@ff-color, 50%);
-
-// @placeholder-color: rgba(0,0,0,0.1);
-@placeholder-color: fade(@ff-color, 10%);
-@ff-form-width: 80%;
-@ff-error-color:#eb7e7f;
-
-@ff-subtext-border-color: @ff-subtext-color + #111;
-
 @import "animations";
 
 .ff-ct {
@@ -179,7 +167,7 @@
                     width: 100%;
                     height: 100%;
                     border-radius: 50%;
-                    background-color: @ff-dark-subtext-color;
+                    background-color: @ff-color-alpha-50;
                     content: '';
                     text-indent: 0;
                     -webkit-backface-visibility: hidden;
@@ -190,7 +178,7 @@
 
                 }
                 &::after {
-                    background-color: @ff-subtext-color;
+                    background-color: @ff-color-alpha-40;
                     -webkit-transform: perspective(1000px) rotate3d(0,1,0,180deg);
                     -moz-transform: perspective(1000px) rotate3d(0,1,0,180deg);
                     -ms-transform: perspective(1000px) rotate3d(0,1,0,180deg);
@@ -199,8 +187,8 @@
 
                 }
                 &:hover::before {
-                    background: #fffed8;
-
+                    // background: #fffed8;
+                    background: @ff-navdot-current;
                 }
                 &.ff-dot-current {
                     -webkit-transform: perspective(1000px) rotate3d(0,1,0,180deg);
@@ -210,7 +198,8 @@
                     transform: perspective(1000px) rotate3d(0,1,0,180deg);
 
                     &::before {
-                        background: #fffed8;
+                        background: @ff-navdot-current;
+                        border:1px solid @ff-navdot-current-border;
                     }
                 }
             }
@@ -221,7 +210,7 @@
             top: 0;
             width: 0;
             height: 0.5em;
-            background: #fffed8;
+            background: @ff-progress-color;
             -webkit-transition: width 0.3s ease-in-out;
             -moz-transition: width 0.3s ease-in-out;
             -ms-transition: width 0.3s ease-in-out;
@@ -234,7 +223,7 @@
             top: 0;
             right: 0;
             overflow: hidden;
-            color: @ff-subtext-color;
+            color: @ff-color-alpha-40;
             margin: 40px;
             width: 2em;
             font-weight: 700;
@@ -281,7 +270,7 @@
                 border: 3px solid @ff-subtext-border-color;
                 border-radius: 40px;
                 font-weight: 700;
-                color: @ff-subtext-color;
+                color: @ff-color-alpha-40;
 
             }
             &.ff-continue {
@@ -299,7 +288,7 @@
                     line-height: 3;
                     text-align: center;
                     background: transparent;
-                    color: rgba(0,0,0,0.3);
+                    color: @ff-color-alpha-30;
                     content: attr(data-subtext);
                     font-size: 0.65em;
                     pointer-events: none;
@@ -309,8 +298,8 @@
             &.ff-submit:hover,
             &.ff-submit:focus,
             &.ff-continue:hover {
-                background: #232529;
-                color: #fff;
+                background: @ff-hover-background;
+                color: @ff-hover-text;
             }
         }
 
@@ -385,8 +374,8 @@
                             margin-left: 10px;
                             width: 24px;
                             height: 24px;
-                            border: 2px solid @ff-subtext-color;
-                            color: @ff-subtext-color;
+                            border: 2px solid @ff-color-alpha-40;
+                            color: @ff-color-alpha-40;
                             border-radius: 50%;
                             content: 'i';
                             vertical-align: top;
@@ -408,7 +397,7 @@
                             min-width: 320px;
                             content: attr(data-info);
                             font-size: 0.4em;
-                            color: #6a7b7e;
+                            color: @ff-color-alpha-40;
                             opacity: 0;
                             -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
                             -moz-transition: opacity 0.3s, -moz-transform 0.3s;
@@ -451,9 +440,9 @@
                     padding: 0 0 0.15em;
                     width: 100%;
                     border: none;
-                    border-bottom: 2px solid rgba(0,0,0,0.2);
+                    border-bottom: 2px solid @ff-color-alpha-20;
                     background-color: transparent;
-                    color: #fffed8;
+                    color: @ff-focus-text;
                     text-overflow: ellipsis;
                     font-weight: bold;
                     font-size: 1.5em;
@@ -465,7 +454,7 @@
 
                     }
                     &:focus {
-                        background-color: #3b3f45;
+                        background-color: @ff-focus-background;
                         /* Fixes chrome bug with placeholder */
                         &::-webkit-input-placeholder {
                             color: transparent;
@@ -496,7 +485,7 @@
                     &::-moz-input-placeholder,
                     &::-ms-input-placeholder,
                     &::-o-input-placeholder {
-                        color: @placeholder-color;
+                        color: @ff-color-alpha-10;
                     }
 
                 }
@@ -504,22 +493,22 @@
                     padding: 0.25em;
                     width: 100%;
                     height: 200px;
-                    border: 2px solid rgba(0,0,0,0.2);
+                    border: 2px solid @ff-color-alpha-20;
                     background-color: transparent;
-                    color: #fffed8;
+                    color: @ff-focus-text;
                     font-weight: 700;
                     font-size: 0.85em;
                     resize: none;
 
                     &:focus {
                         outline: none;
-
+                        background-color: @ff-focus-background;
                     }
                     &::-webkit-input-placeholder,
                     &::-moz-input-placeholder,
                     &::-ms-input-placeholder,
                     &::-o-input-placeholder {
-                        color: @placeholder-color;
+                        color: @ff-color-alpha-10;
                     }
                 }
 
