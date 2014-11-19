@@ -62,6 +62,11 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
             # init events
             this._initEvents()
 
+            # focus on first field
+            this._focusOnCurrentFieldInput()
+
+            true
+
         _registerControls: () ->
 
             # This should be redone so that nothing is added to the DOM until controls finished
@@ -138,7 +143,7 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
                 if not fld.hasAttribute "data-input-trigger"
                     return
 
-                input = fld.querySelector( 'input' ) || fld.querySelector( 'select' )
+                input = fld.querySelector( 'input' ) || fld.querySelector( 'select' )|| fld.querySelector( 'textarea' )
 
                 switch input.tagName.toLowerCase()
                     when 'select'
@@ -154,15 +159,18 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
                                         self._nextField()
                                         true
                                     true
-                            when 'text' #, 'hidden' hidden does not fire onchange event so...
+                            when 'text', 'password' #, 'hidden' hidden does not fire onchange event so...
                                 input.addEventListener 'change', () ->
-                                    alert('changed')
                                     self._nextField()
                                     true
                             when 'button'
                                 input.addEventListener 'click', () ->
                                     self._nextField()
                                     true
+                    when 'textarea'
+                        input.addEventListener 'change', () ->
+                            self._nextField()
+                            true
                         # true
                 true
 
@@ -255,6 +263,14 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
                     self.currentField = self.nextField
                     self.currentNavDot = self.nextNavDot
 
+                    self._focusOnCurrentFieldInput()
+                    # alert(self.currentField.querySelectorAll('ewfwefew'))
+                    # console.log self.currentField.tagName
+                    # # focus on control, if possible
+                    # switch self.currentField.tagName.toLowerCase()
+                    #     when 'input', 'textarea'
+                    #         self.currentField.focus()
+
                     self.isBusy = self.isAnimating = false
                     true
 
@@ -265,6 +281,28 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
                     onEndAnimationFn()
 
                 true
+            true
+
+        _focusOnCurrentFieldInput: (el) ->
+            # console.log this.currentField
+            if el == undefined
+                #explicitly selecting type to ensure a hidden input isn't selected
+                el = this.currentField.querySelector('input[type="text"]') || this.currentField.querySelector('input[type="password"]') || this.currentField.querySelector('input[type="radio"]') || this.currentField.querySelector('input[type="checkbox"]') || this.currentField.querySelector('select') || this.currentField.querySelector('textarea')
+
+            # if not element to focus in on
+            if not el
+                return
+
+            switch el.tagName.toLowerCase()
+                when 'select'
+                    el.focus()
+                when "input"
+                    type = el.type.toLowerCase()
+                    switch type
+                        when 'radio', 'checkbox', 'button'
+                            el.focus()
+                        when 'text', 'textarea', 'password'
+                            el.select()
             true
 
         _showField: (pos)->
