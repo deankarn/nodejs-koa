@@ -1,7 +1,6 @@
 module.exports = function (options)
 {
 	var fs = require('fs');
-	// var requirejs = require('requirejs');
 
 	options = options ||
 	{};
@@ -46,7 +45,6 @@ module.exports = function (options)
 		fs.watch(basedir, function (event, filename)
 		{
 			// event change||rename - this was fired on add
-
 			if (filename)
 			{
 				console.log(filename + ' event: ' + event);

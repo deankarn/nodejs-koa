@@ -2,6 +2,7 @@
 
 @ff-color:#000;
 @ff-subtext-color: fade(@ff-color, 40%);
+@ff-dark-subtext-color: fade(@ff-color, 50%);
 
 // @placeholder-color: rgba(0,0,0,0.1);
 @placeholder-color: fade(@ff-color, 10%);
@@ -178,7 +179,7 @@
                     width: 100%;
                     height: 100%;
                     border-radius: 50%;
-                    background-color: rgba(0,0,0,0.5);
+                    background-color: @ff-dark-subtext-color;
                     content: '';
                     text-indent: 0;
                     -webkit-backface-visibility: hidden;
@@ -189,7 +190,7 @@
 
                 }
                 &::after {
-                    background-color: rgba(0,0,0,0.4);
+                    background-color: @ff-subtext-color;
                     -webkit-transform: perspective(1000px) rotate3d(0,1,0,180deg);
                     -moz-transform: perspective(1000px) rotate3d(0,1,0,180deg);
                     -ms-transform: perspective(1000px) rotate3d(0,1,0,180deg);
