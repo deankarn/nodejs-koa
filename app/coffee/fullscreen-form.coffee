@@ -223,6 +223,11 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
 
                 common.addClasses this.nextField, [ 'ff-current-field', 'ff-show']
 
+                if this.nextField.hasAttribute 'data-hide-continue'
+                    common.removeClass this.ctrlContinue, 'ff-show'
+                else
+                    common.addClass this.ctrlContinue, 'ff-show'
+
                 if this.isMovingBack
                     common.addClass this.el, 'ff-show-prev'
                 else
