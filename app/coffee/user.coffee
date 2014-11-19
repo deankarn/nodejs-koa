@@ -46,7 +46,7 @@ define "user", ["main", "fullscreen-form"], (main, FullscreenForm) ->
         # ct.find('form.ui.form').form()
         ct.find('div.ui.selection.dropdown').dropdown();
 
-        new FullscreenForm( ct[0], { ctrlNavProgress: false})
+        new FullscreenForm( ct[0], { ctrlNavProgress: false, ctrlContinueText: 'Move Along', ctrlContinueSubtext: 'or NOT it\'s your choice'})
 
         true
 

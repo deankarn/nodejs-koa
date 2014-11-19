@@ -25,6 +25,10 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
             ctrlNavDots : true,
             # show [current field]/[total fields] status
             ctrlNavNumbers : true,
+            # continue text, for internationalization
+            ctrlContinueText : 'Continue',
+            # continue subtext, for internationalization
+            ctrlContinueSubtext : 'or press ENTER',
             # reached the review and submit step
             #pass in onsubmit function
             #pass in validation array with name : function name = id or name of field
@@ -65,8 +69,8 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
             this.ctrls = common.createElement( 'div', { cName : 'ff-controls', appendTo : this.el } )
 
             # continue button (jump to next field)
-            this.ctrlContinue = common.createElement( 'button', { cName : 'ff-continue', inner : 'Continue', appendTo : this.ctrls } )
-            this.ctrlContinue.setAttribute('data-subtext', 'or press ENTER');
+            this.ctrlContinue = common.createElement( 'button', { cName : 'ff-continue', inner : this.options.ctrlContinueText, appendTo : this.ctrls } )
+            this.ctrlContinue.setAttribute('data-subtext', this.options.ctrlContinueSubtext);
             this._showCtrl this.ctrlContinue
 
             # navigation dots
