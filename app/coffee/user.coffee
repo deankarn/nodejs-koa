@@ -50,7 +50,8 @@ define "user", ["main", "fullscreen-form"], (main, FullscreenForm) ->
             results = {}
             # results.error = true
             results.success = true
-            results.message = 'what a super save'
+            # results.message = 'what a super save'
+            results.message = '<p>Test</p><script src="https://code.jquery.com/jquery-2.1.1.min.js"></script><script type="text/javascript">alert("evaluated!");</script>'
             callback results,successCallback
             true
 
