@@ -48,10 +48,10 @@ define "user", ["main", "fullscreen-form"], (main, FullscreenForm) ->
 
         func = (callback) ->
             results = {}
-            results.error = true
-            # results.success = true
+            # results.error = true
+            results.success = true
             results.message = 'what a super save'
-            callback results, if results.error then null else successCallback
+            callback results,successCallback
             true
 
         new FullscreenForm( ct[0], { ctrlNavProgress: false, ctrlContinueText: 'Move Along', ctrlContinueSubtext: 'or NOT it\'s your choice', onComplete: func})
