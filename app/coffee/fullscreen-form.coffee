@@ -39,6 +39,46 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
             onBusyComplete : null,
             # reached end, do you want to call a function for submitting or something...
             onCompete : null,
+            # validation field identifiers and functions
+            # example usage
+            # rules = {
+            #     email: {
+            #       identifier : 'email',
+            #       rules: [
+            #         {
+            #           type : 'empty',
+            #           prompt : 'Please enter your Email'
+            #         }
+            #       ]
+            #     } ,
+            #     password: {
+            #       identifier : 'password',
+            #       rules: [
+            #         {
+            #           type : 'empty',
+            #           prompt : 'Please enter your Password'
+            #         }
+            #       ]
+            #     },
+            #     locale: {
+            #       identifier : 'locale',
+            #       rules: [
+            #         {
+            #           type : 'empty',
+            #           prompt : 'Please select a Language'
+            #         }
+            #       ]
+            #     }
+            # }
+            #
+            # ct = $('#user-ct')
+            #
+            # ct.find('form.ui.form').form(rules, {
+            #     inline : true,
+            #     on : 'submit'
+            #   } )
+            # true
+            validators : {},
             #pass in onsubmit function
             #pass in validation array with name : function name = id or name of field
             # onReview : () ->
@@ -375,9 +415,16 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
                 common.addClass this.nextNavDot, 'ff-dot-current'
                 this.nextNavDot.disabled = false
 
+                lastDataDependantIdx = undefined
+                # Find any data-dependant markers
                 if this.isMovingBack
                     for i in [this.fieldsCount - 1...this.nextIdx] by -1
-                        this.ctrlNavDots[i].disabled = true
+                        if this.fields[i].hasAttribute 'data-dependant'
+                            lastDataDependantIdx = i
+
+                    if lastDataDependantIdx != undefined
+                        for i in [this.fieldsCount - 1...lastDataDependantIdx] by -1
+                            this.ctrlNavDots[i].disabled = true
             true
 
         _showCtrl: (ctrl)->
