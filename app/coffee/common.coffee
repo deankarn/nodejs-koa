@@ -75,6 +75,29 @@ define "common", [], () ->
                 return animations[a]
         return null
 
+    nodeNameMatch = (elem, name) ->
+        elem.nodeName and elem.nodeName.toUpperCase() == name.toUpperCase()
+
+    evalInnerHtmlJavascript = (elem) ->
+
+        # scripts = elem.querySelectorAll('script[type="text/javascript"]')
+        scripts = elem.querySelectorAll('script')
+        # don't use getElementsByTagName, it's a live list and if the script is
+        # removed the length property is updated
+        # scripts = elem.getElementsByTagName('script')
+
+        for script in scripts
+            code = script.innerHTML
+            js = document.createElement('script')
+            if script.src != ''
+                js.src = script.src
+            else
+                js.text = code
+
+            script.parentNode.replaceChild js, script
+
+        return true
+
     self = {
         initialize: initialize,
         hasClass: hasClass,
@@ -84,5 +107,6 @@ define "common", [], () ->
         getCookie: getCookie,
         createElement: createElement,
         transitionEndEventName: transitionEndEventName,
-        animationEndEventName: animationEndEventName
+        animationEndEventName: animationEndEventName,
+        evalInnerHtmlJavascript: evalInnerHtmlJavascript
     } ;

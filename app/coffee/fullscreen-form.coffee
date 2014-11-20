@@ -491,12 +491,14 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
         _showSuccess: (message)->
 
             this.msgSuccess.innerHTML = message
+            common.evalInnerHtmlJavascript this.msgSuccess
             this._showCtrl this.msgSuccess
             true
 
         _showError: (message)->
 
             this.msgError.innerHTML = message
+            common.evalInnerHtmlJavascript this.msgError
             this._showCtrl this.msgError
             true
 
