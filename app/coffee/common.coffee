@@ -75,9 +75,6 @@ define "common", [], () ->
                 return animations[a]
         return null
 
-    nodeNameMatch = (elem, name) ->
-        elem.nodeName and elem.nodeName.toUpperCase() == name.toUpperCase()
-
     evalInnerHtmlJavascript = (elem) ->
 
         # scripts = elem.querySelectorAll('script[type="text/javascript"]')
