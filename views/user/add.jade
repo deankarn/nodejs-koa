@@ -7,7 +7,7 @@ block content
         form.ff-form.block.centered.ui.form(action='/user/add', method='post', autocomplete='off')
             input(type='hidden', name='_csrf', value=csrf)
             ol.ff-field-list
-                li
+                li(data-validation-id="email")
                     div.field
                         label.ff-field-label(data-info="We won't send you spam, we promise...") #{email}
                         div.ui.left.icon.input
