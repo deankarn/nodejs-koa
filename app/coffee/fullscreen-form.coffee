@@ -1,6 +1,13 @@
 define "fullscreen-form", ["main", "common"], (main, common) ->
-    # console.log main
-    # console.log common
+
+    ###
+        Data Attributes - on field list li tag
+        data-hide-continue - hides the continue button on this field, one of the controls on the screen triggers the continue,
+                             forcing an option to be selected and most likely used with data-input-trigger.
+        data-input-trigger - it tries to subscribe any elements such as a radio button group to fire the continue upon selection.
+        data-dependant - indicates that this field is dependant upon a previous field in the list, affects whether the navdot are disabled or not.
+        data-validation-id - this is the id that the validation logic will try and match your validation rule.
+    ###
     class FullscreenForm
 
         'use strict';
@@ -14,7 +21,6 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
 
         extend: (a, b) ->
             for key of b
-                # console.log b[key]
                 a[key] = b[key] if b.hasOwnProperty key
             a
 
@@ -40,49 +46,22 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
             # reached end, do you want to call a function for submitting or something...
             onCompete : null,
             # validation field identifiers and functions
+            validators : {},
             # example usage
             # rules = {
-            #     email: {
-            #       identifier : 'email',
-            #       rules: [
-            #         {
-            #           type : 'empty',
-            #           prompt : 'Please enter your Email'
-            #         }
-            #       ]
-            #     } ,
-            #     password: {
-            #       identifier : 'password',
-            #       rules: [
-            #         {
-            #           type : 'empty',
-            #           prompt : 'Please enter your Password'
-            #         }
-            #       ]
-            #     },
-            #     locale: {
-            #       identifier : 'locale',
-            #       rules: [
-            #         {
-            #           type : 'empty',
-            #           prompt : 'Please select a Language'
-            #         }
-            #       ]
-            #     }
+            #     "email": (fieldCt, callback) ->
+            #         email = document.getElementsByName('email')[0];
+            #         console.log email.value.length
+            #
+            #         results = {}
+            #
+            #         if not email.value.length
+            #             results.error = true
+            #             results.message = "Email is required."
+            #             email.focus()
+            #
+            #         callback results
             # }
-            #
-            # ct = $('#user-ct')
-            #
-            # ct.find('form.ui.form').form(rules, {
-            #     inline : true,
-            #     on : 'submit'
-            #   } )
-            # true
-            validators : {},
-            #pass in onsubmit function
-            #pass in validation array with name : function name = id or name of field
-            # onReview : () ->
-            #     false
 
         _init: () ->
             # the form element
@@ -182,6 +161,7 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
 
             # show next field
             this.ctrlContinue.addEventListener 'click', (e) ->
+                console.log 'clicked continue'
                 self._nextField()
                 true
 
@@ -225,7 +205,6 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
                         input.addEventListener 'change', () ->
                             self._nextField()
                             true
-                        # true
                 true
 
             # keyboard navigation events - jump to next field when pressing enter
@@ -256,113 +235,120 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
 
             this._clearError()
             this._clearSuccess()
-            #VALIDATE FIELD HERE IF NOT VALID...LEAVE
-
-            this._hideCtrl this.ctrlBack
-            this._hideCtrl this.ctrlNext
 
             self = this
 
-            if this.isLastStep
-                # show the complete form and hide the controls
-                this._hideCtrl this.ctrlNav
-                this._hideCtrl this.ctrlProgress
-                this._hideCtrl this.ctrlContinue
-                this._hideCtrl this.ctrlNavNumberCt
-                common.removeClass this.currentField, 'ff-current-field'
+            # Validate this.currentField to ensure we can proceeed to the next
+            this._validate (success) ->
+                if not success
+                    self.isBusy = self.isAnimating = false
+                    return
 
-                # fire busy indicator function
-                if this.options.onBusy
-                    this.options.onBusy()
+                self._hideCtrl self.ctrlBack
+                self._hideCtrl self.ctrlNext
 
-                #fire onComplete, wait for results object
-                if this.options.onComplete
-                    this.options.onComplete (results, extra) ->
+                innerself = self
 
-                        if results.error
-                            if extra
-                                self.ctrlBack.onclick = extra
+                if self.isLastStep
+                    # show the complete form and hide the controls
+                    self._hideCtrl self.ctrlNav
+                    self._hideCtrl self.ctrlProgress
+                    self._hideCtrl self.ctrlContinue
+                    self._hideCtrl self.ctrlNavNumberCt
+                    common.removeClass self.currentField, 'ff-current-field'
+
+                    # fire busy indicator function
+                    if self.options.onBusy
+                        self.options.onBusy()
+
+                    #fire onComplete, wait for results object
+                    if self.options.onComplete
+                        self.options.onComplete (results, extra) ->
+
+                            if results.error
+                                if extra
+                                    innerself.ctrlBack.onclick = extra
+                                else
+                                    self.ctrlBack.onclick = () ->
+                                        innerself._nextField 0
+                                        innerself._showCtrl innerself.ctrlNav
+                                        innerself._showCtrl innerself.ctrlProgress
+                                        innerself._showCtrl innerself.ctrlContinue
+                                        innerself._showCtrl innerself.ctrlNavNumberCt
+                                        true
+
+                                innerself._showError results.message
+                                innerself._showCtrl innerself.ctrlBack
                             else
-                                self.ctrlBack.onclick = () ->
-                                    self._nextField 0
-                                    self._showCtrl self.ctrlNav
-                                    self._showCtrl self.ctrlProgress
-                                    self._showCtrl self.ctrlContinue
-                                    self._showCtrl self.ctrlNavNumberCt
-                                    true
+                                if extra
+                                    innerself.ctrlNext.onclick = extra
 
-                            self._showError results.message
-                            self._showCtrl self.ctrlBack
-                        else
-                            if extra
-                                self.ctrlNext.onclick = extra
+                                innerself._showSuccess results.message
+                                innerself._showCtrl innerself.ctrlNext
 
-                            self._showSuccess results.message
-                            self._showCtrl self.ctrlNext
+                            # fire busy complete indicator function
+                            if innerself.options.onBusyComplete
+                                innerself.options.onBusyComplete()
 
-                        # fire busy indicator function
-                        if self.options.onBusyComplete
-                            self.options.onBusyComplete()
-
-                        self.isBusy = self.isAnimating = false
-                        true
-                true
-            else
-                common.removeClass this.currentField, 'ff-current-field'
-                common.addClass this.currentField, 'ff-hide'
-
-                this.nextField = this.fields[this.nextIdx]
-                this.nextNavDot = this.ctrlNavDots[this.nextIdx]
-
-                this._updateNav()
-                this._updateFieldNumber()
-                this._progress()
-
-                common.addClasses this.nextField, [ 'ff-current-field', 'ff-show']
-
-                if this.nextField.hasAttribute 'data-hide-continue'
-                    common.removeClass this.ctrlContinue, 'ff-show'
+                            innerself.isBusy = innerself.isAnimating = false
+                            true
+                    true
                 else
-                    common.addClass this.ctrlContinue, 'ff-show'
+                    common.removeClass self.currentField, 'ff-current-field'
+                    common.addClass self.currentField, 'ff-hide'
 
-                if this.isMovingBack
-                    common.addClass this.el, 'ff-show-prev'
-                else
-                    common.addClass this.el, 'ff-show-next'
+                    self.nextField = self.fields[self.nextIdx]
+                    self.nextNavDot = self.ctrlNavDots[self.nextIdx]
 
-                onEndAnimationFn = (e)->
-                    # console.log 'end animation'
-                    if support.animations
-                        this.removeEventListener animEndEventName, onEndAnimationFn
+                    self._updateNav()
+                    self._updateFieldNumber()
+                    self._progress()
 
-                    common.removeClass self.currentField, 'ff-hide'
-                    common.removeClass self.nextField, 'ff-show'
+                    common.addClasses self.nextField, [ 'ff-current-field', 'ff-show']
+
+                    if self.nextField.hasAttribute 'data-hide-continue'
+                        common.removeClass self.ctrlContinue, 'ff-show'
+                    else
+                        common.addClass self.ctrlContinue, 'ff-show'
 
                     if self.isMovingBack
-                        common.removeClass self.el, 'ff-show-prev'
+                        common.addClass self.el, 'ff-show-prev'
                     else
-                        common.removeClass self.el, 'ff-show-next'
+                        common.addClass self.el, 'ff-show-next'
 
-                    if self.options.ctrlNavNumbers
-                        self.currentNavNumber.innerHTML = self.nextNavNumber.innerHTML
-                        self.ctrlNavNumberCt.removeChild self.nextNavNumber
+                    onEndAnimationFn = (e)->
+                        # console.log 'end animation'
+                        if support.animations
+                            this.removeEventListener animEndEventName, onEndAnimationFn
 
-                    self.currentIdx = self.nextIdx
-                    self.currentField = self.nextField
-                    self.currentNavDot = self.nextNavDot
+                        common.removeClass innerself.currentField, 'ff-hide'
+                        common.removeClass innerself.nextField, 'ff-show'
 
-                    self._focusOnCurrentFieldInput()
+                        if innerself.isMovingBack
+                            common.removeClass innerself.el, 'ff-show-prev'
+                        else
+                            common.removeClass innerself.el, 'ff-show-next'
 
-                    self.isBusy = self.isAnimating = false
+                        if innerself.options.ctrlNavNumbers
+                            innerself.currentNavNumber.innerHTML = innerself.nextNavNumber.innerHTML
+                            innerself.ctrlNavNumberCt.removeChild innerself.nextNavNumber
+
+                        innerself.currentIdx = innerself.nextIdx
+                        innerself.currentField = innerself.nextField
+                        innerself.currentNavDot = innerself.nextNavDot
+
+                        innerself._focusOnCurrentFieldInput()
+
+                        innerself.isBusy = innerself.isAnimating = false
+                        true
+
+                    # console.log animEndEventName
+                    if support.animations
+                        self.nextField.addEventListener animEndEventName, onEndAnimationFn
+                    else
+                        onEndAnimationFn()
+
                     true
-
-                # console.log animEndEventName
-                if support.animations
-                    this.nextField.addEventListener animEndEventName, onEndAnimationFn
-                else
-                    onEndAnimationFn()
-
-                true
             true
 
         _focusOnCurrentFieldInput: (el) ->
@@ -437,54 +423,36 @@ define "fullscreen-form", ["main", "common"], (main, common) ->
                 common.removeClass ctrl, 'ff-show'
             true
 
-        _validate: ()->
+        _validate: (callback)->
 
-            fld = this.fields[ this.current ]
-            input = fld.querySelector 'input[required]' or fld.querySelector 'textarea[required]' or fld.querySelector 'select[required]'
+            if not this.currentField or this.currentField == undefined
+                callback false
 
-            if not input
-                return true
+            # we will try to match up the validation rule based onthe field:
+            # name, then id
+            id = this.currentField.getAttribute "data-validation-id"
 
-            #not converting as want to implement custom error checking by function as the only means of validation
+            # if no id then no validation on field
+            if not id or id == undefined
+                callback true
 
-            # switch input.tagName.toLowerCase()
-            #
-            #
-            # switch( input.tagName.toLowerCase() ) {
-            # 	case 'input' :
-            # 		if( input.type === 'radio' || input.type === 'checkbox' ) {
-            # 			var checked = 0;
-            # 			[].slice.call( fld.querySelectorAll( 'input[type="' + input.type + '"]' ) ).forEach( function( inp ) {
-            # 				if( inp.checked ) {
-            # 					++checked;
-            # 				}
-            # 			} );
-            # 			if( !checked ) {
-            # 				error = 'NOVAL';
-            # 			}
-            # 		}
-            # 		else if( input.value === '' ) {
-            # 			error = 'NOVAL';
-            # 		}
-            # 		break;
-            #
-            # 	case 'select' :
-            # 		// assuming here '' or '-1' only
-            # 		if( input.value === '' || input.value === '-1' ) {
-            # 			error = 'NOVAL';
-            # 		}
-            # 		break;
-            #
-            # 	case 'textarea' :
-            # 		if( input.value === '' ) {
-            # 			error = 'NOVAL';
-            # 		}
-            # 		break;
-            # }
+            validator = this.options.validators[id]
 
-            if not (error == undefined)
-                this._showError error
-                return false
+            # if field has a validation id but no rule/function then return false
+            # erroring on the side of caution that it should be validated
+            if validator == undefined
+                this._showError 'Field contains a validation ID but no validator was passed to the form!!!'
+                callback false
+
+            self = this
+            results = validator this.currentField, (results) ->
+                if results.error
+                    self._showError results.message
+                    callback(false)
+                    false
+                else
+                    callback(true)
+                    true
 
             true
 

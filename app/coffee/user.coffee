@@ -5,43 +5,20 @@ define "user", ["main", "fullscreen-form"], (main, FullscreenForm) ->
         #doubles as the .ff-ct
         ct = $('#user-ct')
 
-        # rules = {
-        #     email: {
-        #       identifier : 'email',
-        #       rules: [
-        #         {
-        #           type : 'empty',
-        #           prompt : 'Please enter your Email'
-        #         }
-        #       ]
-        #     } ,
-        #     password: {
-        #       identifier : 'password',
-        #       rules: [
-        #         {
-        #           type : 'empty',
-        #           prompt : 'Please enter your Password'
-        #         }
-        #       ]
-        #     },
-        #     locale: {
-        #       identifier : 'locale',
-        #       rules: [
-        #         {
-        #           type : 'empty',
-        #           prompt : 'Please select a Language'
-        #         }
-        #       ]
-        #     }
-        # }
-        #
-        # ct = $('#user-ct')
-        #
-        # ct.find('form.ui.form').form(rules, {
-        #     inline : true,
-        #     on : 'submit'
-        #   } )
-        # true
+        rules = {
+            "email": (fieldCt, callback) ->
+                email = document.getElementsByName('email')[0];
+                console.log email.value.length
+
+                results = {}
+
+                if not email.value.length
+                    results.error = true
+                    results.message = "Email is required."
+                    email.focus()
+
+                callback results
+        }
 
         # ct.find('form.ui.form').form()
         ct.find('div.ui.selection.dropdown').dropdown();
@@ -51,11 +28,11 @@ define "user", ["main", "fullscreen-form"], (main, FullscreenForm) ->
             # results.error = true
             results.success = true
             # results.message = 'what a super save'
-            results.message = '<p>Test</p><script src="https://code.jquery.com/jquery-2.1.1.min.js"></script><script type="text/javascript">alert("evaluated!");</script>'
+            results.message = '<p>Test</p></script><script type="text/javascript">alert("evaluated!");</script>'
             callback results,successCallback
             true
 
-        new FullscreenForm( ct[0], { ctrlNavProgress: false, ctrlContinueText: 'Move Along', ctrlContinueSubtext: 'or NOT it\'s your choice', onComplete: func})
+        new FullscreenForm( ct[0], { ctrlNavProgress: false, ctrlContinueText: 'Move Along', ctrlContinueSubtext: 'or NOT it\'s your choice', onComplete: func, validators: rules})
 
         true
 
